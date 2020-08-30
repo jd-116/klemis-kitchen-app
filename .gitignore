@@ -695,3 +695,7 @@ hs_err_pid*
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode,linux,macos,android,windows,intellij,androidstudio,visualstudiocode,reactnative,react,node
+
+# ADDING MORE HERE MANUALLY:
+web-build/
+
