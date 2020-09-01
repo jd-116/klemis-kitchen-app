@@ -8,16 +8,17 @@ export default function CustomDrawerContent(props) {
   const [gtid, setGTID] = useState('903XXXXXX')
   return (
     <Container>
-      <Thumbnail 
+      <Thumbnail
         large
         source={avatar}
         style={{
           marginTop: 50,
           marginLeft: 20,
           marginBottom: 10,
-      }}/>
-      <Text style={{fontSize: 30, marginLeft: 20, marginBottom: 5}}>{name}</Text>
-      <Text style={{fontSize: 15, marginLeft: 20, color: 'gray'}}>{gtid}</Text>
+        }}
+      />
+      <Text style={{ fontSize: 30, marginLeft: 20, marginBottom: 5 }}>{name}</Text>
+      <Text style={{ fontSize: 15, marginLeft: 20, color: 'gray' }}>{gtid}</Text>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>

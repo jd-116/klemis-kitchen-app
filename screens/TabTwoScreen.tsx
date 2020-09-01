@@ -4,14 +4,24 @@ import { StyleSheet } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Button } from 'native-base'
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerParamList } from '../App';
 
-export default function TabTwoScreen({ navigation }) {
+type TabTwoScreenProps = {
+  navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>;
+};
+
+type Props = {
+  navigation: DrawerParamList
+}
+
+export default function TabTwoScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
-      <Button style={{margin:20}} light success rounded onPress={() => navigation.openDrawer()}>
+      <Button style={{ margin: 20 }} light success rounded onPress={() => navigation.openDrawer()}>
         <Text>Open Drawer</Text>
       </Button>
     </View>
