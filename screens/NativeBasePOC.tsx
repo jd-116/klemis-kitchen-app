@@ -45,6 +45,9 @@ export default function NativeBasePOC({ navigation }) {
             <Button rounded onPress={() => navigation.openDrawer()}>
               <Text>Open Drawer</Text>
             </Button>
+            <Button rounded onPress={() => navigation.navigate('Another screen')}>
+              <Text>Go to other screen</Text>
+            </Button>
           </CardItem>     
         </Card>
       </Content>
