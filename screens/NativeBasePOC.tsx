@@ -5,7 +5,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, CheckBox } from 'native-base';
 
-export default function NativeBasePOC() {
+export default function NativeBasePOC({ navigation }) {
   return (
     <Container>
       <Content>
@@ -40,7 +40,12 @@ export default function NativeBasePOC() {
               <CheckBox checked={true} />
               <Text>I love Kaguyahime</Text>
             </Body>
-          </CardItem>         
+          </CardItem>
+          <CardItem>
+            <Button rounded onPress={() => navigation.openDrawer()}>
+              <Text>Open Drawer</Text>
+            </Button>
+          </CardItem>     
         </Card>
       </Content>
     </Container>

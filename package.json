@@ -16,6 +16,7 @@
     "@expo/webpack-config": "^0.12.27",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.6.1",
+    "@react-navigation/drawer": "^5.9.0",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
     "expo": "~38.0.8",
