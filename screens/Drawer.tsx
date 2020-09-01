@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Container, Thumbnail, Text } from 'native-base';
 
@@ -17,7 +17,7 @@ export default function CustomDrawerContent(props) {
           marginBottom: 10,
       }}/>
       <Text style={{fontSize: 30, marginLeft: 20, marginBottom: 5}}>{name}</Text>
-      <Text style={{ fontSize: 15, marginLeft: 20, color: 'gray'}}>{gtid}</Text>
+      <Text style={{fontSize: 15, marginLeft: 20, color: 'gray'}}>{gtid}</Text>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>

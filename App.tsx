@@ -1,6 +1,7 @@
 
 import * as React from 'react';
 import { View, Text } from 'react-native';
+import { Icon } from 'native-base'
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -21,7 +22,7 @@ function App() {
         <Drawer.Screen 
           name='Home' 
           component={NativeBasePOC}
-          options={{drawerLabel: 'Testing'}} 
+          options={{drawerLabel: 'Testing', drawerIcon: (props) => <Icon name='home'/>}} 
         />
         <Drawer.Screen
           name='Another screen'
