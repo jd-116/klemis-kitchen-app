@@ -45,7 +45,7 @@ export default function NativeBasePOC({ navigation }) {
             <Button rounded onPress={() => navigation.openDrawer()}>
               <Text>Open Drawer</Text>
             </Button>
-          </CardItem>     
+          </CardItem>    
         </Card>
       </Content>
     </Container>
