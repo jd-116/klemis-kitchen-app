@@ -1,24 +1,33 @@
 import * as React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import MapView from 'react-native-maps'
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {DrawerParamList} from '../App';
 
 import {  Button, Icon, Body, Title } from "native-base";
 
-export default function HomeScreen({ navigation }) {
+ type HomeScreenParamProps = {
+  navigation: DrawerNavigationProp<DrawerParamList, 'HomeScreen'>
+};
+
+type Props = {
+  navigation: DrawerParamList
+}
+
+export default function HomeScreen({ navigation }: Props) {
   return (
     <View style = {styles.container}>
       <View style = {styles.top}>
         <View style = {styles.backButton}>
           <Button transparent>
-            <Icon name = 'menu' />
+            <Icon name = 'menu' style = {{color: '#fff'}}/>
           </Button>
         </View>
         <View style = {styles.searchButton}>
           <Button transparent>
-            <Icon name = 'search' />
+            <Icon name = 'search'style = {{color: '#fff'}}/>
           </Button>
         </View>
       </View>
@@ -55,7 +64,7 @@ export default function HomeScreen({ navigation }) {
       </View>
       <View style = {styles.announcements}>
         <Text style = {{fontSize: 18, fontWeight: 'bold', color: '#000'}}> 
-          Delivery Schedule
+          Announcements
         </Text>
         <Button style = {styles.buttons}>
           <Text>
@@ -156,7 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttons: {
-    color: 'rgb(235, 164, 52)',
+    backgroundColor: 'rgb(235, 164, 52)',
     padding: 15,
   },
 });
