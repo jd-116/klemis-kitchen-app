@@ -1,9 +1,7 @@
-import * as React from 'react';
+import React, { useState} from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, CheckBox } from 'native-base';
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, CheckBox } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../App'
 

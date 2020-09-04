@@ -4,7 +4,6 @@ import { StyleSheet, Image, Dimensions } from 'react-native';
 import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../App'
-import { max } from 'react-native-reanimated';
 
 type TabTwoScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>;
@@ -47,7 +46,7 @@ export default function TabTwoScreen({ navigation }: Props) {
       */}
       <Content>
         <Card style={styles.nutritionFactsCard}>
-          <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel}/>
+          <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel} />
         </Card>
       </Content>
     </Container>
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
   },
   nutritionFactsLabel: {
     height: (Dimensions.get('screen').height * .8),
-    width: (Dimensions.get('screen').width) * .9, 
+    width: (Dimensions.get('screen').width) * .9,
     resizeMode: 'contain'
   },
   buttonHeader: {

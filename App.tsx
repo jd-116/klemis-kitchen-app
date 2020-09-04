@@ -7,10 +7,12 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CustomDrawerContent from './screens/Drawer'
 import NativeBasePOC from './screens/NativeBasePOC'
+import HomeScreen from './screens/HomeScreen'
 import InventoryDetails from './screens/InventoryDetails'
 import NotFoundScreen from './screens/NotFoundScreen';
 
 export type DrawerParamList = {
+  Home: undefined;
   Locations: undefined;
   Announcements: undefined;
   Deliveries: undefined;
@@ -29,6 +31,11 @@ function App() {
         initialRouteName='Home'
       >
         <Drawer.Screen
+          name='Home'
+          component={HomeScreen}
+          options={{ drawerLabel: 'Home', drawerIcon: (props) => <Icon name='home' style={styles.drawerIcon} /> }}
+        />
+        <Drawer.Screen
           name='Locations'
           component={NotFoundScreen}
           options={{ drawerLabel: 'Locations', drawerIcon: (props) => <Icon name='map' style={styles.drawerIcon} /> }}
@@ -46,7 +53,7 @@ function App() {
         <Drawer.Screen
           name='Details'
           component={InventoryDetails}
-          options={{ drawerLabel: 'details', drawerIcon: (props) => <Icon name='qr-scanner' style={styles.drawerIcon} /> }}
+          options={{ drawerLabel: 'Details', drawerIcon: (props) => <Icon name='qr-scanner' style={styles.drawerIcon} /> }}
         />
         <Drawer.Screen
           name='Testing'
