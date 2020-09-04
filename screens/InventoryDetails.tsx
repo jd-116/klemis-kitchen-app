@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, Dimensions } from 'react-native';
 
-import { Container, Text, Button, Icon } from 'native-base';
+import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../App'
 import { max } from 'react-native-reanimated';
@@ -40,34 +40,60 @@ export default function TabTwoScreen({ navigation }: Props) {
           Add to Cart
         </Text>
       </Button>
-      <Container style={styles.nutritionFactsLabel}>
-        <Image source={{ uri: nutritionFactsLabel }} style={{ height:200 }}/>
-      </Container>
+      <Content>
+        <Card style={styles.nutritionFactsCard}>
+          <Text style = {styles.nutritionalText}>
+            Nutritional Information
+          </Text>
+          <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel}/>
+        </Card>
+      </Content>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
   itemName: {
-    marginLeft: 10,
+    marginLeft: 20,
+    marginTop: 10,
     fontSize: 40
   },
   itemDetails: {
-    marginLeft: 10,
+    marginLeft: 20,
     marginBottom: 10,
     fontSize: 30
   },
   addToCartButton: {
-    marginLeft: 10,
+    marginLeft: 20,
+    marginTop: 10,
+    marginBottom: 30
   },
   itemDetailImage: {
+    flex: .35,
+    marginTop: 10,
+    width: (Dimensions.get('window').width / 2.5),
     height: (Dimensions.get('window').height / 3),
-    marginLeft: 10,
+    marginLeft: 20,
+  },
+  nutritionFactsCard: {
+    marginLeft: 25,
+    height: (Dimensions.get('window').height / 1.15),
+    width: (Dimensions.get('window').width / 1.1),
+  },
+  nutritionalText: {
+    fontSize: 30,
+    borderLeftWidth: 40,
+    borderLeftColor: 'white',
+    borderTopWidth: 30,
+    borderTopColor: 'white'
   },
   nutritionFactsLabel: {
-    height: (Dimensions.get('window').height / 2),
+    height: (Dimensions.get('window').height * .8),
+    width: (Dimensions.get('window').width) * .9, 
+    resizeMode: 'contain'
   },
   buttonHeader: {
+    flex: .07,
     flexDirection: 'row',
     marginLeft: 10,
     marginTop: 20,
