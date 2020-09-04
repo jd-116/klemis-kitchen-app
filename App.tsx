@@ -8,9 +8,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawerContent from './screens/Drawer'
 import NativeBasePOC from './screens/NativeBasePOC'
 import TabTwoScreen from './screens/TabTwoScreen'
+import HomeScreen from './screens/HomeScreen'
 
 export type DrawerParamList = {
   Home: undefined;
+  HomeScreen: undefined;
   Locations: undefined;
   Deliveries: undefined;
 };
@@ -38,6 +40,11 @@ function App() {
           name='Deliveries'
           component={TabTwoScreen}
           options={{ drawerLabel: 'Deliveries', drawerIcon: (props) => <Icon name='scan' /> }}
+        />
+        <Drawer.Screen
+          name='HomeScreen'
+          component={HomeScreen}
+          options={{ drawerLabel: 'Home Screen', drawerIcon: (props) => <Icon style={{ color: 'white' }} name='homeScreen' /> }}
         />
       </Drawer.Navigator>
     </NavigationContainer>
