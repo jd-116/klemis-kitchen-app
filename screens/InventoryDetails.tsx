@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
   itemDetailImage: {
     flex: .35,
     marginTop: 10,
-    width: (Dimensions.get('window').width / 2.5),
-    height: (Dimensions.get('window').height / 3),
+    width: (Dimensions.get('screen').width / 2.5),
+    height: (Dimensions.get('screen').height / 3),
     marginLeft: 20,
   },
   nutritionFactsCard: {
     marginLeft: 25,
-    height: (Dimensions.get('window').height / 1.15),
-    width: (Dimensions.get('window').width / 1.1),
+    height: (Dimensions.get('screen').height / 1.15),
+    width: (Dimensions.get('screen').width / 1.1),
   },
   nutritionalText: {
     fontSize: 30,
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     borderTopColor: 'white'
   },
   nutritionFactsLabel: {
-    height: (Dimensions.get('window').height * .8),
-    width: (Dimensions.get('window').width) * .9, 
+    height: (Dimensions.get('screen').height * .8),
+    width: (Dimensions.get('screen').width) * .9, 
     resizeMode: 'contain'
   },
   buttonHeader: {
