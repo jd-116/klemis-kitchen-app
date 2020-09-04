@@ -34,17 +34,17 @@ function App() {
         <Drawer.Screen
           name='Locations'
           component={TabTwoScreen}
-          options={{ drawerLabel: 'Locations', drawerIcon: (props) => <Icon name='location' /> }}
+          options={{ drawerLabel: 'Locations', drawerIcon: (props) => <Icon name='map' /> }}
         />
         <Drawer.Screen
           name='Deliveries'
           component={TabTwoScreen}
-          options={{ drawerLabel: 'Deliveries', drawerIcon: (props) => <Icon name='scan' /> }}
+          options={{ drawerLabel: 'Deliveries', drawerIcon: (props) => <Icon name='notifications' /> }}
         />
         <Drawer.Screen
           name='Details'
           component={InventoryDetails}
-          options={{ drawerLabel: 'details', drawerIcon: (props) => <Icon name='scan' /> }}
+          options={{ drawerLabel: 'details', drawerIcon: (props) => <Icon name='qr-scanner' /> }}
         />
       </Drawer.Navigator>
     </NavigationContainer>

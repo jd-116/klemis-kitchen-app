@@ -28,23 +28,25 @@ export default function TabTwoScreen({ navigation }: Props) {
           <Icon name='menu' style={{ color: 'black' }} />
         </Button>
         <Button transparent>
-          <Icon name='left-arrow' style={styles.leftArrow} />
+          <Icon name='arrow-back' style={styles.leftArrow} />
         </Button>
       </Container>
       <Image source={{ uri: imageURL }} style={styles.itemDetailImage} />
       <Text style={styles.itemName}>{itemName}</Text>
       <Text style={styles.itemDetails}>{itemQuantity} Remaining at {location}</Text>
       <Button bordered success style={styles.addToCartButton}>
-        <Icon name='plus' />
+        <Icon name='add' />
         <Text>
           Add to Cart
         </Text>
       </Button>
+      {/*
+      <Text style={styles.nutritionalText}>
+        Nutritional Information
+      </Text>
+      */}
       <Content>
         <Card style={styles.nutritionFactsCard}>
-          <Text style = {styles.nutritionalText}>
-            Nutritional Information
-          </Text>
           <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel}/>
         </Card>
       </Content>
