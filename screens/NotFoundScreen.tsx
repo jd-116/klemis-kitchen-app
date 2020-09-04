@@ -18,7 +18,7 @@ export default function NotFoundScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>This screen doesn't exist.</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.link}>
+      <TouchableOpacity onPress={() => navigation.navigate('Testing')} style={styles.link}>
         <Text style={styles.linkText}>Go to home screen!</Text>
       </TouchableOpacity>
     </View>

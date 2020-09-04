@@ -3,8 +3,8 @@ import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawe
 import { Container, Thumbnail, Text } from 'native-base';
 
 export default function CustomDrawerContent(props) {
-  const [avatar, setAvatar] = useState('https://cdn.discordapp.com/emojis/746217684022067312.png?v=1')
-  const [name, setName] = useState('Kaguyahime lol')
+  const [avatar, setAvatar] = useState('https://media.discordapp.net/attachments/664605666815639552/751559829809791056/buzz.png')
+  const [name, setName] = useState('George Burdell')
   const [gtid, setGTID] = useState('903XXXXXX')
   return (
     <Container>

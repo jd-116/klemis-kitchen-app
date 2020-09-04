@@ -12,7 +12,7 @@ import InventoryDetails from './screens/InventoryDetails'
 import NotFoundScreen from './screens/NotFoundScreen';
 
 export type DrawerParamList = {
-  Home: undefined;
+  Testing: undefined;
   Locations: undefined;
   Deliveries: undefined;
   Details: undefined;
@@ -29,9 +29,9 @@ function App() {
         initialRouteName='Home'
       >
         <Drawer.Screen
-          name='Home'
+          name='Testing'
           component={NativeBasePOC}
-          options={{ drawerLabel: 'Testing', drawerIcon: (props) => <Icon style={{ color: 'white' }} name='home' /> }}
+          options={{ drawerLabel: 'Testing', drawerIcon: (props) => <Icon style={{ color: 'red' }} name='construct' /> }}
         />
         <Drawer.Screen
           name='Locations'
