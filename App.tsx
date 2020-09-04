@@ -9,12 +9,14 @@ import CustomDrawerContent from './screens/Drawer'
 import NativeBasePOC from './screens/NativeBasePOC'
 import TabTwoScreen from './screens/TabTwoScreen'
 import InventoryDetails from './screens/InventoryDetails'
+import NotFoundScreen from './screens/NotFoundScreen';
 
 export type DrawerParamList = {
   Home: undefined;
   Locations: undefined;
   Deliveries: undefined;
   Details: undefined;
+  NotFoundScreen: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -33,12 +35,12 @@ function App() {
         />
         <Drawer.Screen
           name='Locations'
-          component={TabTwoScreen}
+          component={NotFoundScreen}
           options={{ drawerLabel: 'Locations', drawerIcon: (props) => <Icon name='map' /> }}
         />
         <Drawer.Screen
           name='Deliveries'
-          component={TabTwoScreen}
+          component={NotFoundScreen}
           options={{ drawerLabel: 'Deliveries', drawerIcon: (props) => <Icon name='notifications' /> }}
         />
         <Drawer.Screen
