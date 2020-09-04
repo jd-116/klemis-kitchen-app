@@ -70,11 +70,11 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   itemDetailImage: {
-    flex: .35,
     marginTop: 10,
-    width: (Dimensions.get('screen').width / 2.5),
-    height: (Dimensions.get('screen').height / 3),
+    width: (Dimensions.get('screen').width / 3),
+    height: (Dimensions.get('screen').height / 6),
     marginLeft: 20,
+    resizeMode: 'contain'
   },
   nutritionFactsCard: {
     marginLeft: 25,
