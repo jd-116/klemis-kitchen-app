@@ -10,7 +10,7 @@ export default function CustomDrawerContent(props) {
     <Container>
       <Thumbnail
         large
-        source={avatar}
+        source={{ uri: avatar }}
         style={{
           marginTop: 50,
           marginLeft: 20,

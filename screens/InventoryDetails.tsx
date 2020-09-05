@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
@@ -30,7 +30,7 @@ export default function TabTwoScreen({ navigation }: Props) {
           <Icon name='arrow-back' style={styles.leftArrow} />
         </Button>
       </Container>
-      <Image source={{ uri: imageURL }} style={styles.itemDetailImage} />
+      <Thumbnail source={{ uri: imageURL }} style={styles.itemDetailImage} />
       <Text style={styles.itemName}>{itemName}</Text>
       <Text style={styles.itemDetails}>{itemQuantity} Remaining at {location}</Text>
       <Button bordered success style={styles.addToCartButton}>
