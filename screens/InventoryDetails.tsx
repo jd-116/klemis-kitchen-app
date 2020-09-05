@@ -22,32 +22,32 @@ export default function TabTwoScreen({ navigation }: Props) {
 
   return (
     <Container>
-      <Container style={styles.buttonHeader}>
-        <Button transparent onPress={() => navigation.openDrawer()}>
-          <Icon name='menu' style={{ color: 'black' }} />
+      <Content style = {{marginTop: 0}}>
+        <Container style={styles.buttonHeader}>
+          <Button transparent onPress={() => navigation.openDrawer()}>
+            <Icon name='menu' style={{ color: 'black' }} />
+          </Button>
+          <Button transparent>
+            <Icon name='arrow-back' style={styles.leftArrow} />
+          </Button>
+        </Container>
+        <Thumbnail source={{ uri: imageURL }} style={styles.itemDetailImage} />
+        <Text style={styles.itemName}>{itemName}</Text>
+        <Text style={styles.itemDetails}>{itemQuantity} Remaining at {location}</Text>
+        <Button bordered success style={styles.addToCartButton}>
+          <Icon name='add' />
+          <Text>
+            Add to Cart
+          </Text>
         </Button>
-        <Button transparent>
-          <Icon name='arrow-back' style={styles.leftArrow} />
-        </Button>
-      </Container>
-      <Thumbnail source={{ uri: imageURL }} style={styles.itemDetailImage} />
-      <Text style={styles.itemName}>{itemName}</Text>
-      <Text style={styles.itemDetails}>{itemQuantity} Remaining at {location}</Text>
-      <Button bordered success style={styles.addToCartButton}>
-        <Icon name='add' />
-        <Text>
-          Add to Cart
+        {/*
+        <Text style={styles.nutritionalText}>
+          Nutritional Information
         </Text>
-      </Button>
-      {/*
-      <Text style={styles.nutritionalText}>
-        Nutritional Information
-      </Text>
-      */}
-      <Content>
-        <Card style={styles.nutritionFactsCard}>
-          <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel} />
-        </Card>
+        */}
+          <Card style={styles.nutritionFactsCard}>
+            <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel} />
+          </Card>
       </Content>
     </Container>
   );
@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
   itemName: {
     marginLeft: 20,
     marginTop: 10,
-    fontSize: 40
+    fontSize: (Dimensions.get('screen').width / 20)
   },
   itemDetails: {
     marginLeft: 20,
     marginBottom: 10,
-    fontSize: 30
+    fontSize: (Dimensions.get('screen').width / 20)
   },
   addToCartButton: {
     marginLeft: 20,
@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   buttonHeader: {
-    flex: .07,
+    height: (Dimensions.get('screen').height / 20),
     flexDirection: 'row',
     marginLeft: 10,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 0
   },
   leftArrow: {
