@@ -6,7 +6,7 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../App'
 
 type TabTwoScreenProps = {
-  navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>;
+  navigation: DrawerNavigationProp<DrawerParamList, 'Details'>;
 };
 
 type Props = {

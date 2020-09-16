@@ -10,6 +10,10 @@ import NativeBasePOC from './screens/NativeBasePOC'
 import HomeScreen from './screens/HomeScreen'
 import InventoryDetails from './screens/InventoryDetails'
 import NotFoundScreen from './screens/NotFoundScreen';
+import LocationList from './screens/LocationList';
+import InventoryMain from './screens/IventoryMain';
+import Navigation from './navigation';
+import { createStackNavigator } from '@react-navigation/stack';
 
 export type DrawerParamList = {
   Home: undefined;
@@ -19,9 +23,22 @@ export type DrawerParamList = {
   Details: undefined;
   NotFoundScreen: undefined;
   Testing: undefined;
+  InvenMain: undefined;
+  InventorySystem: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
+
+const Stack = createStackNavigator()
+
+function InventorySystem() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name = 'Locations' component = {LocationList} />
+      <Stack.Screen name = 'InvenMain' component = {InventoryMain} />
+    </Stack.Navigator>
+  )
+}
 
 function App() {
   return (
@@ -36,8 +53,8 @@ function App() {
           options={{ drawerLabel: 'Home', drawerIcon: (props) => <Icon name='home' style={styles.drawerIcon} /> }}
         />
         <Drawer.Screen
-          name='Locations'
-          component={NotFoundScreen}
+          name='InventorySystem'
+          component={InventorySystem}
           options={{ drawerLabel: 'Locations', drawerIcon: (props) => <Icon name='map' style={styles.drawerIcon} /> }}
         />
         <Drawer.Screen
@@ -60,7 +77,9 @@ function App() {
           component={NativeBasePOC}
           options={{ drawerLabel: 'Testing', drawerIcon: (props) => <Icon name='construct' style={{ color: 'red', width: 10 }} /> }}
         />
+          
       </Drawer.Navigator>
+
     </NavigationContainer>
   );
 }
