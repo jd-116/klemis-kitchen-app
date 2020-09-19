@@ -35,7 +35,7 @@ export default function InitialScreen({ navigation }: Props) {
           rounded
           block
           style={styles.LoginButton}
-          onPress={() => navigation.navigate('ActualApp', { screen: 'ActualApp' })}>
+          onPress={() => navigation.navigate('ActualApp')}>
           <Text style={styles.LoginButtonText}>Login</Text>
         </Button>
       </Container>
