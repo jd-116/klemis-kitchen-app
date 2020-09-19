@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import MapView from 'react-native-maps'
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {DrawerParamList} from '../App';
 
-import {  Button, Icon, Body, Title } from "native-base";
+import {  Button, Icon, Body, Title, Thumbnail } from "native-base";
+import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 
  type HomeScreenParamProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'HomeScreen'>
@@ -42,15 +43,7 @@ export default function HomeScreen({ navigation }: Props) {
         </Text>
       </View>
       <View style = {styles.middle}>
-        <MapView
-                    style = {styles.MapView}
-                    initialRegion = {{
-                        latitude: 33.7759731,
-                        longitude: -84.3973371,
-                        latitudeDelta: .1,
-                        longitudeDelta: .45
-                    }}></MapView>
-        
+      <HomeScreenMap />
       </View>
       <View style = {styles.deliveries}>
         <Text style = {{fontSize: 18, fontWeight: 'bold', color: '#000'}}> 
