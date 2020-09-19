@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../App';
 
 import { Button, Icon, Thumbnail, Container, Text } from "native-base";
-import { useState } from 'react';
+import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 
 type HomeScreenParamProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Home'>
@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation }: Props) {
         </Text>
       </Container>
       <Container style={styles.middle}>
-        <Thumbnail source={{ uri: imageURL }} style={styles.middleImage} />
+        <HomeScreenMap />
       </Container>
       <Container style={styles.deliveries}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
