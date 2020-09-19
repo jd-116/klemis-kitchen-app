@@ -7,11 +7,13 @@ export default function HomeScreen() {
   return (
     <MapView
       style={styles.MapView}
+      showsUserLocation = {true}
+
       initialRegion={{
         latitude: 33.7759731,
         longitude: -84.3973371,
-        latitudeDelta: .1,
-        longitudeDelta: .45
+        latitudeDelta: .10001,
+        longitudeDelta: .450001
       }}
     />
   )
