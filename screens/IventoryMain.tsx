@@ -3,20 +3,26 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 import { Container, Text, Button, Icon, Card, Thumbnail, Content, Left, Right, Body, Title, Header, Row, List, ListItem } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { RouteProp } from '@react-navigation/native'
 import { DrawerParamList, StackParamList } from '../App'
 import { View } from '../components/Themed';
 
+type InventoryMainRouteProp = RouteProp<StackParamList, 'InvenMain'>
+
 type Props = {
+  route: InventoryMainRouteProp
   navigation: StackParamList
 }
 
-export default function TabFourScreen({ navigation }: Props) {
+export default function TabFourScreen({ route, navigation }: Props, ) {
   const [imageURL, setImageURL] = useState('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg')
   const [imageURL2, setImageURL2] = useState('https://cdn.discordapp.com/attachments/745017146534395964/756685605307547738/unknown.png')
   const [itemName, setItemName] = useState('Bananas')
   const [itemName2, setItemName2] = useState('Pop Tarts')
   const [itemQuantity, setItemQuantity] = useState(3)
   const [itemQuantity2, setItemQuantity2] = useState(26)
+
+  //const { nameLoc: String } = route.params
 
   return (
     <Container style = {{flex: 1}}>
@@ -31,7 +37,7 @@ export default function TabFourScreen({ navigation }: Props) {
           </Left>
       </Header>
       <Text style = {{fontSize: 30, fontWeight: 'bold', borderLeftWidth: 20, borderLeftColor: 'white'}}>
-        {navigation.nameLoc}
+        {route.params.nameLoc}
       </Text>
       <Button style = {styles.button}> 
         <Text> View Schedule</Text>

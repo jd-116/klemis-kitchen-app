@@ -37,7 +37,7 @@ export default function TabThreeScreen({ navigation }: Props) {
                   <Text>West Village</Text>
               </Left>
               <Right>
-                  <Button transparent onPress={() => navigation.navigate('InventorySystem', {screen: 'InvenMain', nameLoc: 'West Village'})}>
+                  <Button transparent onPress={() => navigation.navigate('InvenMain', {nameLoc: 'West Village'})}>
                       <Icon name='arrow-forward' style={{ color: 'black' }} />
                   </Button>
               </Right>

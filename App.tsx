@@ -29,8 +29,7 @@ export type DrawerParamList = {
 
 export type StackParamList = {
   Locations: undefined
-  InvenMain: undefined
-  nameLoc: String;
+  InvenMain: { nameLoc: 'Unknown'}
 }
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
