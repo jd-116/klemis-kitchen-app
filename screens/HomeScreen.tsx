@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
-import { Text, View } from '../components/Themed';
-import MapView from 'react-native-maps'
-import {DrawerNavigationProp} from '@react-navigation/drawer';
-import {DrawerParamList} from '../App';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerParamList } from '../App';
 
-import {  Button, Icon, Body, Title, Thumbnail } from "native-base";
+import { Button, Icon, Thumbnail, Container, Text } from "native-base";
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 
- type HomeScreenParamProps = {
-  navigation: DrawerNavigationProp<DrawerParamList, 'HomeScreen'>
+type HomeScreenParamProps = {
+  navigation: DrawerNavigationProp<DrawerParamList, 'Home'>
 };
 
 type Props = {
@@ -18,54 +16,52 @@ type Props = {
 }
 
 export default function HomeScreen({ navigation }: Props) {
+  const [name, setName] = useState('George Burdell')
+  const [imageURL, setImageURL] = useState('https://cdn.discordapp.com/attachments/664605666815639552/751561243978104903/iu.png')
   return (
-    <View style = {styles.container}>
-      <View style = {styles.top}>
-        <View style = {styles.backButton}>
-          <Button transparent>
-            <Icon name = 'menu' style = {{color: '#fff'}}/>
-          </Button>
-        </View>
-        <View style = {styles.searchButton}>
-          <Button transparent>
-            <Icon name = 'search'style = {{color: '#fff'}}/>
-          </Button>
-        </View>
-      </View>
-      <View style = {styles.belowTop}>
-          <Text style = {styles.titleName}>
-          Welcome Back, _____
+    <Container style={styles.container}>
+      <Container style={styles.top}>
+        <Button transparent style={styles.backButton} onPress={() => navigation.openDrawer()}>
+          <Icon name='menu' style={{ color: '#fff' }} />
+        </Button>
+        <Button transparent style={styles.searchButton}>
+          <Icon name='search' style={{ color: '#fff' }} />
+        </Button>
+      </Container>
+      <Container style={styles.belowTop}>
+        <Text style={styles.titleName}>
+          Welcome Back, {name.split(' ')[0]}!
         </Text>
-      </View>
-      <View style = {styles.topMiddle}>
-        <Text style = {styles.titleMap}>
-           Locations Near Me
+      </Container>
+      <Container style={styles.topMiddle}>
+        <Text style={styles.titleMap}>
+          Locations Near Me
         </Text>
-      </View>
-      <View style = {styles.middle}>
-      <HomeScreenMap />
-      </View>
-      <View style = {styles.deliveries}>
-        <Text style = {{fontSize: 18, fontWeight: 'bold', color: '#000'}}> 
+      </Container>
+      <Container style={styles.middle}>
+        <HomeScreenMap />
+      </Container>
+      <Container style={styles.deliveries}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
           Delivery Schedule
         </Text>
-        <Button style = {styles.buttons}>
-          <Text>
+        <Button style={styles.buttons}>
+          <Text style={{ fontSize: 12 }}>
             View All
           </Text>
         </Button>
-      </View>
-      <View style = {styles.announcements}>
-        <Text style = {{fontSize: 18, fontWeight: 'bold', color: '#000'}}> 
+      </Container>
+      <Container style={styles.announcements}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
           Announcements
         </Text>
-        <Button style = {styles.buttons}>
-          <Text>
+        <Button style={styles.buttons}>
+          <Text style={{ fontSize: 12 }}>
             View All
           </Text>
         </Button>
-      </View>
-    </View>
+      </Container>
+    </Container>
   );
 }
 
@@ -79,64 +75,67 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   top: {
-    flex: .10,
+    flex: .35,
+    width: Dimensions.get('screen').width,
+    height: (Dimensions.get('screen').height / 10),
     backgroundColor: '#83ba83',
+    borderTopWidth: 10,
+    borderTopColor: '#83ba83',
     flexDirection: 'row',
-    alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
   belowTop: {
-    flex: .07,
+    flex: .2,
     backgroundColor: '#83ba83',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
   },
   titleName: {
-    flexGrow: 1,
+    color: 'white',
     fontSize: 18,
     borderLeftWidth: 15,
+    borderLeftColor: 'transparent',
     width: Dimensions.get('screen').width
   },
   titleMap: {
-    flexGrow: 1,
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
     borderLeftWidth: 15,
-    borderTopWidth: 25,
+    borderTopWidth: 10,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
     width: Dimensions.get('screen').width
   },
   backButton: {
-    flexGrow: 1,
     backgroundColor: '#83ba83',
   },
   searchButton: {
-    flexGrow: 1,
     backgroundColor: '#83ba83',
     flexDirection: 'row-reverse',
   },
   middle: {
-    flex: .35,
+    flex: 1.4,
+    width: (Dimensions.get('screen').width),
+    height: (Dimensions.get('screen').height / 2.3),
     backgroundColor: '#fff',
-    flexDirection: 'row',
+  },
+  middleImage: {
+    width: (Dimensions.get('screen').width / 1.1),
+    height: (Dimensions.get('screen').height / 2.5),
+    backgroundColor: '#fff',
     alignItems: 'flex-start',
+    resizeMode: 'contain',
+    borderLeftWidth: 20,
+    borderLeftColor: 'white'
   },
   topMiddle: {
-    flex: .1,
+    flex: .24,
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     alignItems: 'flex-end',
     width: Dimensions.get('screen').width
   },
-  MapView: {
-    width: (Dimensions.get('screen').width - 30),
-    height: (Dimensions.get('screen').height/3.5),
-    marginVertical: 10,
-    marginHorizontal: 15
-  },
   announcements: {
-    flex: .2,
     backgroundColor: '#fff',
     width: Dimensions.get('screen').width,
     borderRightWidth: 15,
@@ -147,18 +146,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   deliveries: {
-    flex: .2,
     backgroundColor: '#fff',
     width: Dimensions.get('screen').width,
     borderRightWidth: 15,
     borderRightColor: '#fff',
     borderLeftWidth: 15,
+    borderTopWidth: 15,
+    borderTopColor: '#fff',
     borderLeftColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   buttons: {
     backgroundColor: 'rgb(235, 164, 52)',
-    padding: 15,
+    width: (Dimensions.get('screen').width / 4),
+    height: (Dimensions.get('screen').height / 20),
   },
 });

@@ -1,11 +1,21 @@
 import React, { useState} from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, CheckBox } from 'native-base';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerParamList } from '../App'
 
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, CheckBox } from 'native-base';
+type NativeBasePOCProps = {
+  navigation: DrawerNavigationProp<DrawerParamList, 'Home'>;
+};
 
-export default function NativeBasePOC({ navigation }) {
+
+type Props = {
+  navigation: DrawerParamList
+}
+
+
+export default function NativeBasePOC({ navigation }: Props) {
   return (
     <Container>
       <Content>
@@ -23,7 +33,7 @@ export default function NativeBasePOC({ navigation }) {
             <Body>
               <Image source={{ uri: 'https://media.discordapp.net/attachments/706282577409081464/749758840932663376/aiharamai-4.png' }} style={{ height: 200, width: 200, flex: 1 }} />
               <Text>
-              tsumo please please
+                tsumo please please
               </Text>
             </Body>
           </CardItem>
@@ -45,7 +55,10 @@ export default function NativeBasePOC({ navigation }) {
             <Button rounded onPress={() => navigation.openDrawer()}>
               <Text>Open Drawer</Text>
             </Button>
-          </CardItem>    
+            <Button rounded onPress={() => navigation.navigate('Another screen')}>
+              <Text>Go to other screen</Text>
+            </Button>
+          </CardItem>
         </Card>
       </Content>
     </Container>
