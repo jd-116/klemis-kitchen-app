@@ -27,13 +27,20 @@ export type DrawerParamList = {
   InventorySystem: undefined;
 };
 
+export type StackParamList = {
+  Locations: undefined
+  InvenMain: undefined
+  nameLoc: String;
+}
+
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<StackParamList>()
 
 function InventorySystem() {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{headerShown: false}}
+    initialRouteName='Locations'>
       <Stack.Screen name = 'Locations' component = {LocationList} />
       <Stack.Screen name = 'InvenMain' component = {InventoryMain} />
     </Stack.Navigator>
