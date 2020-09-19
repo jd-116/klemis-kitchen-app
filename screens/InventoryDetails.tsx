@@ -5,7 +5,7 @@ import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../App'
 
-type TabTwoScreenProps = {
+type InventoryDetailsScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Details'>;
 };
 
@@ -13,7 +13,7 @@ type Props = {
   navigation: DrawerParamList
 }
 
-export default function TabTwoScreen({ navigation }: Props) {
+export default function InventoryDetailsScreen({ navigation }: Props) {
   const [imageURL, setImageURL] = useState('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg')
   const [itemName, setItemName] = useState('Bananas')
   const [location, setLocation] = useState('West Village') //!TODO: remove
@@ -22,7 +22,7 @@ export default function TabTwoScreen({ navigation }: Props) {
 
   return (
     <Container>
-      <Content style = {{marginTop: 0}}>
+      <Content style={{ marginTop: 0 }}>
         <Container style={styles.buttonHeader}>
           <Button transparent onPress={() => navigation.openDrawer()}>
             <Icon name='menu' style={{ color: 'black' }} />
@@ -45,9 +45,9 @@ export default function TabTwoScreen({ navigation }: Props) {
           Nutritional Information
         </Text>
         */}
-          <Card style={styles.nutritionFactsCard}>
-            <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel} />
-          </Card>
+        <Card style={styles.nutritionFactsCard}>
+          <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel} />
+        </Card>
       </Content>
     </Container>
   );
