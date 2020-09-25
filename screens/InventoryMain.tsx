@@ -54,7 +54,7 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
               <Text style={{ marginLeft: 10 }}>{itemName}{'\n'}{itemQuantity} Remaining</Text>
             </Left>
             <Right>
-              <Button transparent>
+              <Button transparent onPress={() => navigation.navigate('Details', {nameItem: itemName, numItem: itemQuantity, pic: imageURL, nameLoc: route.params.nameLoc })}>
                 <Icon name='arrow-forward' style={{ color: 'black' }} />
               </Button>
             </Right>
@@ -65,7 +65,7 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
               <Text style={{ marginLeft: 10 }}>{itemName2}{'\n'}{itemQuantity2} Remaining</Text>
             </Left>
             <Right>
-              <Button transparent>
+              <Button transparent onPress={() => navigation.navigate('Details', {nameItem: itemName2, numItem: itemQuantity2, pic: imageURL2, nameLoc: route.params.nameLoc})}>
                 <Icon name='arrow-forward' style={{ color: 'black' }} />
               </Button>
             </Right>

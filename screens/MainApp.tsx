@@ -14,6 +14,7 @@ import NotFoundScreen from './NotFoundScreen'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
 import { TLSParamList } from '../App'
+import InventoryDetailsScreen from './InventoryDetails'
 
 type NativeBasePOCProps = {
   navigation: StackNavigationProp<TLSParamList, 'Login'>
@@ -28,7 +29,6 @@ export type DrawerParamList = {
   Locations: undefined
   Announcements: undefined
   Deliveries: undefined
-  Details: undefined
   NotFoundScreen: undefined
   Testing: undefined
 }
@@ -38,6 +38,7 @@ const Drawer = createDrawerNavigator<DrawerParamList>()
 export type StackParamList = {
   Locations: undefined
   InvenMain: { nameLoc: 'Unknown' }
+  Details: {nameItem: 'Unknown', numItem: undefined, pic: undefined, nameLoc: 'Unknown'}
 }
 
 const Stack = createStackNavigator<StackParamList>()
@@ -48,6 +49,7 @@ function InventorySystem() {
       initialRouteName='Locations'>
       <Stack.Screen name='Locations' component={LocationList} />
       <Stack.Screen name='InvenMain' component={InventoryMain} />
+      <Stack.Screen name='Details' component={InventoryDetails} />
     </Stack.Navigator>
   )
 }
@@ -78,11 +80,6 @@ export default function MainApp({ navigation }: Props) {
           name='Deliveries'
           component={NotFoundScreen}
           options={{ drawerLabel: 'Deliveries', drawerIcon: (props) => <Icon name='cube' style={styles.drawerIcon} /> }}
-        />
-        <Drawer.Screen
-          name='Details'
-          component={InventoryDetails}
-          options={{ drawerLabel: 'Details', drawerIcon: (props) => <Icon name='qr-scanner' style={styles.drawerIcon} /> }}
         />
         <Drawer.Screen
           name='Testing'

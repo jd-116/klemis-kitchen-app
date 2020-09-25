@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 
 import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-base';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from './MainApp'
+import { RouteProp } from '@react-navigation/native'
+import { StackParamList } from './MainApp'
 
-type InventoryDetailsScreenProps = {
-  navigation: DrawerNavigationProp<DrawerParamList, 'Details'>;
-};
+
+type InventoryDetailsRouteProp = RouteProp<StackParamList, 'Details'>
 
 type Props = {
-  navigation: DrawerParamList
+  route: InventoryDetailsRouteProp
+  navigation: StackParamList
 }
 
-export default function InventoryDetailsScreen({ navigation }: Props) {
-  const [imageURL, setImageURL] = useState('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg')
-  const [itemName, setItemName] = useState('Bananas')
-  const [location, setLocation] = useState('West Village') //!TODO: remove
-  const [itemQuantity, setItemQuantity] = useState(3)
+export default function InventoryDetailsScreen({ route, navigation }: Props) {
+  const [imageURL, setImageURL] = useState(route.params.pic)
+  const [itemName, setItemName] = useState(route.params.nameItem)
+  const [location, setLocation] = useState(route.params.nameLoc) //!TODO: remove
+  const [itemQuantity, setItemQuantity] = useState(route.params.numItem)
   const [nutritionFactsLabel, setNutritionFactsLabel] = useState('http://www.scientifit.com/wp-content/uploads/2012/12/Nutrition-Facts-Label-Blondies.jpg')
 
   return (
@@ -27,7 +27,7 @@ export default function InventoryDetailsScreen({ navigation }: Props) {
           <Button transparent onPress={() => navigation.openDrawer()}>
             <Icon name='menu' style={{ color: 'black' }} />
           </Button>
-          <Button transparent>
+          <Button transparent onPress={() => navigation.goBack()}>
             <Icon name='arrow-back' style={styles.leftArrow} />
           </Button>
         </Container>
