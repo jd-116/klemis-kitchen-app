@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { Container, Thumbnail, Text } from 'native-base';
+import React, { useState } from 'react'
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { Container, Thumbnail, Text } from 'native-base'
 
 export default function CustomDrawerContent(props) {
   const [avatar, setAvatar] = useState('https://media.discordapp.net/attachments/664605666815639552/751559829809791056/buzz.png')
@@ -23,5 +23,5 @@ export default function CustomDrawerContent(props) {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
     </Container>
-  );
+  )
 }

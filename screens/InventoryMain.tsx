@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, Dimensions } from 'react-native'
 
-import { Container, Text, Button, Icon, Card, Thumbnail, Content, Left, Right, Body, Title, Header, Row, List, ListItem } from 'native-base';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header, List, ListItem } from 'native-base'
 import { RouteProp } from '@react-navigation/native'
-import { DrawerParamList, StackParamList } from '../App'
-import { View } from '../components/Themed';
+import { StackParamList } from './MainApp'
+import { View } from '../components/Themed'
 
 type InventoryMainRouteProp = RouteProp<StackParamList, 'InvenMain'>
 
@@ -74,7 +73,7 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
         </List>
       </Content>
     </Container>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -97,4 +96,4 @@ const styles = StyleSheet.create({
   itemDetailImage: {
     resizeMode: 'contain'
   },
-});
+})

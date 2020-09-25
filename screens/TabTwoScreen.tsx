@@ -5,7 +5,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Button } from 'native-base'
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../App';
+import { DrawerParamList } from './MainApp';
 
 type TabTwoScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>;

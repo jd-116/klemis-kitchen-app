@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import React from 'react'
+import { StyleSheet } from 'react-native'
 
-import { Container, Text, Button, Icon, Card, Thumbnail, Content, Left, Right, Body, Title, Header, Row, List, ListItem } from 'native-base';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../App'
+import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, List, ListItem } from 'native-base'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { DrawerParamList } from './MainApp'
 
 type LocationListScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>
-};
+}
 
 type Props = {
   navigation: DrawerParamList
 }
-
 
 export default function LocationListScreen({ navigation }: Props) {
 
@@ -64,11 +63,11 @@ export default function LocationListScreen({ navigation }: Props) {
         </ListItem>
       </List>
     </Container>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row'
   },
-});
+})
