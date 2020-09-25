@@ -4,7 +4,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from './MainApp';
 
-import { Button, Icon, Thumbnail, Container, Text } from "native-base";
+import { Button, Icon, Container, Text } from "native-base";
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 
 type HomeScreenParamProps = {
@@ -17,7 +17,7 @@ type Props = {
 
 export default function HomeScreen({ navigation }: Props) {
   const [name, setName] = useState('George Burdell')
-  const [imageURL, setImageURL] = useState('https://cdn.discordapp.com/attachments/664605666815639552/751561243978104903/iu.png')
+
   return (
     <Container style={styles.container}>
       <Container style={styles.top}>

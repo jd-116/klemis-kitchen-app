@@ -1,8 +1,7 @@
 
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { Button, Icon, Thumbnail, Container, Text } from "native-base";
-
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TLSParamList } from '../App'

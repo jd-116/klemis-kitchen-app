@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import { AppLoading } from 'expo'
-import { StyleSheet } from 'react-native'
-import { Icon } from 'native-base'
 import * as Font from 'expo-font'
 import { NavigationContainer } from '@react-navigation/native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import InitialScreen from './screens/InitialScreen'
 import MainApp from './screens/MainApp'
@@ -53,13 +50,5 @@ function App() {
     </NavigationContainer>
   );
 }
-
-
-const styles = StyleSheet.create({
-  drawerIcon: {
-    width: 10
-  }
-})
-
 
 export default App;

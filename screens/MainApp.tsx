@@ -11,8 +11,6 @@ import InventoryDetails from './InventoryDetails'
 import NotFoundScreen from './NotFoundScreen'
 import { StackNavigationProp } from '@react-navigation/stack';
 
-
-
 import { TLSParamList } from '../App'
 
 type NativeBasePOCProps = {
