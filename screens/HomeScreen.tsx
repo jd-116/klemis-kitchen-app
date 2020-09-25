@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../App';
+import { DrawerParamList } from './MainApp';
 
 import { Button, Icon, Thumbnail, Container, Text } from "native-base";
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'

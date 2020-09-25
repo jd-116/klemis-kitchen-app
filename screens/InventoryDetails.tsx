@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../App'
+import { DrawerParamList } from './MainApp'
 
 type TabTwoScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>;
