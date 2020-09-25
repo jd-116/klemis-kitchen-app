@@ -58,7 +58,7 @@ export default function LocationListScreen({ navigation }: Props) {
           </Left>
           <Right>
             <Button transparent onPress={() => navigation.navigate('InvenMain', { nameLoc: 'Library' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
+              <Icon name='arrow-forward' style={{ color: 'black' }}/> 
             </Button>
           </Right>
         </ListItem>

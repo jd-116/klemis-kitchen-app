@@ -12,6 +12,7 @@ import InventoryDetails from './screens/InventoryDetails'
 import NotFoundScreen from './screens/NotFoundScreen';
 import LocationList from './screens/LocationList';
 import InventoryMain from './screens/InventoryMain';
+import CheckoutCart from './screens/CheckoutCart';
 import Navigation from './navigation';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -25,11 +26,14 @@ export type DrawerParamList = {
   Testing: undefined;
   InvenMain: undefined;
   InventorySystem: undefined;
+  CheckoutCart: undefined;
 };
 
 export type StackParamList = {
   Locations: undefined
   InvenMain: { nameLoc: 'Unknown' }
+  CheckoutCart: undefined;
+  ItemDetails: undefined;
 }
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -42,6 +46,8 @@ function InventorySystem() {
       initialRouteName='Locations'>
       <Stack.Screen name='Locations' component={LocationList} />
       <Stack.Screen name='InvenMain' component={InventoryMain} />
+      <Stack.Screen name='CheckoutCart' component={CheckoutCart} />
+      <Stack.Screen name='ItemDetails' component={InventoryDetails} />
     </Stack.Navigator>
   )
 }

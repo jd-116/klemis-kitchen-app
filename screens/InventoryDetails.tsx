@@ -22,6 +22,7 @@ export default function InventoryDetailsScreen({ navigation }: Props) {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
 
   const [checkoutNumber, setCheckoutNumber] = useState(0);
   const reset = () => setCheckoutNumber(0);
@@ -33,11 +34,31 @@ export default function InventoryDetailsScreen({ navigation }: Props) {
     setErrorMessageVisible(true);
     setTimeout(() => {
       setErrorMessageVisible(false)
-    }, 1000);
+  }, 800);
+  }
+
+  const showConfirmation = () => {
+    setConfirmationVisible(true);
+    setTimeout(() => {
+      setConfirmationVisible(false)
+  }, 300);
   }
 
   return (
     <Container>
+    <Modal
+      animationType = "fade"
+      transparent = {true}
+      visible = {confirmationVisible}
+      onRequestClose={() => {
+          console.log("Confirmation has been closed.");
+      }}>
+      <View style={styles.alertCaptureView}>
+        <View style={styles.alertMessageView}>
+          <Text style={{color: 'white'}}>{checkoutNumber} {itemName.toLowerCase()} in cart.</Text>
+        </View>
+      </View>
+    </Modal>
     <Modal
         animationType = "none"
         transparent = {true}
@@ -52,8 +73,8 @@ export default function InventoryDetailsScreen({ navigation }: Props) {
         onRequestClose={() => {
             console.log("Error message has been closed.");
         }}>
-        <View style={styles.errorCaptureView}>
-          <View style={styles.errorMessageView}>
+        <View style={styles.alertCaptureView}>
+          <View style={styles.alertMessageView}>
             <Text style={{color: 'white'}}>Error: Not enough {itemName.toLowerCase()} at {location}.</Text>
           </View>
         </View>
@@ -77,9 +98,12 @@ export default function InventoryDetailsScreen({ navigation }: Props) {
               style={{backgroundColor: "white" }}
               onPress={() => {
                 if (checkoutNumber <= itemQuantity) {
-                    setModalVisible(!modalVisible);
+                  if (checkoutNumber > 0) {
+                    showConfirmation();
+                  }
+                  setModalVisible(!modalVisible);
                 } else {
-                    showError();
+                  showError();
                 }
               }}>
               <Text style={styles.textStyle}>CONFIRM</Text>
@@ -212,11 +236,11 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       marginLeft: 15
   },
-  errorCaptureView: {
+  alertCaptureView: {
       flexDirection: "column-reverse",
       alignItems: "center",
   },
-  errorMessageView: {
+  alertMessageView: {
     backgroundColor: "black",
     height: (Dimensions.get('screen').height * .05),
     width: (Dimensions.get('screen').width) * .9,
