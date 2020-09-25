@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../App'
+import { DrawerParamList } from './MainApp'
 
 type NativeBasePOCProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Home'>;
