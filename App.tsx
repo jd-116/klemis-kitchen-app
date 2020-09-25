@@ -1,17 +1,18 @@
-
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react'
+import { AppLoading } from 'expo'
+import { StyleSheet } from 'react-native'
 import { Icon } from 'native-base'
-import { NavigationContainer, StackActions } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import * as Font from 'expo-font'
+import { NavigationContainer } from '@react-navigation/native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import InitialScreen from './screens/InitialScreen'
 import CustomDrawerContent from './screens/Drawer'
 import NativeBasePOC from './screens/NativeBasePOC'
 import HomeScreen from './screens/HomeScreen'
 import InventoryDetails from './screens/InventoryDetails'
-import NotFoundScreen from './screens/NotFoundScreen';
-import { createStackNavigator } from '@react-navigation/stack';
+import NotFoundScreen from './screens/NotFoundScreen'
+import { createStackNavigator } from '@react-navigation/stack'
 
 export type TLSParamList = {
   Login: undefined;
@@ -33,6 +34,26 @@ const TopLevelStack = createStackNavigator<TLSParamList>()
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false)
+
+  async function loadFontAsync() {
+    await Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+    })
+  }
+
+  if (!fontsLoaded) {
+    return (
+      <AppLoading 
+        startAsync={loadFontAsync}
+        onFinish={() => setFontsLoaded(true)}
+        onError={console.log}
+        autoHideSplash={true}
+      />
+    )
+  }
+
   return (
     <NavigationContainer>
       <TopLevelStack.Navigator screenOptions={{ headerShown: false }} >
