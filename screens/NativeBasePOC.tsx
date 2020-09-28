@@ -1,9 +1,10 @@
-import React, { useState} from 'react';
-import { StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, Modal, TouchableOpacity, Alert, View } from 'react-native';
 
-import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, CheckBox } from 'native-base';
+import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-base';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from './MainApp'
+import { DrawerParamList } from '../App'
+
 
 type NativeBasePOCProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Home'>;
@@ -16,68 +17,246 @@ type Props = {
 
 
 export default function NativeBasePOC({ navigation }: Props) {
-  return (
-    <Container>
-      <Content>
-        <Card style={{ flex: 0 }}>
-          <CardItem>
-            <Left>
-              <Thumbnail source={{ uri: 'https://cdn.discordapp.com/emojis/746217684022067312.png?v=1' }} />
-              <Body>
-                <Text>majsoul</Text>
-                <Text note>April 15, 2016</Text>
-              </Body>
-            </Left>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Image source={{ uri: 'https://media.discordapp.net/attachments/706282577409081464/749758840932663376/aiharamai-4.png' }} style={{ height: 200, width: 200, flex: 1 }} />
-              <Text>
-                tsumo please please
-              </Text>
-            </Body>
-          </CardItem>
-          <CardItem>
-            <Left>
-              <Button transparent textStyle={{ color: '#87838B' }}>
-                <Icon name="trophy" />
-                <Text>1,926 stars</Text>
+    const [imageURL, setImageURL] = useState('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg')
+    const [itemName, setItemName] = useState('Bananas')
+    const [location, setLocation] = useState('West Village') //!TODO: remove
+    const [itemQuantity, setItemQuantity] = useState(3)
+    const [nutritionFactsLabel, setNutritionFactsLabel] = useState('https://media.discordapp.net/attachments/706282577409081464/749758840932663376/aiharamai-4.png')
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+    const [confirmationVisible, setConfirmationVisible] = useState(false);
+
+    const [checkoutNumber, setCheckoutNumber] = useState(0);
+    const reset = () => setCheckoutNumber(0);
+    const increment = () => setCheckoutNumber(checkoutNumber => checkoutNumber + 1);
+    const decrement = () => setCheckoutNumber(checkoutNumber => checkoutNumber - 1)
+    if (checkoutNumber == -1) {reset()};
+
+    const showError = () => {
+      setErrorMessageVisible(true);
+      setTimeout(() => {
+        setErrorMessageVisible(false)
+    }, 800);
+    }
+
+    const showConfirmation = () => {
+      setConfirmationVisible(true);
+      setTimeout(() => {
+        setConfirmationVisible(false)
+    }, 300);
+    }
+
+    return (
+      <Container>
+      <Modal
+        animationType = "fade"
+        transparent = {true}
+        visible = {confirmationVisible}
+        onRequestClose={() => {
+            console.log("Confirmation has been closed.");
+        }}>
+        <View style={styles.alertCaptureView}>
+          <View style={styles.alertMessageView}>
+            <Text style={{color: 'white'}}>{checkoutNumber} {itemName.toLowerCase()} in cart.</Text>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+          animationType = "none"
+          transparent = {true}
+          visible = {modalVisible}
+          onRequestClose={() => {
+              console.log("Modal has been closed.");
+          }}>
+        <Modal
+          animationType = "fade"
+          transparent = {true}
+          visible = {errorMessageVisible}
+          onRequestClose={() => {
+              console.log("Error message has been closed.");
+          }}>
+          <View style={styles.alertCaptureView}>
+            <View style={styles.alertMessageView}>
+              <Text style={{color: 'white'}}>Error: Not enough {itemName.toLowerCase()} at {location}.</Text>
+            </View>
+          </View>
+        </Modal>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>How many {itemName.toLowerCase()}?</Text>
+            <View style={styles.counterView}>
+              <Button style={styles.decrementButton}
+                onPress={() => decrement()}>
+                <Text style={{ color: 'black' }}>-</Text>
               </Button>
-            </Left>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <CheckBox checked={true} />
-              <Text>I love Kaguyahime</Text>
-            </Body>
-          </CardItem>
-          <CardItem>
-            <Button rounded onPress={() => navigation.openDrawer()}>
-              <Text>Open Drawer</Text>
+              <Text style={{fontSize: 36}}>{checkoutNumber}</Text>
+              <Button style={styles.incrementButton}
+                onPress={() => increment()}>
+                <Icon name='add' style={{ color: 'black' }} />
+              </Button>
+            </View>
+            <View style = {styles.modalExitView}>
+              <Button
+                style={{backgroundColor: "white" }}
+                onPress={() => {
+                  if (checkoutNumber <= itemQuantity) {
+                    if (checkoutNumber > 0) {
+                      showConfirmation();
+                    }
+                    setModalVisible(!modalVisible);
+                  } else {
+                    showError();
+                  }
+                }}>
+                <Text style={styles.textStyle}>CONFIRM</Text>
+              </Button>
+              <Button
+                style={{backgroundColor: "white" }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  reset();
+                }}>
+                <Text style={styles.textStyle}>CANCEL</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
+        <Content style={{ marginTop: 0 }}>
+          <Container style={styles.buttonHeader}>
+            <Button transparent onPress={() => navigation.openDrawer()}>
+              <Icon name='menu' style={{ color: 'black' }} />
             </Button>
-            <Button rounded onPress={() => navigation.navigate('Another screen')}>
-              <Text>Go to other screen</Text>
+            <Button transparent onPress={() => navigation.goBack()}>
+              <Icon name='arrow-back' style={styles.leftArrow} />
             </Button>
-          </CardItem>
-        </Card>
-      </Content>
-    </Container>
-  );
+          </Container>
+          <Thumbnail source={{ uri: imageURL }} style={styles.itemDetailImage} />
+          <Text style={styles.itemName}>{itemName}</Text>
+          <Text style={styles.itemDetails}>{itemQuantity} Remaining at {location}</Text>
+          <Button bordered success style={styles.addToCartButton}
+              onPress={() => {setModalVisible(true);}}>
+            <Icon name='add' />
+            <Text>
+              Add to Cart
+            </Text>
+          </Button>
+          {/*
+          <Text style={styles.nutritionalText}>
+            Nutritional Information
+          </Text>
+          */}
+          <Card style={styles.nutritionFactsCard}>
+            <Thumbnail source={{ uri: nutritionFactsLabel }} style={styles.nutritionFactsLabel} />
+          </Card>
+        </Content>
+      </Container>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  itemName: {
+    marginLeft: 20,
+    marginTop: 10,
+    fontSize: (Dimensions.get('screen').width / 20)
+  },
+  itemDetails: {
+    marginLeft: 20,
+    marginBottom: 10,
+    fontSize: (Dimensions.get('screen').width / 20)
+  },
+  addToCartButton: {
+    marginLeft: 20,
+    marginTop: 10,
+    marginBottom: 30
+  },
+  itemDetailImage: {
+    marginTop: 10,
+    width: (Dimensions.get('screen').width / 3),
+    height: (Dimensions.get('screen').height / 6),
+    marginLeft: 20,
+    resizeMode: 'contain'
+  },
+  nutritionFactsCard: {
+    marginLeft: 25,
+    height: (Dimensions.get('screen').height / 1.15),
+    width: (Dimensions.get('screen').width / 1.1),
+  },
+  nutritionalText: {
+    fontSize: 30,
+    borderLeftWidth: 40,
+    borderLeftColor: 'white',
+    borderTopWidth: 30,
+    borderTopColor: 'white'
+  },
+  nutritionFactsLabel: {
+    height: (Dimensions.get('screen').height * .8),
+    width: (Dimensions.get('screen').width) * .9,
+    resizeMode: 'contain'
+  },
+  buttonHeader: {
+    height: (Dimensions.get('screen').height / 20),
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 0
+  },
+  leftArrow: {
+    color: 'black',
+    marginLeft: 0
+  },
+  centeredView: {
     flex: 1,
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    margin: 50,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    height: (Dimensions.get('screen').height * .3),
+    width: (Dimensions.get('screen').width) * .7,
+    justifyContent: "space-around"
+  },
+  textStyle: {
+    color: "green",
+    textAlign: "center"
+  },
+  modalText: {
+    textAlign: "left",
+    textAlignVertical: "top",
+    alignItems:"flex-start",
+    marginBottom: 20
+  },
+  incrementButton: {
+      backgroundColor: "white",
+      marginRight: 15
+  },
+  decrementButton: {
+      backgroundColor: "white",
+      marginLeft: 15
+  },
+  alertCaptureView: {
+      flexDirection: "column-reverse",
+      alignItems: "center",
+  },
+  alertMessageView: {
+    backgroundColor: "black",
+    height: (Dimensions.get('screen').height * .05),
+    width: (Dimensions.get('screen').width) * .9,
+    marginTop: (Dimensions.get('screen').height * .05),
+    alignItems: "center",
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  counterView: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  modalExitView: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end'
+  }
 });
