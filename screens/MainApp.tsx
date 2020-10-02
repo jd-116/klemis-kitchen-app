@@ -14,7 +14,6 @@ import NotFoundScreen from './NotFoundScreen'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
 import { TLSParamList } from '../App'
-import InventoryDetailsScreen from './InventoryDetails'
 
 type NativeBasePOCProps = {
   navigation: StackNavigationProp<TLSParamList, 'Login'>
@@ -35,21 +34,27 @@ export type DrawerParamList = {
 
 const Drawer = createDrawerNavigator<DrawerParamList>()
 
-export type StackParamList = {
-  Locations: undefined
-  InvenMain: { nameLoc: 'Unknown' }
-  Details: {nameItem: 'Unknown', numItem: undefined, pic: undefined, nameLoc: 'Unknown'}
+//WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!
+export type InventoryStackParamList = {
+  LocationList: undefined
+  InventoryMain: { nameLoc: string }
+  InventoryDetails: { 
+    nameItem: string, 
+    numItem: number, 
+    pic: string, 
+    nameLoc: string 
+  }
 }
 
-const Stack = createStackNavigator<StackParamList>()
+const Stack = createStackNavigator<InventoryStackParamList>()
 
 function InventorySystem() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName='Locations'>
-      <Stack.Screen name='Locations' component={LocationList} />
-      <Stack.Screen name='InvenMain' component={InventoryMain} />
-      <Stack.Screen name='Details' component={InventoryDetails} />
+      initialRouteName='LocationList'>
+      <Stack.Screen name='LocationList' component={LocationList} />
+      <Stack.Screen name='InventoryMain' component={InventoryMain} />
+      <Stack.Screen name='InventoryDetails' component={InventoryDetails} />
     </Stack.Navigator>
   )
 }

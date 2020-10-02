@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 
-import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from './MainApp';
+import { RouteProp } from '@react-navigation/native'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
 
 import { Button, Icon, Container, Text } from "native-base";
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 
-type HomeScreenParamProps = {
-  navigation: DrawerNavigationProp<DrawerParamList, 'Home'>
-};
+type HomeScreenRouteProp = RouteProp<DrawerParamList, 'Home'>
+
+type HomeScreenNavigationProp = DrawerNavigationProp<DrawerParamList, 'Home'>
 
 type Props = {
-  navigation: DrawerParamList
+  route: HomeScreenRouteProp
+  navigation: HomeScreenNavigationProp
 }
 
 export default function HomeScreen({ navigation }: Props) {

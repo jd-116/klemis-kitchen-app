@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Container, Thumbnail, Text } from 'native-base'
 
-export default function CustomDrawerContent(props) {
+export default function CustomDrawerContent(props: any) {
   const [avatar, setAvatar] = useState('https://media.discordapp.net/attachments/664605666815639552/751559829809791056/buzz.png')
   const [name, setName] = useState('George Burdell')
   const [gtid, setGTID] = useState('903XXXXXX')
+  
   return (
     <Container>
       <Thumbnail

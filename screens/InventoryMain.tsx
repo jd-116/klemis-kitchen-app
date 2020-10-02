@@ -2,15 +2,22 @@ import React, { useState } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
 
 import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header, List, ListItem } from 'native-base'
-import { RouteProp } from '@react-navigation/native'
-import { StackParamList } from './MainApp'
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { DrawerParamList, InventoryStackParamList } from './MainApp'
 import { View } from '../components/Themed'
 
-type InventoryMainRouteProp = RouteProp<StackParamList, 'InvenMain'>
+type InventoryMainRouteProp = RouteProp<InventoryStackParamList, 'InventoryMain'>
+
+type InventoryMainNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<InventoryStackParamList, 'InventoryMain'>,
+  DrawerNavigationProp<DrawerParamList>
+>
 
 type Props = {
   route: InventoryMainRouteProp
-  navigation: StackParamList
+  navigation: InventoryMainNavigationProp
 }
 
 export default function InventoryMainScreen({ route, navigation }: Props,) {
@@ -54,7 +61,7 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
               <Text style={{ marginLeft: 10 }}>{itemName}{'\n'}{itemQuantity} Remaining</Text>
             </Left>
             <Right>
-              <Button transparent onPress={() => navigation.navigate('Details', {nameItem: itemName, numItem: itemQuantity, pic: imageURL, nameLoc: route.params.nameLoc })}>
+              <Button transparent onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName, numItem: itemQuantity, pic: imageURL, nameLoc: route.params.nameLoc })}>
                 <Icon name='arrow-forward' style={{ color: 'black' }} />
               </Button>
             </Right>
@@ -65,7 +72,7 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
               <Text style={{ marginLeft: 10 }}>{itemName2}{'\n'}{itemQuantity2} Remaining</Text>
             </Left>
             <Right>
-              <Button transparent onPress={() => navigation.navigate('Details', {nameItem: itemName2, numItem: itemQuantity2, pic: imageURL2, nameLoc: route.params.nameLoc})}>
+              <Button transparent onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName2, numItem: itemQuantity2, pic: imageURL2, nameLoc: route.params.nameLoc })}>
                 <Icon name='arrow-forward' style={{ color: 'black' }} />
               </Button>
             </Right>

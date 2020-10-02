@@ -3,15 +3,17 @@ import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { Button, Icon, Thumbnail, Container, Text } from "native-base";
 
+import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TLSParamList } from '../App'
 
-type NativeBasePOCProps = {
-  navigation: StackNavigationProp<TLSParamList, 'Login'>;
-};
+type InitialScreenRouteProp = RouteProp<TLSParamList, 'Login'>
+
+type InitialScreenNavigationProp = StackNavigationProp<TLSParamList, 'Login'>
 
 type Props = {
-  navigation: TLSParamList
+  route: InitialScreenRouteProp
+  navigation: InitialScreenNavigationProp
 }
 
 export default function InitialScreen({ navigation }: Props) {
