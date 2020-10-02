@@ -5,12 +5,10 @@ import { Container, Icon } from 'native-base'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import CustomDrawerContent from './Drawer'
-import NativeBasePOC from './NativeBasePOC'
 import HomeScreen from './HomeScreen'
 import LocationList from './LocationList'
 import InventoryMain from './InventoryMain'
 import InventoryDetails from './InventoryDetails'
-import NotFoundScreen from './NotFoundScreen'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
 import { TLSParamList } from '../App'
@@ -78,18 +76,13 @@ export default function MainApp({ navigation }: Props) {
         />
         <Drawer.Screen
           name='Announcements'
-          component={NotFoundScreen}
+          component={HomeScreen}
           options={{ drawerLabel: 'Announcements', drawerIcon: (props) => <Icon name='notifications' style={styles.drawerIcon} /> }}
         />
         <Drawer.Screen
           name='Deliveries'
-          component={NotFoundScreen}
+          component={HomeScreen}
           options={{ drawerLabel: 'Deliveries', drawerIcon: (props) => <Icon name='cube' style={styles.drawerIcon} /> }}
-        />
-        <Drawer.Screen
-          name='Testing'
-          component={NativeBasePOC}
-          options={{ drawerLabel: 'Testing', drawerIcon: (props) => <Icon name='construct' style={{ color: 'red', width: 10 }} /> }}
         />
       </Drawer.Navigator>
     </Container>
