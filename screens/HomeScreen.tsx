@@ -93,8 +93,7 @@ const styles = StyleSheet.create({
   titleName: {
     color: 'white',
     fontSize: 18,
-    borderLeftWidth: 15,
-    borderLeftColor: 'transparent',
+    marginLeft: 15,
     width: Dimensions.get('screen').width
   },
   titleMap: {
@@ -126,8 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'flex-start',
     resizeMode: 'contain',
-    borderLeftWidth: 20,
-    borderLeftColor: 'white'
+    marginLeft: 20
   },
   topMiddle: {
     flex: .24,

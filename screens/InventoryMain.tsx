@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions, View } from 'react-native'
 
 import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header, List, ListItem } from 'native-base'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { DrawerParamList, InventoryStackParamList } from './MainApp'
-import { View } from '../components/Themed'
 
 type InventoryMainRouteProp = RouteProp<InventoryStackParamList, 'InventoryMain'>
 
@@ -20,7 +19,7 @@ type Props = {
   navigation: InventoryMainNavigationProp
 }
 
-export default function InventoryMainScreen({ route, navigation }: Props,) {
+export default function InventoryMainScreen({ route, navigation }: Props) {
   const [imageURL, setImageURL] = useState('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg')
   const [imageURL2, setImageURL2] = useState('https://cdn.discordapp.com/attachments/745017146534395964/756685605307547738/unknown.png')
   const [itemName, setItemName] = useState('Bananas')
@@ -42,7 +41,7 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
           </Button>
         </Left>
       </Header>
-      <Text style={{ fontSize: 30, fontWeight: 'bold', borderLeftWidth: 20, borderLeftColor: 'white' }}>
+      <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
         {route.params.nameLoc}
       </Text>
       <Button style={styles.button}>
@@ -51,28 +50,27 @@ export default function InventoryMainScreen({ route, navigation }: Props,) {
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
       </Text>
-      <View style={{ backgroundColor: 'rgb(236, 232, 232)', height: 4, width: (Dimensions.get('screen').width), marginTop: 10 }}>
-      </View>
+      <Container style={{ backgroundColor: 'rgb(236, 232, 232)', maxHeight: 4}} />
       <Content>
         <List>
-          <ListItem>
+          <ListItem onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName, numItem: itemQuantity, pic: imageURL, nameLoc: route.params.nameLoc })}>
             <Left>
               <Thumbnail source={{ uri: imageURL }} style={styles.itemDetailImage} />
               <Text style={{ marginLeft: 10 }}>{itemName}{'\n'}{itemQuantity} Remaining</Text>
             </Left>
             <Right>
-              <Button transparent onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName, numItem: itemQuantity, pic: imageURL, nameLoc: route.params.nameLoc })}>
+              <Button transparent>
                 <Icon name='arrow-forward' style={{ color: 'black' }} />
               </Button>
             </Right>
           </ListItem>
-          <ListItem>
+          <ListItem onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName2, numItem: itemQuantity2, pic: imageURL2, nameLoc: route.params.nameLoc })}>
             <Left>
               <Thumbnail source={{ uri: imageURL2 }} style={styles.itemDetailImage} />
               <Text style={{ marginLeft: 10 }}>{itemName2}{'\n'}{itemQuantity2} Remaining</Text>
             </Left>
             <Right>
-              <Button transparent onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName2, numItem: itemQuantity2, pic: imageURL2, nameLoc: route.params.nameLoc })}>
+              <Button transparent>
                 <Icon name='arrow-forward' style={{ color: 'black' }} />
               </Button>
             </Right>
@@ -91,7 +89,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'rgb(235, 164, 52)',
-    width: (Dimensions.get('screen').width / 2.6),
+    width: (Dimensions.get('screen').width / 2.5),
     height: (Dimensions.get('screen').height / 20),
     borderBottomLeftRadius: 25,
     borderTopLeftRadius: 25,

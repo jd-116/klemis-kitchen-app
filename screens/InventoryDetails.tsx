@@ -90,8 +90,7 @@ const styles = StyleSheet.create({
   },
   nutritionalText: {
     fontSize: 30,
-    borderLeftWidth: 40,
-    borderLeftColor: 'white',
+    marginLeft: 40,
     borderTopWidth: 30,
     borderTopColor: 'white'
   },
