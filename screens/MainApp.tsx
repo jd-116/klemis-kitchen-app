@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight
   },
   drawerIcon: {
-    width: 10
+    color: 'black'
   }
 })
