@@ -2,18 +2,24 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 
 import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, List, ListItem } from 'native-base'
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { DrawerParamList } from './MainApp'
+import { DrawerParamList, InventoryStackParamList } from './MainApp'
 
-type LocationListScreenProps = {
-  navigation: DrawerNavigationProp<DrawerParamList, 'Locations'>
-}
+type LocationListRouteProp = RouteProp<InventoryStackParamList, 'LocationList'>
+
+type LocationListNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<InventoryStackParamList, 'LocationList'>,
+  DrawerNavigationProp<DrawerParamList>
+>
 
 type Props = {
-  navigation: DrawerParamList
+  route: LocationListRouteProp
+  navigation: LocationListNavigationProp
 }
 
-export default function LocationListScreen({ navigation }: Props) {
+export default function LocationList({ navigation }: Props) {
 
   return (
     <Container style={{ flex: 1 }}>
@@ -36,7 +42,7 @@ export default function LocationListScreen({ navigation }: Props) {
             <Text>West Village</Text>
           </Left>
           <Right>
-            <Button transparent onPress={() => navigation.navigate('InvenMain', { nameLoc: 'West Village' })}>
+            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'West Village' })}>
               <Icon name='arrow-forward' style={{ color: 'black' }} />
             </Button>
           </Right>
@@ -46,7 +52,7 @@ export default function LocationListScreen({ navigation }: Props) {
             <Text>The Quad</Text>
           </Left>
           <Right>
-            <Button transparent onPress={() => navigation.navigate('InvenMain', { nameLoc: 'The Quad' })}>
+            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'The Quad' })}>
               <Icon name='arrow-forward' style={{ color: 'black' }} />
             </Button>
           </Right>
@@ -56,7 +62,7 @@ export default function LocationListScreen({ navigation }: Props) {
             <Text>Library</Text>
           </Left>
           <Right>
-            <Button transparent onPress={() => navigation.navigate('InvenMain', { nameLoc: 'Library' })}>
+            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'Library' })}>
               <Icon name='arrow-forward' style={{ color: 'black' }} />
             </Button>
           </Right>
