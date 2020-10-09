@@ -2,7 +2,7 @@
   "locations": [
     {
       "name": "West Village",
-      "id": "0",
+      "id": "willage",
       "last_delivery": "string(iso 8601) | null",
       "location": {
         "latitude": 2,
@@ -11,7 +11,7 @@
     },
     {
       "name": "The Quad",
-      "id": "1",
+      "id": "lequad",
       "last_delivery": "string(iso 8601) | null",
       "location": {
         "latitude": 4,
@@ -20,7 +20,7 @@
     },
     {
       "name": "Library",
-      "id": "2",
+      "id": "pricegilbert",
       "last_delivery": "string(iso 8601) | null",
       "location": {
         "latitude": 1,

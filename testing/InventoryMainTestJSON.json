@@ -2,13 +2,13 @@
   "items": [
     {
       "name": "Bananas",
-      "id": "0",
+      "id": "banan",
       "thumbnail": "https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg",
       "amount": 3
     },
     {
       "name": "Pop Tarts",
-      "id": "1",
+      "id": "poputartu",
       "thumbnail": "https://cdn.discordapp.com/attachments/745017146534395964/756685605307547738/unknown.png",
       "amount": 26
     }
