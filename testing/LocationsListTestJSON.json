@@ -1,0 +1,31 @@
+{
+  "locations": [
+    {
+      "name": "West Village",
+      "id": "0",
+      "last_delivery": "string(iso 8601) | null",
+      "location": {
+        "latitude": 2,
+        "longitude": 4
+      }
+    },
+    {
+      "name": "The Quad",
+      "id": "1",
+      "last_delivery": "string(iso 8601) | null",
+      "location": {
+        "latitude": 4,
+        "longitude": 7
+      }
+    },
+    {
+      "name": "Library",
+      "id": "2",
+      "last_delivery": "string(iso 8601) | null",
+      "location": {
+        "latitude": 1,
+        "longitude": 7
+      }
+    }
+  ]
+}

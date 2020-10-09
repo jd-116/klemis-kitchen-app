@@ -1,11 +1,13 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, FlatList } from 'react-native'
 
-import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, List, ListItem } from 'native-base'
+import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, List, ListItem, Item } from 'native-base'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { DrawerParamList, InventoryStackParamList } from './MainApp'
+
+import * as data from '../testing/LocationsListTestJSON.json'
 
 type LocationListRouteProp = RouteProp<InventoryStackParamList, 'LocationList'>
 
@@ -20,6 +22,19 @@ type Props = {
 }
 
 export default function LocationList({ navigation }: Props) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [locationList, setLocationList] = useState<string[]>([])
+
+  useEffect(() => {
+    setLocationList(() => {
+      var temp: any[] = []
+      data.locations.forEach((item) => {
+        temp.push(item.name)
+      })
+      return temp
+    })
+    //  fetch()
+  }, [])
 
   return (
     <Container style={{ flex: 1 }}>
@@ -36,38 +51,23 @@ export default function LocationList({ navigation }: Props) {
           <Title>Campus Locations</Title>
         </Body>
       </Header>
-      <List>
-        <ListItem>
-          <Left>
-            <Text>West Village</Text>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'West Village' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
-            </Button>
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>The Quad</Text>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'The Quad' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
-            </Button>
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>Library</Text>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'Library' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
-            </Button>
-          </Right>
-        </ListItem>
-      </List>
+      {console.log(locationList)}
+      <FlatList
+        data={locationList}
+        keyExtractor={item => item}
+        renderItem={({ item }) => (
+          <ListItem>
+            <Left>
+              <Text>{item}</Text>
+            </Left>
+            <Right>
+              <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: item })}>
+                <Icon name='arrow-forward' style={{ color: 'black' }} />
+              </Button>
+            </Right>
+          </ListItem>
+        )}
+      />
     </Container>
   )
 }
