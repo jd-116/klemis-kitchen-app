@@ -7,7 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import CustomDrawerContent from './Drawer'
 import HomeScreen from './HomeScreen'
 import LocationList from './LocationList'
-import InventoryMain from './InventoryMain'
+import InventoryMain, { PantryItem } from './InventoryMain'
 import InventoryDetails from './InventoryDetails'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
@@ -34,7 +34,7 @@ const Drawer = createDrawerNavigator<DrawerParamList>()
 
 export type Location = {
   locationName: string,
-  locationID: number
+  locationID: string
 }
 
 //WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!
@@ -42,10 +42,8 @@ export type InventoryStackParamList = {
   LocationList: undefined
   InventoryMain: Location
   InventoryDetails: { 
-    nameItem: string, 
-    numItem: number, 
-    pic: string, 
-    location: Location 
+    location: Location,
+    item: PantryItem 
   }
 }
 

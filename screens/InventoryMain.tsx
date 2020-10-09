@@ -21,7 +21,7 @@ type Props = {
 
 export type PantryItem = {
   name: string,
-  id: number,
+  id: string,
   thumbnail: string,
   quantity: number
 }
@@ -31,12 +31,12 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
   const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
 
-  const renderItem: ListRenderItem<PantryItem> = ({ item: { name, id, thumbnail, quantity } }) => {
+  const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
-      <ListItem onPress={() => navigation.navigate('InventoryDetails', { nameItem: name, numItem: quantity, pic: thumbnail, location: route.params })}>
+      <ListItem onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
         <Left>
-          <Thumbnail source={{ uri: thumbnail }} style={styles.itemDetailImage} />
-          <Text style={{ marginLeft: 10 }}>{name}{'\n'}{quantity} Remaining</Text>
+          <Thumbnail source={{ uri: item.thumbnail }} style={styles.itemDetailImage} />
+          <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
         </Left>
         <Right>
           <Button transparent>

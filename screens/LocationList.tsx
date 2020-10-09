@@ -26,12 +26,12 @@ export default function LocationList({ navigation }: Props) {
 
   const renderItem: ListRenderItem<Location> = ({ item: { locationName, locationID } }) => {
     return (
-      <ListItem>
+      <ListItem onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
         <Left>
           <Text>{locationName}</Text>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
+          <Button transparent>
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>
