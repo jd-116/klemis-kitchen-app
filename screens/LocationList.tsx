@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, FlatList, ActivityIndicator } from 'react-native'
-import { AppLoading } from 'expo'
 
 import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, ListItem } from 'native-base'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { DrawerParamList, InventoryStackParamList } from './MainApp'
-
-import * as data from '../testing/LocationsListTestJSON.json'
 
 type LocationListRouteProp = RouteProp<InventoryStackParamList, 'LocationList'>
 
@@ -32,7 +29,7 @@ export default function LocationList({ navigation }: Props) {
       .then((response) => response.json())
       .then((json) => setLocationList(() => {
         var temp: any[] = []
-        data.locations.forEach((item) => {
+        json.locations.forEach((item: any) => {
           temp.push(item.name)
         })
         return temp
@@ -56,7 +53,6 @@ export default function LocationList({ navigation }: Props) {
           <Title>Campus Locations</Title>
         </Body>
       </Header>
-      {console.log(locationList)}
       {isLoading ?
         <ActivityIndicator />
         :
