@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { AppLoading } from 'expo'
 
-import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, List, ListItem, Item } from 'native-base'
+import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, ListItem } from 'native-base'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
@@ -22,18 +23,22 @@ type Props = {
 }
 
 export default function LocationList({ navigation }: Props) {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true)
   const [locationList, setLocationList] = useState<string[]>([])
+  const locationURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
 
   useEffect(() => {
-    setLocationList(() => {
-      var temp: any[] = []
-      data.locations.forEach((item) => {
-        temp.push(item.name)
-      })
-      return temp
-    })
-    //  fetch()
+    fetch(locationURL)
+      .then((response) => response.json())
+      .then((json) => setLocationList(() => {
+        var temp: any[] = []
+        data.locations.forEach((item) => {
+          temp.push(item.name)
+        })
+        return temp
+      }))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
   }, [])
 
   return (
@@ -52,22 +57,26 @@ export default function LocationList({ navigation }: Props) {
         </Body>
       </Header>
       {console.log(locationList)}
-      <FlatList
-        data={locationList}
-        keyExtractor={item => item}
-        renderItem={({ item }) => (
-          <ListItem>
-            <Left>
-              <Text>{item}</Text>
-            </Left>
-            <Right>
-              <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: item })}>
-                <Icon name='arrow-forward' style={{ color: 'black' }} />
-              </Button>
-            </Right>
-          </ListItem>
-        )}
-      />
+      {isLoading ?
+        <ActivityIndicator />
+        :
+        <FlatList
+          data={locationList}
+          keyExtractor={item => item}
+          renderItem={({ item }) => (
+            <ListItem>
+              <Left>
+                <Text>{item}</Text>
+              </Left>
+              <Right>
+                <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: item })}>
+                  <Icon name='arrow-forward' style={{ color: 'black' }} />
+                </Button>
+              </Right>
+            </ListItem>
+          )}
+        />
+      }
     </Container>
   )
 }
