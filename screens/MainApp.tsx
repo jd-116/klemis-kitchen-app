@@ -32,15 +32,20 @@ export type DrawerParamList = {
 
 const Drawer = createDrawerNavigator<DrawerParamList>()
 
+export type Location = {
+  locationName: string,
+  locationID: number
+}
+
 //WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!
 export type InventoryStackParamList = {
   LocationList: undefined
-  InventoryMain: { nameLoc: string }
+  InventoryMain: Location
   InventoryDetails: { 
     nameItem: string, 
     numItem: number, 
     pic: string, 
-    nameLoc: string 
+    location: Location 
   }
 }
 
