@@ -5,7 +5,7 @@ import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header,
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { DrawerParamList, InventoryStackParamList } from './MainApp'
+import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList } from './MainApp'
 
 type InventoryMainRouteProp = RouteProp<InventoryStackParamList, 'InventoryMain'>
 
@@ -29,7 +29,11 @@ export type PantryItem = {
 export default function InventoryMainScreen({ route, navigation }: Props) {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
-  const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
+
+  //see ./MainApp.tsx
+  let apiEndpointURL = ''
+  if (APIFETCHLOCATION == 'localhost') apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`
+  else apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
@@ -52,8 +56,10 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
       .then((response) => response.json())
       .then((json) => setPantryItemList(() => {
         var temp: PantryItem[] = []
-        json.items.forEach((item: any) => {
-          temp.push({ name: item.name, id: item.id, thumbnail: item.thumbnail, quantity: item.amount })
+        json.products.forEach((product: any) => {
+          if (product.name !== '') {
+            temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
+          }
         })
         return temp
       }))
