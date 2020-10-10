@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Linking } from 'react-native';
 import { Button, Icon, Thumbnail, Container, Text } from "native-base";
 
 import { RouteProp } from '@react-navigation/native'
@@ -17,6 +17,8 @@ type Props = {
 }
 
 export default function InitialScreen({ navigation }: Props) {
+  const starServicesURL = 'https://studentlife.gatech.edu/content/star-services'
+
   return (
     <Container style={styles.MainContainer}>
       <Thumbnail
@@ -25,7 +27,7 @@ export default function InitialScreen({ navigation }: Props) {
         style={styles.Logo}
       />
       <Text style={styles.OrgName}>Klemis Kitchen</Text>
-      <Button bordered iconLeft style={styles.MoreInfoButton}>
+      <Button bordered iconLeft style={styles.MoreInfoButton} onPress={() => {Linking.openURL(starServicesURL)}}>
         <Icon name='information-circle' style={{ color: 'white' }} />
         <Text style={{ color: 'white' }}>
           More Information
