@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { StyleSheet, Dimensions, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Dimensions, FlatList, ListRenderItem, ActivityIndicator } from 'react-native'
 
 import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header, List, ListItem } from 'native-base'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
@@ -19,15 +19,47 @@ type Props = {
   navigation: InventoryMainNavigationProp
 }
 
-export default function InventoryMainScreen({ route, navigation }: Props) {
-  const [imageURL, setImageURL] = useState('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-320-80.jpg')
-  const [imageURL2, setImageURL2] = useState('https://cdn.discordapp.com/attachments/745017146534395964/756685605307547738/unknown.png')
-  const [itemName, setItemName] = useState('Bananas')
-  const [itemName2, setItemName2] = useState('Pop Tarts')
-  const [itemQuantity, setItemQuantity] = useState(3)
-  const [itemQuantity2, setItemQuantity2] = useState(26)
+export type PantryItem = {
+  name: string,
+  id: string,
+  thumbnail: string,
+  quantity: number
+}
 
-  //const { nameLoc: String } = route.params
+export default function InventoryMainScreen({ route, navigation }: Props) {
+  const [isLoading, setLoading] = useState(true)
+  const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
+  const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
+
+  const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
+    return (
+      <ListItem onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
+        <Left>
+          <Thumbnail source={{ uri: item.thumbnail }} style={styles.itemDetailImage} />
+          <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
+        </Left>
+        <Right>
+          <Button transparent>
+            <Icon name='arrow-forward' style={{ color: 'black' }} />
+          </Button>
+        </Right>
+      </ListItem>
+    )
+  }
+
+  useEffect(() => {
+    fetch(apiEndpointURL)
+      .then((response) => response.json())
+      .then((json) => setPantryItemList(() => {
+        var temp: PantryItem[] = []
+        json.items.forEach((item: any) => {
+          temp.push({ name: item.name, id: item.id, thumbnail: item.thumbnail, quantity: item.amount })
+        })
+        return temp
+      }))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
+  }, [])
 
   return (
     <Container style={{ flex: 1 }}>
@@ -42,7 +74,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
         </Left>
       </Header>
       <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
-        {route.params.nameLoc}
+        {route.params.locationName}
       </Text>
       <Button style={styles.button}>
         <Text> View Schedule</Text>
@@ -52,30 +84,15 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
       </Text>
       <Container style={{ backgroundColor: 'rgb(236, 232, 232)', maxHeight: 4}} />
       <Content>
-        <List>
-          <ListItem onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName, numItem: itemQuantity, pic: imageURL, nameLoc: route.params.nameLoc })}>
-            <Left>
-              <Thumbnail source={{ uri: imageURL }} style={styles.itemDetailImage} />
-              <Text style={{ marginLeft: 10 }}>{itemName}{'\n'}{itemQuantity} Remaining</Text>
-            </Left>
-            <Right>
-              <Button transparent>
-                <Icon name='arrow-forward' style={{ color: 'black' }} />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem onPress={() => navigation.navigate('InventoryDetails', { nameItem: itemName2, numItem: itemQuantity2, pic: imageURL2, nameLoc: route.params.nameLoc })}>
-            <Left>
-              <Thumbnail source={{ uri: imageURL2 }} style={styles.itemDetailImage} />
-              <Text style={{ marginLeft: 10 }}>{itemName2}{'\n'}{itemQuantity2} Remaining</Text>
-            </Left>
-            <Right>
-              <Button transparent>
-                <Icon name='arrow-forward' style={{ color: 'black' }} />
-              </Button>
-            </Right>
-          </ListItem>
-        </List>
+        {isLoading ?
+          <ActivityIndicator />
+          :
+          <FlatList
+            data={pantryItemList}
+            keyExtractor={item => item.name}
+            renderItem={renderItem}
+          />
+        }
       </Content>
     </Container>
   )

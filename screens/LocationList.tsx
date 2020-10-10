@@ -1,11 +1,11 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, FlatList, ListRenderItem, ActivityIndicator } from 'react-native'
 
-import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, List, ListItem } from 'native-base'
+import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, ListItem } from 'native-base'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { DrawerParamList, InventoryStackParamList } from './MainApp'
+import { DrawerParamList, InventoryStackParamList, Location } from './MainApp'
 
 type LocationListRouteProp = RouteProp<InventoryStackParamList, 'LocationList'>
 
@@ -20,6 +20,38 @@ type Props = {
 }
 
 export default function LocationList({ navigation }: Props) {
+  const [isLoading, setLoading] = useState(true)
+  const [locationList, setLocationList] = useState<Location[]>([])
+  const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
+
+  const renderItem: ListRenderItem<Location> = ({ item: { locationName, locationID } }) => {
+    return (
+      <ListItem onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
+        <Left>
+          <Text>{locationName}</Text>
+        </Left>
+        <Right>
+          <Button transparent>
+            <Icon name='arrow-forward' style={{ color: 'black' }} />
+          </Button>
+        </Right>
+      </ListItem>
+    )
+  }
+
+  useEffect(() => {
+    fetch(apiEndpointURL)
+      .then((response) => response.json())
+      .then((json) => setLocationList(() => {
+        var temp: Location[] = []
+        json.locations.forEach((item: any) => {
+          temp.push({ locationName: item.name, locationID: item.id })
+        })
+        return temp
+      }))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
+  }, [])
 
   return (
     <Container style={{ flex: 1 }}>
@@ -36,38 +68,15 @@ export default function LocationList({ navigation }: Props) {
           <Title>Campus Locations</Title>
         </Body>
       </Header>
-      <List>
-        <ListItem>
-          <Left>
-            <Text>West Village</Text>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'West Village' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
-            </Button>
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>The Quad</Text>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'The Quad' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
-            </Button>
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>Library</Text>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => navigation.navigate('InventoryMain', { nameLoc: 'Library' })}>
-              <Icon name='arrow-forward' style={{ color: 'black' }} />
-            </Button>
-          </Right>
-        </ListItem>
-      </List>
+      {isLoading ?
+        <ActivityIndicator />
+        :
+        <FlatList
+          data={locationList}
+          keyExtractor={item => item.locationName}
+          renderItem={renderItem}
+        />
+      }
     </Container>
   )
 }
