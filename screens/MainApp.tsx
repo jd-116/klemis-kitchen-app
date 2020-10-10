@@ -9,6 +9,7 @@ import HomeScreen from './HomeScreen'
 import LocationList from './LocationList'
 import InventoryMain, { PantryItem } from './InventoryMain'
 import InventoryDetails from './InventoryDetails'
+import InventorySearch from './InventorySearch'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
 import { TLSParamList } from '../App'
@@ -41,10 +42,11 @@ export type Location = {
 export type InventoryStackParamList = {
   LocationList: undefined
   InventoryMain: Location
-  InventoryDetails: { 
+  InventoryDetails: {
     location: Location,
-    item: PantryItem 
+    item: PantryItem
   }
+  InventorySearch: Location
 }
 
 const Stack = createStackNavigator<InventoryStackParamList>()
@@ -56,6 +58,7 @@ function InventorySystem() {
       <Stack.Screen name='LocationList' component={LocationList} />
       <Stack.Screen name='InventoryMain' component={InventoryMain} />
       <Stack.Screen name='InventoryDetails' component={InventoryDetails} />
+      <Stack.Screen name='InventorySearch' component={InventorySearch} />
     </Stack.Navigator>
   )
 }

@@ -6,29 +6,24 @@ import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { DrawerParamList, InventoryStackParamList } from './MainApp'
+import { PantryItem } from './InventoryMain'
 
-type InventoryMainRouteProp = RouteProp<InventoryStackParamList, 'InventoryMain'>
+type InventorySearchRouteProp = RouteProp<InventoryStackParamList, 'InventorySearch'>
 
-type InventoryMainNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<InventoryStackParamList, 'InventoryMain'>,
+type InventorySearchNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<InventoryStackParamList, 'InventorySearch'>,
   DrawerNavigationProp<DrawerParamList>
 >
 
 type Props = {
-  route: InventoryMainRouteProp
-  navigation: InventoryMainNavigationProp
+  route: InventorySearchRouteProp
+  navigation: InventorySearchNavigationProp
 }
 
-export type PantryItem = {
-  name: string,
-  id: string,
-  thumbnail: string,
-  quantity: number
-}
-
-export default function InventoryMainScreen({ route, navigation }: Props) {
+export default function InventorySearch({ route, navigation }: Props) {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
+  const [searchBarValue, setSearchBarValue] = useState('')
   const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
@@ -39,7 +34,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
           <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
+          <Button transparent>
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>
@@ -61,29 +56,37 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
       .finally(() => setLoading(false))
   }, [])
 
+  const search = (query: string) => {
+    if (query === '') return
+
+    setLoading(true)
+    console.log(apiEndpointURL + `?search=${query}`)
+    fetch(apiEndpointURL + `?search=${query}`)
+      .then((response) => {
+        console.log(response.ok)
+        if (response.ok) return response.json()
+        throw new Error('Network response was bad')
+      }).then((json) => setPantryItemList(() => {
+        var temp: PantryItem[] = []
+        json.items.forEach((item: any) => {
+          temp.push({ name: item.name, id: item.id, thumbnail: item.thumbnail, quantity: item.amount })
+        })
+        return temp
+      }))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
+  }
+
   return (
     <Container style={{ flex: 1 }}>
-      <Header style={styles.header}>
-        <Left style={{ flexDirection: 'row' }}>
-          <Button transparent onPress={() => navigation.openDrawer()}>
-            <Icon name='menu' style={{ color: 'black' }} />
+      <Header searchBar rounded>
+        <Item>
+          <Input placeholder='Search' onChangeText={setSearchBarValue} style={{ marginLeft: 5 }} />
+          <Button transparent onPress={() => search(searchBarValue)}>
+            <Text>Search</Text>
           </Button>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name='arrow-back' style={{ color: 'black' }} />
-          </Button>
-        </Left>
-        <Right>
-          <Button transparent onPress={() => navigation.navigate('InventorySearch', route.params)}> 
-            <Icon name='search' style={{ color: 'black' }} />
-          </Button>
-        </Right>
+        </Item>
       </Header>
-      <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
-        {route.params.locationName}
-      </Text>
-      <Button style={styles.button}>
-        <Text> View Schedule</Text>
-      </Button>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
       </Text>
