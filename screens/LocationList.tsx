@@ -35,7 +35,7 @@ export default function LocationList({ navigation }: Props) {
           <Text>{locationName}</Text>
         </Left>
         <Right>
-          <Button transparent>
+          <Button transparent onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>
