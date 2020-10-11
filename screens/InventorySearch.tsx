@@ -5,8 +5,8 @@ import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header,
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { DrawerParamList, InventoryStackParamList } from './MainApp'
-import { PantryItem } from './InventoryMain'
+import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList } from './MainApp'
+import { PantryItem, getItems } from './InventoryMain'
 
 type InventorySearchRouteProp = RouteProp<InventoryStackParamList, 'InventorySearch'>
 
@@ -24,17 +24,21 @@ export default function InventorySearch({ route, navigation }: Props) {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
   const [searchBarValue, setSearchBarValue] = useState('')
-  const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
+
+  //see ./MainApp.tsx
+  let apiEndpointURL = ''
+  if (APIFETCHLOCATION == 'localhost') apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`
+  else apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
       <ListItem onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
         <Left>
-          <Thumbnail source={{ uri: item.thumbnail }} style={styles.itemDetailImage} />
+          <Thumbnail source={item.thumbnail ? { uri: item.thumbnail } : require('../assets/images/ImageUnavailable.png')} style={styles.itemDetailImage} />
           <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
         </Left>
         <Right>
-          <Button transparent>
+          <Button transparent onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>
@@ -43,38 +47,14 @@ export default function InventorySearch({ route, navigation }: Props) {
   }
 
   useEffect(() => {
-    fetch(apiEndpointURL)
-      .then((response) => response.json())
-      .then((json) => setPantryItemList(() => {
-        var temp: PantryItem[] = []
-        json.items.forEach((item: any) => {
-          temp.push({ name: item.name, id: item.id, thumbnail: item.thumbnail, quantity: item.amount })
-        })
-        return temp
-      }))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false))
+    getItems(apiEndpointURL, setPantryItemList, setLoading)
   }, [])
 
   const search = (query: string) => {
     if (query === '') return
-
     setLoading(true)
-    console.log(apiEndpointURL + `?search=${query}`)
-    fetch(apiEndpointURL + `?search=${query}`)
-      .then((response) => {
-        console.log(response.ok)
-        if (response.ok) return response.json()
-        throw new Error('Network response was bad')
-      }).then((json) => setPantryItemList(() => {
-        var temp: PantryItem[] = []
-        json.items.forEach((item: any) => {
-          temp.push({ name: item.name, id: item.id, thumbnail: item.thumbnail, quantity: item.amount })
-        })
-        return temp
-      }))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false))
+    //console.log(apiEndpointURL + `?search=${query}`)
+    getItems(apiEndpointURL + `?search=${query}`, setPantryItemList, setLoading)
   }
 
   return (

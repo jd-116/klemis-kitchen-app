@@ -26,6 +26,23 @@ export type PantryItem = {
   quantity: number
 }
 
+export const getItems = (
+  apiEndpointURL: string,
+  setPantryItemList: (value: React.SetStateAction<PantryItem[]>) => void,
+  setLoading: (value: React.SetStateAction<boolean>) => void) => {
+  fetch(apiEndpointURL)
+    .then((response) => response.json())
+    .then((json) => setPantryItemList(() => {
+      var temp: PantryItem[] = []
+      json.products.forEach((product: any) => {
+        temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
+      })
+      return temp
+    }))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+}
+
 export default function InventoryMainScreen({ route, navigation }: Props) {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
@@ -52,17 +69,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
   }
 
   useEffect(() => {
-    fetch(apiEndpointURL)
-      .then((response) => response.json())
-      .then((json) => setPantryItemList(() => {
-        var temp: PantryItem[] = []
-        json.products.forEach((product: any) => {
-          temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
-        })
-        return temp
-      }))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false))
+    getItems(apiEndpointURL, setPantryItemList, setLoading)
   }, [])
 
   return (
@@ -77,7 +84,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
           </Button>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventorySearch', route.params)}> 
+          <Button transparent onPress={() => navigation.navigate('InventorySearch', route.params)}>
             <Icon name='search' style={{ color: 'black' }} />
           </Button>
         </Right>
