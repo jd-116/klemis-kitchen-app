@@ -39,7 +39,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
     return (
       <ListItem onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
         <Left>
-          <Thumbnail source={{ uri: item.thumbnail }} style={styles.itemDetailImage} />
+          <Thumbnail source={item.thumbnail ? { uri: item.thumbnail } : require('../assets/images/ImageUnavailable.png')} style={styles.itemDetailImage} />
           <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
         </Left>
         <Right>
@@ -57,9 +57,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
       .then((json) => setPantryItemList(() => {
         var temp: PantryItem[] = []
         json.products.forEach((product: any) => {
-          if (product.name !== '') {
-            temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
-          }
+          temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
         })
         return temp
       }))
@@ -88,7 +86,7 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
       </Text>
-      <Container style={{ backgroundColor: 'rgb(236, 232, 232)', maxHeight: 4}} />
+      <Container style={{ backgroundColor: 'rgb(236, 232, 232)', maxHeight: 4 }} />
       <Content>
         {isLoading ?
           <ActivityIndicator />
