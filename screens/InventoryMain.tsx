@@ -22,7 +22,7 @@ type Props = {
 export type PantryItem = {
   name: string,
   id: string,
-  thumbnail: string,
+  thumbnail: string | null,
   quantity: number
 }
 
@@ -54,13 +54,13 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
-      <ListItem onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
+      <ListItem onPress={() => navigation.navigate('InventoryDetails', { itemID: item.id, location: route.params })}>
         <Left>
           <Thumbnail source={item.thumbnail ? { uri: item.thumbnail } : require('../assets/images/ImageUnavailable.png')} style={styles.itemDetailImage} />
           <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventoryDetails', { item: item, location: route.params })}>
+          <Button transparent onPress={() => navigation.navigate('InventoryDetails', { itemID: item.id, location: route.params })}>
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>

@@ -5,7 +5,7 @@ import { Container, Text, Button, Icon, Card, Thumbnail, Content } from 'native-
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { DrawerParamList, InventoryStackParamList } from './MainApp'
+import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList } from './MainApp'
 import { PantryItem } from './InventoryMain'
 
 
@@ -23,7 +23,7 @@ type Props = {
 
 type PantryItemWithNutritionalFacts = {
   item: PantryItem,
-  nutritionalFacts: string
+  nutritionalFacts: string | null
 }
 
 export default function InventoryDetailsScreen({ route, navigation }: Props) {
@@ -31,18 +31,23 @@ export default function InventoryDetailsScreen({ route, navigation }: Props) {
   const [pantryItem, setPantryItem] = useState<PantryItemWithNutritionalFacts>({
     item: {
       name: 'Unknown',
-      id: 'UUID Unknown',
-      thumbnail: 'Error',
+      id: 'ID Unknown',
+      thumbnail: 'null',
       quantity: 0
     },
-    nutritionalFacts: 'Error'
+    nutritionalFacts: 'null'
   }) //random default value otherwise the thing yells at me
-  const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryDetailsTestJSON.json'
+
+  //see ./MainApp.tsx
+  let apiEndpointURL = ''
+  if (APIFETCHLOCATION == 'localhost') apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.location.locationID}/products/${route.params.itemID}`
+  else apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryDetailsTestJSON.json'
 
   useEffect(() => {
     fetch(apiEndpointURL)
       .then((response) => response.json())
       .then((json) => setPantryItem((): any => {
+        console.log(json)
         return ({
           item: {
             name: json.name,
@@ -55,6 +60,7 @@ export default function InventoryDetailsScreen({ route, navigation }: Props) {
       }))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false))
+      console.log(pantryItem)
   }, [])
 
   return (
@@ -72,12 +78,14 @@ export default function InventoryDetailsScreen({ route, navigation }: Props) {
           <ActivityIndicator />
           :
           <>
-            <Thumbnail source={{ uri: pantryItem.item.thumbnail }} style={styles.itemDetailImage} />
+            <Thumbnail source={pantryItem.item.thumbnail ? { uri: pantryItem.item.thumbnail } : require('../assets/images/ImageUnavailable.png')} style={styles.itemDetailImage} />
             <Text style={styles.itemName}>{pantryItem.item.name}</Text>
             <Text style={styles.itemDetails}>{pantryItem.item.quantity} Remaining at {route.params.location.locationName}</Text>
-            <Card style={styles.nutritionFactsCard}>
-              <Thumbnail source={{ uri: pantryItem.nutritionalFacts }} style={styles.nutritionFactsLabel} />
-            </Card>
+            {pantryItem.nutritionalFacts ?
+              <Card style={styles.nutritionFactsCard}>
+                <Thumbnail source={pantryItem.nutritionalFacts ? { uri: pantryItem.nutritionalFacts } : { uri: undefined }} style={styles.nutritionFactsLabel} />
+              </Card>
+              : undefined}
           </>
         }
       </Content>

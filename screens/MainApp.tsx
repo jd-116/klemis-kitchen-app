@@ -52,7 +52,7 @@ export type InventoryStackParamList = {
   InventoryMain: Location
   InventoryDetails: {
     location: Location,
-    item: PantryItem
+    itemID: string
   }
   InventorySearch: Location
 }
