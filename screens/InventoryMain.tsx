@@ -1,13 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Dimensions, FlatList, ListRenderItem, ActivityIndicator } from 'react-native'
-
-import { Container, Text, Button, Icon, Thumbnail, Content, Left, Right, Header, ListItem, Item, Input } from 'native-base'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList } from './MainApp'
+import {
+  Container,
+  Text,
+  Button,
+  Icon,
+  Thumbnail,
+  Content,
+  Left,
+  Right,
+  Header,
+  ListItem,
+} from 'native-base'
+import React, { useState, useEffect } from 'react'
+import {
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+} from 'react-native'
 
-type InventoryMainRouteProp = RouteProp<InventoryStackParamList, 'InventoryMain'>
+import { APIFETCHLOCATION } from '../constants'
+import { PantryItem, DrawerParamList, InventoryStackParamList } from '../types'
+
+type InventoryMainRouteProp = RouteProp<
+  InventoryStackParamList,
+  'InventoryMain'
+>
 
 type InventoryMainNavigationProp = CompositeNavigationProp<
   StackNavigationProp<InventoryStackParamList, 'InventoryMain'>,
@@ -19,48 +40,88 @@ type Props = {
   navigation: InventoryMainNavigationProp
 }
 
-export type PantryItem = {
-  name: string,
-  id: string,
-  thumbnail: string | null,
-  quantity: number
+type APIPantryItem = {
+  name: string
+  id: string
+  thumbnail: string
+  amount: number
 }
 
 export const getItems = (
   apiEndpointURL: string,
   setPantryItemList: (value: React.SetStateAction<PantryItem[]>) => void,
-  setLoading: (value: React.SetStateAction<boolean>) => void) => {
+  setLoading: (value: React.SetStateAction<boolean>) => void
+): void => {
   fetch(apiEndpointURL)
     .then((response) => response.json())
-    .then((json) => setPantryItemList(() => {
-      var temp: PantryItem[] = []
-      json.products.forEach((product: any) => {
-        temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
+    .then((json) =>
+      setPantryItemList(() => {
+        const temp: PantryItem[] = []
+        json.products.forEach((product: APIPantryItem) => {
+          temp.push({
+            name: product.name,
+            id: product.id,
+            thumbnail: product.thumbnail,
+            quantity: product.amount,
+          })
+        })
+        return temp
       })
-      return temp
-    }))
+    )
     .catch((error) => console.error(error))
     .finally(() => setLoading(false))
 }
 
-export default function InventoryMainScreen({ route, navigation }: Props) {
+export default function InventoryMainScreen({
+  route,
+  navigation,
+}: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
 
-  //see ./MainApp.tsx
+  // see ./MainApp.tsx
   let apiEndpointURL = ''
-  if (APIFETCHLOCATION == 'localhost') apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`
-  else apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
+  if (APIFETCHLOCATION === 'localhost')
+    apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`
+  else
+    apiEndpointURL =
+      'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
-      <ListItem onPress={() => navigation.navigate('InventoryDetails', { itemID: item.id, location: route.params })}>
+      <ListItem
+        onPress={() =>
+          navigation.navigate('InventoryDetails', {
+            itemID: item.id,
+            location: route.params,
+          })
+        }
+      >
         <Left>
-          <Thumbnail source={item.thumbnail ? { uri: item.thumbnail } : require('../assets/images/ImageUnavailable.png')} style={styles.itemDetailImage} />
-          <Text style={{ marginLeft: 10 }}>{item.name}{'\n'}{item.quantity} Remaining</Text>
+          <Thumbnail
+            source={
+              item.thumbnail
+                ? { uri: item.thumbnail }
+                : require('../assets/images/ImageUnavailable.png')
+            }
+            style={styles.itemDetailImage}
+          />
+          <Text style={{ marginLeft: 10 }}>
+            {item.name}
+            {'\n'}
+            {item.quantity} Remaining
+          </Text>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventoryDetails', { itemID: item.id, location: route.params })}>
+          <Button
+            transparent
+            onPress={() =>
+              navigation.navigate('InventoryDetails', {
+                itemID: item.id,
+                location: route.params,
+              })
+            }
+          >
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>
@@ -84,7 +145,10 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
           </Button>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventorySearch', route.params)}>
+          <Button
+            transparent
+            onPress={() => navigation.navigate('InventorySearch', route.params)}
+          >
             <Icon name='search' style={{ color: 'black' }} />
           </Button>
         </Right>
@@ -98,17 +162,19 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
       </Text>
-      <Container style={{ backgroundColor: 'rgb(236, 232, 232)', maxHeight: 4 }} />
+      <Container
+        style={{ backgroundColor: 'rgb(236, 232, 232)', maxHeight: 4 }}
+      />
       <Content>
-        {isLoading ?
+        {isLoading ? (
           <ActivityIndicator />
-          :
+        ) : (
           <FlatList
             data={pantryItemList}
-            keyExtractor={item => item.name}
+            keyExtractor={(item) => item.name}
             renderItem={renderItem}
           />
-        }
+        )}
       </Content>
     </Container>
   )
@@ -118,23 +184,23 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   button: {
     backgroundColor: 'rgb(235, 164, 52)',
-    width: (Dimensions.get('screen').width / 2.5),
-    height: (Dimensions.get('screen').height / 20),
+    width: Dimensions.get('screen').width / 2.5,
+    height: Dimensions.get('screen').height / 20,
     borderBottomLeftRadius: 25,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 10,
   },
   search: {
-    width: (Dimensions.get('screen').width / 2)
+    width: Dimensions.get('screen').width / 2,
   },
   itemDetailImage: {
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
 })

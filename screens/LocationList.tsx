@@ -1,11 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, FlatList, ListRenderItem, ActivityIndicator } from 'react-native'
-
-import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, ListItem } from 'native-base'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList, Location } from './MainApp'
+import {
+  Container,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Right,
+  Body,
+  Title,
+  Header,
+  ListItem,
+} from 'native-base'
+import React, { useEffect, useState } from 'react'
+import {
+  StyleSheet,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+} from 'react-native'
+
+import { APIFETCHLOCATION } from '../constants'
+import { DrawerParamList, InventoryStackParamList, Location } from '../types'
 
 type LocationListRouteProp = RouteProp<InventoryStackParamList, 'LocationList'>
 
@@ -19,23 +36,50 @@ type Props = {
   navigation: LocationListNavigationProp
 }
 
-export default function LocationList({ navigation }: Props) {
+type APILocation = {
+  name: string
+  id: string
+}
+
+export default function LocationList({
+  navigation,
+}: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [locationList, setLocationList] = useState<Location[]>([])
 
-  //see ./MainApp.tsx
+  // see ./MainApp.tsx
   let apiEndpointURL = ''
-  if (APIFETCHLOCATION == 'localhost') apiEndpointURL = 'http://localhost:8080/api/v1/locations/'
-  else apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
+  if (APIFETCHLOCATION === 'localhost')
+    apiEndpointURL = 'http://localhost:8080/api/v1/locations/'
+  else
+    apiEndpointURL =
+      'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
 
-  const renderItem: ListRenderItem<Location> = ({ item: { locationName, locationID } }) => {
+  const renderItem: ListRenderItem<Location> = ({
+    item: { locationName, locationID },
+  }) => {
     return (
-      <ListItem onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
+      <ListItem
+        onPress={() =>
+          navigation.navigate('InventoryMain', {
+            locationName,
+            locationID,
+          })
+        }
+      >
         <Left>
           <Text>{locationName}</Text>
         </Left>
         <Right>
-          <Button transparent onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
+          <Button
+            transparent
+            onPress={() =>
+              navigation.navigate('InventoryMain', {
+                locationName,
+                locationID,
+              })
+            }
+          >
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>
@@ -46,13 +90,15 @@ export default function LocationList({ navigation }: Props) {
   useEffect(() => {
     fetch(apiEndpointURL)
       .then((response) => response.json())
-      .then((json) => setLocationList(() => {
-        var temp: Location[] = []
-        json.locations.forEach((item: any) => {
-          temp.push({ locationName: item.name, locationID: item.id })
+      .then((json) =>
+        setLocationList(() => {
+          const temp: Location[] = []
+          json.locations.forEach((item: APILocation) => {
+            temp.push({ locationName: item.name, locationID: item.id })
+          })
+          return temp
         })
-        return temp
-      }))
+      )
       .catch((error) => console.error(error))
       .finally(() => setLoading(false))
   }, [])
@@ -72,21 +118,21 @@ export default function LocationList({ navigation }: Props) {
           <Title>Campus Locations</Title>
         </Body>
       </Header>
-      {isLoading ?
+      {isLoading ? (
         <ActivityIndicator />
-        :
+      ) : (
         <FlatList
           data={locationList}
-          keyExtractor={item => item.locationName}
+          keyExtractor={(item) => item.locationName}
           renderItem={renderItem}
         />
-      }
+      )}
     </Container>
   )
 }
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
 })

@@ -6,7 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "lint": "eslint --max-warnings 0 -f unix \"screens/*.{js,jsx,ts,tsx,json}\" \"App.tsx\" \"testing/*{js,jsx,ts,tsx,json}\" \"platform-specific-components/*.{js,jsx,ts,tsx,json}\"",
+    "format": "eslint --fix -f unix \"screens/*.{js,jsx,ts,tsx,json}\" \"App.tsx\" \"testing/*{js,jsx,ts,tsx,json}\" \"platform-specific-components/*.{js,jsx,ts,tsx,json}\""
   },
   "jest": {
     "preset": "jest-expo"
@@ -17,9 +19,8 @@
     }
   },
   "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
-      "eslint src/*.js --fix-dry-run"
+    "./screens/*.{js,jsx,ts,tsx}": [
+      "eslint --fix -f unix \"screens/*.{js,jsx,ts,tsx,json}\" \"App.tsx\" \"testing/*{js,jsx,ts,tsx,json}\" \"platform-specific-components/*.{js,jsx,ts,tsx,json}\""
     ]
   },
   "dependencies": {
