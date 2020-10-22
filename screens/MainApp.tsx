@@ -9,9 +9,18 @@ import HomeScreen from './HomeScreen'
 import LocationList from './LocationList'
 import InventoryMain, { PantryItem } from './InventoryMain'
 import InventoryDetails from './InventoryDetails'
+import InventorySearch from './InventorySearch'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
 import { TLSParamList } from '../App'
+
+//USE THIS TO SPECIFY A LOCATION TO GET THE API FROM
+//VALUES: 'github', 'localhost', 'production'
+//GITHUB from Klemis Kitchen App's GitHub
+//LOCALHOST fetches Klemis-Kitchen-API Docker Container you are running
+//NOTE: you will need to disable CORS for this one to work
+//PRODUCTION is not implemented yet
+export const APIFETCHLOCATION = 'localhost'
 
 type NativeBasePOCProps = {
   navigation: StackNavigationProp<TLSParamList, 'Login'>
@@ -41,10 +50,11 @@ export type Location = {
 export type InventoryStackParamList = {
   LocationList: undefined
   InventoryMain: Location
-  InventoryDetails: { 
+  InventoryDetails: {
     location: Location,
-    item: PantryItem 
+    itemID: string
   }
+  InventorySearch: Location
 }
 
 const Stack = createStackNavigator<InventoryStackParamList>()
@@ -56,6 +66,7 @@ function InventorySystem() {
       <Stack.Screen name='LocationList' component={LocationList} />
       <Stack.Screen name='InventoryMain' component={InventoryMain} />
       <Stack.Screen name='InventoryDetails' component={InventoryDetails} />
+      <Stack.Screen name='InventorySearch' component={InventorySearch} />
     </Stack.Navigator>
   )
 }

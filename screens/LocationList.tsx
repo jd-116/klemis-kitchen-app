@@ -5,7 +5,7 @@ import { Container, Text, Button, Icon, Left, Right, Body, Title, Header, ListIt
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { DrawerParamList, InventoryStackParamList, Location } from './MainApp'
+import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList, Location } from './MainApp'
 
 type LocationListRouteProp = RouteProp<InventoryStackParamList, 'LocationList'>
 
@@ -22,7 +22,11 @@ type Props = {
 export default function LocationList({ navigation }: Props) {
   const [isLoading, setLoading] = useState(true)
   const [locationList, setLocationList] = useState<Location[]>([])
-  const apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
+
+  //see ./MainApp.tsx
+  let apiEndpointURL = ''
+  if (APIFETCHLOCATION == 'localhost') apiEndpointURL = 'http://localhost:8080/api/v1/locations/'
+  else apiEndpointURL = 'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
 
   const renderItem: ListRenderItem<Location> = ({ item: { locationName, locationID } }) => {
     return (
@@ -31,7 +35,7 @@ export default function LocationList({ navigation }: Props) {
           <Text>{locationName}</Text>
         </Left>
         <Right>
-          <Button transparent>
+          <Button transparent onPress={() => navigation.navigate('InventoryMain', { locationName: locationName, locationID: locationID })}>
             <Icon name='arrow-forward' style={{ color: 'black' }} />
           </Button>
         </Right>

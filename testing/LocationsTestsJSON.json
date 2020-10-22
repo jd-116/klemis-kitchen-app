@@ -1,0 +1,10 @@
+{
+  "locations": [
+    {
+      "id": "loc001",
+      "name": "Klemis Pantry",
+      "last_delivery": null,
+      "location": { "latitude": 33.7795244, "longitude": -84.3960983 }
+    }
+  ]
+}

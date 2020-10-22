@@ -6,46 +6,24 @@ import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { APIFETCHLOCATION, DrawerParamList, InventoryStackParamList } from './MainApp'
+import { PantryItem, getItems } from './InventoryMain'
 
-type InventoryMainRouteProp = RouteProp<InventoryStackParamList, 'InventoryMain'>
+type InventorySearchRouteProp = RouteProp<InventoryStackParamList, 'InventorySearch'>
 
-type InventoryMainNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<InventoryStackParamList, 'InventoryMain'>,
+type InventorySearchNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<InventoryStackParamList, 'InventorySearch'>,
   DrawerNavigationProp<DrawerParamList>
 >
 
 type Props = {
-  route: InventoryMainRouteProp
-  navigation: InventoryMainNavigationProp
+  route: InventorySearchRouteProp
+  navigation: InventorySearchNavigationProp
 }
 
-export type PantryItem = {
-  name: string,
-  id: string,
-  thumbnail: string | null,
-  quantity: number
-}
-
-export const getItems = (
-  apiEndpointURL: string,
-  setPantryItemList: (value: React.SetStateAction<PantryItem[]>) => void,
-  setLoading: (value: React.SetStateAction<boolean>) => void) => {
-  fetch(apiEndpointURL)
-    .then((response) => response.json())
-    .then((json) => setPantryItemList(() => {
-      var temp: PantryItem[] = []
-      json.products.forEach((product: any) => {
-        temp.push({ name: product.name, id: product.id, thumbnail: product.thumbnail, quantity: product.amount })
-      })
-      return temp
-    }))
-    .catch((error) => console.error(error))
-    .finally(() => setLoading(false))
-}
-
-export default function InventoryMainScreen({ route, navigation }: Props) {
+export default function InventorySearch({ route, navigation }: Props) {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
+  const [searchBarValue, setSearchBarValue] = useState('')
 
   //see ./MainApp.tsx
   let apiEndpointURL = ''
@@ -72,29 +50,23 @@ export default function InventoryMainScreen({ route, navigation }: Props) {
     getItems(apiEndpointURL, setPantryItemList, setLoading)
   }, [])
 
+  const search = (query: string) => {
+    if (query === '') return
+    setLoading(true)
+    //console.log(apiEndpointURL + `?search=${query}`)
+    getItems(apiEndpointURL + `?search=${query}`, setPantryItemList, setLoading)
+  }
+
   return (
     <Container style={{ flex: 1 }}>
-      <Header style={styles.header}>
-        <Left style={{ flexDirection: 'row' }}>
-          <Button transparent onPress={() => navigation.openDrawer()}>
-            <Icon name='menu' style={{ color: 'black' }} />
+      <Header searchBar rounded>
+        <Item>
+          <Input placeholder='Search' onChangeText={setSearchBarValue} style={{ marginLeft: 5 }} />
+          <Button transparent onPress={() => search(searchBarValue)}>
+            <Text>Search</Text>
           </Button>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name='arrow-back' style={{ color: 'black' }} />
-          </Button>
-        </Left>
-        <Right>
-          <Button transparent onPress={() => navigation.navigate('InventorySearch', route.params)}>
-            <Icon name='search' style={{ color: 'black' }} />
-          </Button>
-        </Right>
+        </Item>
       </Header>
-      <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
-        {route.params.locationName}
-      </Text>
-      <Button style={styles.button}>
-        <Text> View Schedule</Text>
-      </Button>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
       </Text>
