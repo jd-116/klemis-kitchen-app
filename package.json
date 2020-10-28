@@ -15,13 +15,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn format && yarn lint"
     }
-  },
-  "lint-staged": {
-    "./screens/*.{js,jsx,ts,tsx}": [
-      "eslint --fix -f unix \"screens/*.{js,jsx,ts,tsx,json}\" \"App.tsx\" \"testing/*{js,jsx,ts,tsx,json}\" \"platform-specific-components/*.{js,jsx,ts,tsx,json}\""
-    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",
