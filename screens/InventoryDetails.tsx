@@ -51,7 +51,7 @@ export default function InventoryDetailsScreen({
     nutritionalFacts: 'null',
   }) // random default value otherwise the thing yells at me
 
-  // see ./MainApp.tsx
+  // see ../constants.tsx
   let apiEndpointURL = ''
   if (APIFETCHLOCATION === 'localhost')
     apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.location.locationID}/products/${route.params.itemID}`

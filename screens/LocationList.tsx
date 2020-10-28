@@ -47,7 +47,7 @@ export default function LocationList({
   const [isLoading, setLoading] = useState(true)
   const [locationList, setLocationList] = useState<Location[]>([])
 
-  // see ./MainApp.tsx
+  // see ../constants.tsx
   let apiEndpointURL = ''
   if (APIFETCHLOCATION === 'localhost')
     apiEndpointURL = 'http://localhost:8080/api/v1/locations/'

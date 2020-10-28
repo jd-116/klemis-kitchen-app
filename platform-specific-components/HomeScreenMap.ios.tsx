@@ -27,7 +27,7 @@ export default function HomeScreen(): React.ReactElement {
     []
   )
 
-  // see ./MainApp.tsx
+// see ../constants.tsx
   let apiEndpointURL = ''
   if (APIFETCHLOCATION === 'localhost')
     apiEndpointURL = 'http://localhost:8080/api/v1/locations/'

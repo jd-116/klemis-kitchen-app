@@ -79,7 +79,7 @@ export default function InventoryMainScreen({
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
 
-  // see ./MainApp.tsx
+  // see ../constants.tsx
   let apiEndpointURL = ''
   if (APIFETCHLOCATION === 'localhost')
     apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`

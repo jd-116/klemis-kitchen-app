@@ -51,7 +51,7 @@ export default function InventorySearch({
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
   const [searchBarValue, setSearchBarValue] = useState('')
 
-  // see ./MainApp.tsx
+  // see ../constants.tsx
   let apiEndpointURL = ''
   if (APIFETCHLOCATION === 'localhost')
     apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`
