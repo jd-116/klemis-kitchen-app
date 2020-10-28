@@ -108,7 +108,6 @@ export default function InventorySearch({
   const search = (query: string) => {
     if (query === '') return
     setLoading(true)
-    // console.log(apiEndpointURL + `?search=${query}`)
     getItems(`${apiEndpointURL}?search=${query}`, setPantryItemList, setLoading)
   }
 

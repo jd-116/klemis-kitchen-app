@@ -65,7 +65,6 @@ export default function InventoryDetailsScreen({
       .then((json) =>
         setPantryItem(
           (): PantryItemWithNutritionalFacts => {
-            console.log(json)
             return {
               item: {
                 name: json.name,
@@ -80,7 +79,6 @@ export default function InventoryDetailsScreen({
       )
       .catch((error) => console.error(error))
       .finally(() => setLoading(false))
-    console.log(pantryItem)
   }, [])
 
   return (
