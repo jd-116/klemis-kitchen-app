@@ -4,5 +4,5 @@
 //  use http://localhost:8080
 // NOTE: you will need to disable CORS for this one to work
 // PRODUCTION is for the production site
-//  use http://api.klemis-kitchen.com
-export const APIFETCHLOCATION = 'http://api.klemis-kitchen.com'
+//  use https://api.klemis-kitchen.com/v1
+export const APIFETCHLOCATION = 'https://api.klemis-kitchen.com/v1'

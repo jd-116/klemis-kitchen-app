@@ -52,7 +52,7 @@ export default function InventoryDetailsScreen({
   }) // random default value otherwise the thing yells at me
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations/${route.params.location.locationID}/products/${route.params.itemID}`
+  const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.location.locationID}/products/${route.params.itemID}`
 
   useEffect(() => {
     fetch(apiEndpointURL)

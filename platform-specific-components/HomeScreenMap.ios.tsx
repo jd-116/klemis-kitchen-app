@@ -28,7 +28,7 @@ export default function HomeScreen(): React.ReactElement {
   )
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations`
+  const apiEndpointURL = `${APIFETCHLOCATION}/locations`
 
   useEffect(() => {
     fetch(apiEndpointURL)
