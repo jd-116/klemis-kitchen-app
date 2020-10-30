@@ -18,6 +18,11 @@ export type Location = {
   locationID: string
 }
 
+export type MapStackParamList = {
+  Home: undefined
+  InventoryMain: Location
+}
+
 // WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!
 export type InventoryStackParamList = {
   LocationList: undefined

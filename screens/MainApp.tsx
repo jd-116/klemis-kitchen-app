@@ -5,7 +5,7 @@ import { Container, Icon } from 'native-base'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-import { DrawerParamList, InventoryStackParamList } from '../types'
+import { DrawerParamList, InventoryStackParamList, MapStackParamList } from '../types'
 import CustomDrawerContent from './Drawer'
 import HomeScreen from './HomeScreen'
 import InventoryDetails from './InventoryDetails'
@@ -16,6 +16,8 @@ import LocationList from './LocationList'
 const Drawer = createDrawerNavigator<DrawerParamList>()
 
 const Stack = createStackNavigator<InventoryStackParamList>()
+
+const MapStack = createStackNavigator<MapStackParamList>()
 
 function InventorySystem() {
   return (
@@ -31,6 +33,18 @@ function InventorySystem() {
   )
 }
 
+function MapToInventory() {
+  return (
+    <MapStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName='Home'
+    >
+      <MapStack.Screen name='Home' component={HomeScreen} />
+      <MapStack.Screen name='InventoryMain' component={InventoryMain} />
+    </MapStack.Navigator>
+  )
+}
+
 export default function MainApp(): React.ReactElement {
   return (
     <Container style={styles.rootContainer}>
@@ -40,7 +54,7 @@ export default function MainApp(): React.ReactElement {
       >
         <Drawer.Screen
           name='Home'
-          component={HomeScreen}
+          component={MapToInventory}
           options={{
             drawerLabel: 'Home',
             drawerIcon: () => <Icon name='home' style={styles.drawerIcon} />,

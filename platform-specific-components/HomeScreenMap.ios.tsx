@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-
+import { MapStackParamList, DrawerParamList} from '../types'
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { APIFETCHLOCATION } from '../constants'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
 
 type PantryMarker = {
   coordinate: {
     latitude: number
     longitude: number
   }
-  title: string
+  name: string
+  id: string
   description: string
 }
 
@@ -19,9 +23,22 @@ type APILocation = {
     longitude: number
   }
   name: string
+  id: string
 }
 
-export default function HomeScreen(): React.ReactElement {
+type LocationListRouteProp = RouteProp<MapStackParamList, 'Home'>
+
+type LocationListNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MapStackParamList, 'Home'>,
+  DrawerNavigationProp<DrawerParamList>
+>
+
+type Props = {
+  route: LocationListRouteProp
+  navigation: LocationListNavigationProp
+}
+
+export default function HomeScreen({ navigation, route }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [locationMarkerList, setLocationMarkerList] = useState<PantryMarker[]>(
     []
@@ -29,6 +46,26 @@ export default function HomeScreen(): React.ReactElement {
 
   // see ../constants.tsx
   const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations`
+  
+  function renderItem(coordinate: {latitude: number, longitude: number}, name: string, id: string)
+  {
+    return (
+      <Marker
+        key={name}
+        coordinate={{
+          latitude: coordinate.latitude,
+          longitude: coordinate.longitude,
+        }}
+        title={name}
+        onPress={() => 
+          navigation.navigate('InventoryMain', {
+            locationName:name,
+            locationID:id,
+          })
+        }
+      />
+    )
+  }
 
   useEffect(() => {
     fetch(apiEndpointURL)
@@ -42,7 +79,8 @@ export default function HomeScreen(): React.ReactElement {
                 latitude: location.location.latitude,
                 longitude: location.location.longitude,
               },
-              title: location.name,
+              name: location.name,
+              id: location.id,
               description: 'hi',
             })
           })
@@ -64,20 +102,13 @@ export default function HomeScreen(): React.ReactElement {
           initialRegion={{
             latitude: 33.7759731,
             longitude: -84.3973371,
-            latitudeDelta: 0.10001,
-            longitudeDelta: 0.450001,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.025,
           }}
         >
           {locationMarkerList.map((location) => {
             return (
-              <Marker
-                key={location.title}
-                coordinate={{
-                  latitude: location.coordinate.latitude,
-                  longitude: location.coordinate.longitude,
-                }}
-                title={location.title}
-              />
+              renderItem(location.coordinate, location.name, location.id)
             )
           })}
         </MapView>
@@ -85,6 +116,7 @@ export default function HomeScreen(): React.ReactElement {
     </>
   )
 }
+
 const styles = StyleSheet.create({
   MapView: {
     width: Dimensions.get('screen').width - 30,
