@@ -55,6 +55,7 @@ export default function LocationList({
   }) => {
     return (
       <ListItem
+        key={locationID}
         onPress={() =>
           navigation.navigate('InventoryMain', {
             locationName,

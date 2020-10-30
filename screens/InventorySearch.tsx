@@ -52,7 +52,7 @@ export default function InventorySearch({
   const [searchBarValue, setSearchBarValue] = useState('')
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations${route.params.locationID}/products`
+  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations/${route.params.locationID}/products`
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
@@ -132,7 +132,7 @@ export default function InventorySearch({
         ) : (
           <FlatList
             data={pantryItemList}
-            keyExtractor={(item) => item.name}
+              keyExtractor={(item) => item.id}
             renderItem={renderItem}
           />
         )}

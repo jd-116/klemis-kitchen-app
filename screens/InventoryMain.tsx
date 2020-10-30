@@ -166,7 +166,7 @@ export default function InventoryMainScreen({
         ) : (
           <FlatList
             data={pantryItemList}
-            keyExtractor={(item) => item.name}
+            keyExtractor={(item) => item.id}
             renderItem={renderItem}
           />
         )}
