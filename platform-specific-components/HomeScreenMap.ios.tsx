@@ -28,12 +28,7 @@ export default function HomeScreen(): React.ReactElement {
   )
 
   // see ../constants.tsx
-  let apiEndpointURL = ''
-  if (APIFETCHLOCATION === 'localhost')
-    apiEndpointURL = 'http://localhost:8080/api/v1/locations/'
-  else
-    apiEndpointURL =
-      'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/homescreen-map-markers/testing/LocationsTestsJSON.json'
+  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations`
 
   useEffect(() => {
     fetch(apiEndpointURL)

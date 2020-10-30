@@ -52,12 +52,7 @@ export default function InventoryDetailsScreen({
   }) // random default value otherwise the thing yells at me
 
   // see ../constants.tsx
-  let apiEndpointURL = ''
-  if (APIFETCHLOCATION === 'localhost')
-    apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.location.locationID}/products/${route.params.itemID}`
-  else
-    apiEndpointURL =
-      'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryDetailsTestJSON.json'
+  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations/${route.params.location.locationID}/products/${route.params.itemID}`
 
   useEffect(() => {
     fetch(apiEndpointURL)

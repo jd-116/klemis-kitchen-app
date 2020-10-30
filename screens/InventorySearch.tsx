@@ -52,12 +52,7 @@ export default function InventorySearch({
   const [searchBarValue, setSearchBarValue] = useState('')
 
   // see ../constants.tsx
-  let apiEndpointURL = ''
-  if (APIFETCHLOCATION === 'localhost')
-    apiEndpointURL = `http://localhost:8080/api/v1/locations/${route.params.locationID}/products`
-  else
-    apiEndpointURL =
-      'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/InventoryMainTestJSON.json'
+  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations/${route.params.locationID}/products`
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
@@ -137,7 +132,7 @@ export default function InventorySearch({
         ) : (
           <FlatList
             data={pantryItemList}
-            keyExtractor={(item) => item.name}
+              keyExtractor={(item) => item.id}
             renderItem={renderItem}
           />
         )}
