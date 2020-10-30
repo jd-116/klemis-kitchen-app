@@ -93,6 +93,7 @@ overrides:
       global-require: off
       no-console: off
       react-hooks/exhaustive-deps: off
+      no-nested-ternary: off
 
 # ESLint Project Settings
 settings:

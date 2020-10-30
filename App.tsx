@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AppLoading } from 'expo'
+import * as AuthSession from 'expo-auth-session'
 import * as Font from 'expo-font'
 import React, { useState } from 'react'
 
@@ -12,6 +13,9 @@ const TopLevelStack = createStackNavigator<TLSParamList>()
 
 function App(): React.ReactElement {
   const [fontsLoaded, setFontsLoaded] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [loginFailed, setLoginFailed] = useState(false)
+  const [userInfo, setUserInfo] = useState()
 
   async function loadFontAsync() {
     await Font.loadAsync({
@@ -31,11 +35,31 @@ function App(): React.ReactElement {
     )
   }
 
+  const handleGTLogin = async () => {
+    const redirectURL = AuthSession.getRedirectUrl()
+    const results = await AuthSession.startAsync({
+      authUrl: '',
+    })
+    if (results.type === 'success') {
+      setLoggedIn(true)
+      setLoginFailed(false)
+      setUserInfo(results.params.whatever)
+    } else {
+      setLoggedIn(false)
+      setLoginFailed(true)
+    }
+  }
+
   return (
     <NavigationContainer>
       <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
-        <TopLevelStack.Screen name='Login' component={InitialScreen} />
-        <TopLevelStack.Screen name='ActualApp' component={MainApp} />
+        {loggedIn ? (
+          <TopLevelStack.Screen name='Login' component={InitialScreen} />
+        ) : loginFailed ? (
+          <TopLevelStack.Screen name='ActualApp' component={MainApp} />
+        ) : (
+          <TopLevelStack.Screen name='ActualApp' component={MainApp} />
+        )}
       </TopLevelStack.Navigator>
     </NavigationContainer>
   )
