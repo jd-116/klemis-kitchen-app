@@ -48,12 +48,7 @@ export default function LocationList({
   const [locationList, setLocationList] = useState<Location[]>([])
 
   // see ../constants.tsx
-  let apiEndpointURL = ''
-  if (APIFETCHLOCATION === 'localhost')
-    apiEndpointURL = 'http://localhost:8080/api/v1/locations/'
-  else
-    apiEndpointURL =
-      'https://raw.githubusercontent.com/jd-116/klemis-kitchen-app/feature/api-integration/testing/LocationsListTestJSON.json'
+  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations`
 
   const renderItem: ListRenderItem<Location> = ({
     item: { locationName, locationID },
