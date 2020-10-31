@@ -57,12 +57,13 @@ function App(): React.ReactElement {
     console.log(response)
   }, [response])
 
-  return (<>
-    <Button />
-    <Button />
-    <Button rounded block onPress={() => promptAsync({ useProxy })}>
-      <Text>{JSON.stringify(response)}</Text>
-    </Button>
+  return (
+    <>
+      <Button />
+      <Button />
+      <Button rounded block onPress={() => promptAsync({ useProxy })}>
+        <Text>{JSON.stringify(response)}</Text>
+      </Button>
     </>
   )
 }
