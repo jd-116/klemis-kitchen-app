@@ -5,4 +5,4 @@
 // NOTE: you will need to disable CORS for this one to work
 // PRODUCTION is for the production site
 //  use http://api.klemis-kitchen.com
-export const APIFETCHLOCATION = 'http://api.klemis-kitchen.com'
+export const APIFETCHLOCATION = 'http://backend.klemis-kitchen.com/v1'

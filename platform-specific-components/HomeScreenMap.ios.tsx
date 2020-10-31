@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Callout, Marker } from 'react-native-maps'
 import { MapStackParamList, DrawerParamList} from '../types'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { APIFETCHLOCATION } from '../constants'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { Button } from 'native-base'
 
 type PantryMarker = {
   coordinate: {
@@ -45,7 +46,7 @@ export default function HomeScreen({ navigation, route }: Props): React.ReactEle
   )
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations`
+  const apiEndpointURL = `${APIFETCHLOCATION}/locations`
   
   function renderItem(coordinate: {latitude: number, longitude: number}, name: string, id: string)
   {
@@ -57,13 +58,14 @@ export default function HomeScreen({ navigation, route }: Props): React.ReactEle
           longitude: coordinate.longitude,
         }}
         title={name}
-        onPress={() => 
+      >
+        <Callout onPress={() => 
           navigation.navigate('InventoryMain', {
             locationName:name,
             locationID:id,
           })
-        }
-      />
+        }/>
+      </Marker>
     )
   }
 
