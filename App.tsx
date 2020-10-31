@@ -3,20 +3,23 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { AppLoading } from 'expo'
 import * as AuthSession from 'expo-auth-session'
 import * as Font from 'expo-font'
-import React, { useState } from 'react'
+import * as WebBrowser from 'expo-web-browser'
+import { Button, Text } from 'native-base'
+import React, { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 
+import { APIFETCHLOCATION } from './constants'
 import InitialScreen from './screens/InitialScreen'
 import MainApp from './screens/MainApp'
 import { TLSParamList } from './types'
 
 const TopLevelStack = createStackNavigator<TLSParamList>()
 
+WebBrowser.maybeCompleteAuthSession()
+
 function App(): React.ReactElement {
   const [fontsLoaded, setFontsLoaded] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [loginFailed, setLoginFailed] = useState(false)
-  const [userInfo, setUserInfo] = useState()
-
+  /*
   async function loadFontAsync() {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -34,34 +37,33 @@ function App(): React.ReactElement {
       />
     )
   }
-
-  const handleGTLogin = async () => {
-    const redirectURL = AuthSession.getRedirectUrl()
-    const results = await AuthSession.startAsync({
-      authUrl: '',
-    })
-    if (results.type === 'success') {
-      setLoggedIn(true)
-      setLoginFailed(false)
-      setUserInfo(results.params.whatever)
-    } else {
-      setLoggedIn(false)
-      setLoginFailed(true)
-    }
+*/
+  const useProxy = Platform.select({ web: false, default: true })
+  const discovery = {
+    authorizationEndpoint: `${APIFETCHLOCATION}/auth/login`,
+    tokenEndpoint: `${APIFETCHLOCATION}/auth/token-exchange`,
   }
 
-  return (
-    <NavigationContainer>
-      <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
-        {loggedIn ? (
-          <TopLevelStack.Screen name='Login' component={InitialScreen} />
-        ) : loginFailed ? (
-          <TopLevelStack.Screen name='ActualApp' component={MainApp} />
-        ) : (
-          <TopLevelStack.Screen name='ActualApp' component={MainApp} />
-        )}
-      </TopLevelStack.Navigator>
-    </NavigationContainer>
+  const [request, response, promptAsync] = AuthSession.useAuthRequest(
+    {
+      clientId: '',
+      redirectUri: AuthSession.makeRedirectUri(),
+      scopes: [],
+    },
+    discovery
+  )
+
+  useEffect(() => {
+    console.log(response)
+  }, [response])
+
+  return (<>
+    <Button />
+    <Button />
+    <Button rounded block onPress={() => promptAsync({ useProxy })}>
+      <Text>{JSON.stringify(response)}</Text>
+    </Button>
+    </>
   )
 }
 
