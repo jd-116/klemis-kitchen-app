@@ -48,7 +48,7 @@ export default function LocationList({
   const [locationList, setLocationList] = useState<Location[]>([])
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/api/v1/locations`
+  const apiEndpointURL = `${APIFETCHLOCATION}/locations`
 
   const renderItem: ListRenderItem<Location> = ({
     item: { locationName, locationID },

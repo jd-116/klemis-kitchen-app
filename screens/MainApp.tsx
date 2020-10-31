@@ -12,6 +12,7 @@ import InventoryDetails from './InventoryDetails'
 import InventoryMain from './InventoryMain'
 import InventorySearch from './InventorySearch'
 import LocationList from './LocationList'
+import Announcements from './Announcements'
 
 const Drawer = createDrawerNavigator<DrawerParamList>()
 
@@ -56,7 +57,7 @@ export default function MainApp(): React.ReactElement {
         />
         <Drawer.Screen
           name='Announcements'
-          component={HomeScreen}
+          component={Announcements}
           options={{
             drawerLabel: 'Announcements',
             drawerIcon: () => (
