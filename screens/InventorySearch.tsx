@@ -132,7 +132,7 @@ export default function InventorySearch({
         ) : (
           <FlatList
             data={pantryItemList}
-              keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id}
             renderItem={renderItem}
           />
         )}

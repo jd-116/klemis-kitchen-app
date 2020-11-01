@@ -6,13 +6,13 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 
 import { DrawerParamList, InventoryStackParamList } from '../types'
+import Announcements from './Announcements'
 import CustomDrawerContent from './Drawer'
 import HomeScreen from './HomeScreen'
 import InventoryDetails from './InventoryDetails'
 import InventoryMain from './InventoryMain'
 import InventorySearch from './InventorySearch'
 import LocationList from './LocationList'
-import Announcements from './Announcements'
 
 const Drawer = createDrawerNavigator<DrawerParamList>()
 
