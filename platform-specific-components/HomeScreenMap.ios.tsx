@@ -1,12 +1,12 @@
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 import MapView, { Callout, Marker } from 'react-native-maps'
-import { MapStackParamList, DrawerParamList} from '../types'
-import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
+
 import { APIFETCHLOCATION } from '../constants'
-import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { Button } from 'native-base'
+import { MapStackParamList, DrawerParamList } from '../types'
 
 type PantryMarker = {
   coordinate: {
@@ -39,7 +39,7 @@ type Props = {
   navigation: LocationListNavigationProp
 }
 
-export default function HomeScreen({ navigation, route }: Props): React.ReactElement {
+export default function HomeScreen({ navigation }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [locationMarkerList, setLocationMarkerList] = useState<PantryMarker[]>(
     []
@@ -47,9 +47,12 @@ export default function HomeScreen({ navigation, route }: Props): React.ReactEle
 
   // see ../constants.tsx
   const apiEndpointURL = `${APIFETCHLOCATION}/locations`
-  
-  function renderItem(coordinate: {latitude: number, longitude: number}, name: string, id: string)
-  {
+
+  function renderItem(
+    coordinate: { latitude: number; longitude: number },
+    name: string,
+    id: string
+  ) {
     return (
       <Marker
         key={name}
@@ -59,12 +62,14 @@ export default function HomeScreen({ navigation, route }: Props): React.ReactEle
         }}
         title={name}
       >
-        <Callout onPress={() => 
-          navigation.navigate('InventoryMain', {
-            locationName:name,
-            locationID:id,
-          })
-        }/>
+        <Callout
+          onPress={() =>
+            navigation.navigate('InventoryMain', {
+              locationName: name,
+              locationID: id,
+            })
+          }
+        />
       </Marker>
     )
   }
@@ -109,9 +114,7 @@ export default function HomeScreen({ navigation, route }: Props): React.ReactEle
           }}
         >
           {locationMarkerList.map((location) => {
-            return (
-              renderItem(location.coordinate, location.name, location.id)
-            )
+            return renderItem(location.coordinate, location.name, location.id)
           })}
         </MapView>
       )}

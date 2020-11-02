@@ -1,8 +1,8 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { Button, Icon, Container, Text } from 'native-base'
 import React from 'react'
-import { StackNavigationProp } from '@react-navigation/stack'
 import { StyleSheet, Dimensions } from 'react-native'
 
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
@@ -11,8 +11,8 @@ import { DrawerParamList, MapStackParamList } from '../types'
 type HomeScreenRouteProp = RouteProp<DrawerParamList, 'Home'>
 
 type HomeScreenNavigationProp = CompositeNavigationProp<
-StackNavigationProp<MapStackParamList, 'Home'>,
-DrawerNavigationProp<DrawerParamList>
+  StackNavigationProp<MapStackParamList, 'Home'>,
+  DrawerNavigationProp<DrawerParamList>
 >
 
 type Props = {
@@ -20,7 +20,10 @@ type Props = {
   navigation: HomeScreenNavigationProp
 }
 
-export default function HomeScreen({ navigation, route }: Props): React.ReactElement {
+export default function HomeScreen({
+  navigation,
+  route,
+}: Props): React.ReactElement {
   // const [name, setName] = useState('George Burdell')
   const name = 'George Burdell'
 

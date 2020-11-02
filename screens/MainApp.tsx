@@ -5,7 +5,12 @@ import { Container, Icon } from 'native-base'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-import { DrawerParamList, InventoryStackParamList, MapStackParamList } from '../types'
+import {
+  DrawerParamList,
+  InventoryStackParamList,
+  MapStackParamList,
+} from '../types'
+import Announcements from './Announcements'
 import CustomDrawerContent from './Drawer'
 import HomeScreen from './HomeScreen'
 import InventoryDetails from './InventoryDetails'
@@ -70,7 +75,7 @@ export default function MainApp(): React.ReactElement {
         />
         <Drawer.Screen
           name='Announcements'
-          component={HomeScreen}
+          component={Announcements}
           options={{
             drawerLabel: 'Announcements',
             drawerIcon: () => (
