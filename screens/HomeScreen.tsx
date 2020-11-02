@@ -1,22 +1,29 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { RouteProp } from '@react-navigation/native'
+import { RouteProp, CompositeNavigationProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { Button, Icon, Container, Text } from 'native-base'
 import React from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
 
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
-import { DrawerParamList } from '../types'
+import { DrawerParamList, MapStackParamList } from '../types'
 
 type HomeScreenRouteProp = RouteProp<DrawerParamList, 'Home'>
 
-type HomeScreenNavigationProp = DrawerNavigationProp<DrawerParamList, 'Home'>
+type HomeScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MapStackParamList, 'Home'>,
+  DrawerNavigationProp<DrawerParamList>
+>
 
 type Props = {
   route: HomeScreenRouteProp
   navigation: HomeScreenNavigationProp
 }
 
-export default function HomeScreen({ navigation }: Props): React.ReactElement {
+export default function HomeScreen({
+  navigation,
+  route,
+}: Props): React.ReactElement {
   // const [name, setName] = useState('George Burdell')
   const name = 'George Burdell'
 
@@ -43,7 +50,7 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
         <Text style={styles.titleMap}>Locations Near Me</Text>
       </Container>
       <Container style={styles.middle}>
-        <HomeScreenMap />
+        <HomeScreenMap navigation={navigation} route={route} />
       </Container>
       <Container style={styles.deliveries}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
