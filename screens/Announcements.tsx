@@ -79,10 +79,11 @@ export default function Announcements({
   const renderItem: ListRenderItem<Announcement> = ({ item }) => {
     return (
       <ListItem>
-        <Left>
-          <Text style={{ marginLeft: 10 }}>
-            <b>{item.title}</b>
-            {'\n'}
+        <Left style={{flexDirection: 'column'}}>
+          <Text style={{ marginLeft: 10, fontWeight: "bold", justifyContent: 'flex-start'}}>
+            {item.title}
+          </Text>
+          <Text style={{ marginLeft: 10, justifyContent: 'flex-start' }}>
             {item.body}
           </Text>
         </Left>
