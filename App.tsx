@@ -1,71 +1,115 @@
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import { AppLoading } from 'expo'
-import * as AuthSession from 'expo-auth-session'
-import * as Font from 'expo-font'
-import * as WebBrowser from 'expo-web-browser'
-import { Button, Text } from 'native-base'
-import React, { useEffect, useState } from 'react'
-import { Platform } from 'react-native'
+import React from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import * as AuthSession from "expo-auth-session";
+import { AsyncStorage } from 'react-native';
+import { Alert, Button, Platform, StyleSheet, View } from "react-native";
 
 import { APIFETCHLOCATION } from './constants'
-import InitialScreen from './screens/InitialScreen'
-import MainApp from './screens/MainApp'
-import { TLSParamList } from './types'
 
-const TopLevelStack = createStackNavigator<TLSParamList>()
+const auth0ClientId = "trolling";
+const authorizationEndpoint = `${APIFETCHLOCATION}/auth/login`;
 
-WebBrowser.maybeCompleteAuthSession()
+const discovery = {
+  authorizationEndpoint: `${APIFETCHLOCATION}/auth/login`,
+  tokenEndpoint: `${APIFETCHLOCATION}/auth/token_exchange`,
+};
 
-function App(): React.ReactElement {
-  const [fontsLoaded, setFontsLoaded] = useState(false)
-  /*
-  async function loadFontAsync() {
-    await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    })
-  }
+const useProxy = Platform.select({ web: false, default: true });
+const redirectUri = AuthSession.makeRedirectUri({ useProxy });
 
-  if (!fontsLoaded) {
-    return (
-      <AppLoading
-        startAsync={loadFontAsync}
-        onFinish={() => setFontsLoaded(true)}
-        onError={console.log}
-        autoHideSplash={true}
-      />
-    )
-  }
-*/
-  const useProxy = Platform.select({ web: false, default: true })
-  const discovery = {
-    authorizationEndpoint: `${APIFETCHLOCATION}/auth/login`,
-    tokenEndpoint: `${APIFETCHLOCATION}/auth/token-exchange`,
-  }
+export default function App() {
+  const [code, setCode] = React.useState(null);
 
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
-      clientId: '',
-      redirectUri: AuthSession.makeRedirectUri(),
+      responseType: AuthSession.ResponseType.Token,
+      clientId: "trollin",
       scopes: [],
+      // For usage in managed apps using the proxy
+      redirectUri: AuthSession.makeRedirectUri(),
     },
     discovery
-  )
+  );
 
-  useEffect(() => {
+  let timeout = null;
+
+  React.useEffect(() => {
+    console.log(authorizationEndpoint)
+    getCodeFromStorage()
+    console.log("get code ", code);
+    try {
+      SplashScreen.preventAutoHideAsync();
+    } catch (e) {
+      console.log(e);
+    }
+    timeout = setTimeout(hideSplashScreen, 1000);
+
+    return function cleanup() {
+      clearTimeout(timeout);
+    };
+  });
+
+  const getCodeFromStorage = async () => {
+    const code = await AsyncStorage.getItem('code');
+    if (code) setCode(code);
+  }
+
+  React.useEffect(() => {
     console.log(response)
-  }, [response])
+    if (response) {
+      if (response.error) {
+        Alert.alert(
+          "Authentication error",
+          response.params.error_description || "something went wrong"
+        );
+        return;
+      }
+      if (response.type === "success") {
+        const { code } = response.params;
+        AsyncStorage.setItem('code', code);
+        setCode(code);
+      }
+    }
+  }, [response]);
 
-  return (
-    <>
-      <Button />
-      <Button />
-      <Button rounded block onPress={() => promptAsync({ useProxy })}>
-        <Text>{JSON.stringify(response)}</Text>
-      </Button>
-    </>
-  )
+  const hideSplashScreen = async () => {
+    await SplashScreen.hideAsync();
+  }
+
+  if (code) {
+    <View> 
+      <Button
+        disabled={!request}
+        title="lololol"
+        onPress={() => promptAsync({ useProxy })}
+      />
+    </View>
+  }
+  else {
+    return (
+      <View style={styles.container}>
+        <Button
+          disabled={!request}
+          title="Log in with Auth0"
+          onPress={() => promptAsync({ useProxy })}
+        />
+      </View>
+
+    );
+  }
+
 }
 
-export default App
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 40,
+  },
+});
