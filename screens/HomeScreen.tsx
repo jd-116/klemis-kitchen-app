@@ -89,16 +89,17 @@ export default function HomeScreen({
               marginLeft: 10,
               fontWeight: 'bold',
               justifyContent: 'flex-start',
+              fontSize: Dimensions.get('screen').width / 30
             }}
           >
             {item.title}
           </Text>
-          <Text style={{ marginLeft: 10, justifyContent: 'flex-start' }}>
+          <Text style={{ marginLeft: 10, justifyContent: 'flex-start', fontSize: Dimensions.get('screen').width / 33 }}>
             {item.body}
           </Text>
         </Left>
         <Right>
-          <Text style={{ marginRight: 10 }}>{item.timestamp}</Text>
+          <Text style={{ marginRight: 10, fontSize: Dimensions.get('screen').width / 40 }}>{item.timestamp}</Text>
         </Right>
       </ListItem>
     )
@@ -109,7 +110,7 @@ export default function HomeScreen({
   }, [])
 
   const slicedAnnouncementList = AnnouncementList.slice(
-    AnnouncementList.length - 3,
+    AnnouncementList.length - 4,
     AnnouncementList.length - 1
   )
 
@@ -159,7 +160,7 @@ export default function HomeScreen({
             </Text>
           </Button>
         </Container>
-        <Container>
+        <Container style={{marginTop: 5}}>  
           <Content>
             {isLoading ? (
               <ActivityIndicator />
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   top: {
-    flex: 0.35,
+    flex: 0.25,
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height / 10,
     backgroundColor: '#83ba83',
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   middle: {
-    flex: 1.4,
+    flex: .8,
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height / 2,
     backgroundColor: '#fff',
@@ -246,11 +247,13 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
   },
   announcements: {
+    flex: 0.2,
     backgroundColor: '#fff',
     width: Dimensions.get('screen').width,
     borderRightWidth: 25,
     borderRightColor: '#fff',
     borderLeftWidth: 25,
+    marginTop: 10,
     borderLeftColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',
