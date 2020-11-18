@@ -18,6 +18,7 @@ import {
   FlatList,
   ListRenderItem,
   ActivityIndicator,
+  Platform,
 } from 'react-native'
 
 import { APIFETCHLOCATION } from '../constants'
@@ -59,7 +60,9 @@ export const getItems = (
             title: ann.title,
             id: ann.id,
             body: ann.body,
-            timestamp: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+            timestamp: `${date.getMonth() + 1}/${date.getDate()}/${
+              date.getFullYear() % 100
+            }`,
           })
         })
         return temp
@@ -108,7 +111,7 @@ export default function HomeScreen({
           <Text
             style={{
               marginRight: 10,
-              fontSize: Dimensions.get('screen').width / 40,
+              fontSize: Dimensions.get('screen').width / 30,
             }}
           >
             {item.timestamp}
@@ -144,7 +147,9 @@ export default function HomeScreen({
         </Text>
       </Container>
       <Container style={styles.topMiddle}>
-        <Text style={styles.titleMap}>Locations Near Me</Text>
+        <Text style={styles.titleMap}>
+          {Platform.OS === 'ios' ? 'Locations Near Me' : '   Locations Near Me'}
+        </Text>
       </Container>
       <Container style={styles.middle}>
         <HomeScreenMap navigation={navigation} route={route} />

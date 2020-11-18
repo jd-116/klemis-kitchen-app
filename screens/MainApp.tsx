@@ -83,14 +83,6 @@ export default function MainApp(): React.ReactElement {
             ),
           }}
         />
-        <Drawer.Screen
-          name='Deliveries'
-          component={HomeScreen}
-          options={{
-            drawerLabel: 'Deliveries',
-            drawerIcon: () => <Icon name='cube' style={styles.drawerIcon} />,
-          }}
-        />
       </Drawer.Navigator>
     </Container>
   )
