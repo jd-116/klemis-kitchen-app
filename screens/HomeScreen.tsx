@@ -137,9 +137,6 @@ export default function HomeScreen({
         >
           <Icon name='menu' style={{ color: '#fff' }} />
         </Button>
-        <Button transparent style={styles.searchButton}>
-          <Icon name='search' style={{ color: '#fff' }} />
-        </Button>
       </Container>
       <Container style={styles.belowTop}>
         <Text style={styles.titleName}>

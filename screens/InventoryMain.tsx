@@ -151,9 +151,6 @@ export default function InventoryMainScreen({
       <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
         {route.params.locationName}
       </Text>
-      <Button style={styles.button}>
-        <Text> View Schedule</Text>
-      </Button>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
       </Text>
@@ -180,17 +177,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     backgroundColor: 'white',
-  },
-  button: {
-    backgroundColor: 'rgb(235, 164, 52)',
-    width: Dimensions.get('screen').width / 2.5,
-    height: Dimensions.get('screen').height / 20,
-    borderBottomLeftRadius: 25,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    borderBottomRightRadius: 25,
-    marginLeft: 20,
-    marginTop: 10,
   },
   search: {
     width: Dimensions.get('screen').width / 2,
