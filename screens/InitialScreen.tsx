@@ -24,9 +24,7 @@ export default function InitialScreen({
     <Container style={styles.MainContainer}>
       <Thumbnail
         square
-        source={{
-          uri: 'https://avatars3.githubusercontent.com/u/69819001?s=200&v=4',
-        }}
+        source={require('../assets/images/klemis_logo.png')}
         style={styles.Logo}
       />
       <Text style={styles.OrgName}>Klemis Kitchen</Text>

@@ -9,22 +9,12 @@ import React from 'react'
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ): React.ReactElement {
-  // const [avatar, setAvatar] = useState(
-  //   'https://media.discordapp.net/attachments/664605666815639552/751559829809791056/buzz.png'
-  // )
-  // const [name, setName] = useState('George Burdell')
-  // const [gtid, setGTID] = useState('903XXXXXX')
-
-  const avatar =
-    'https://media.discordapp.net/attachments/664605666815639552/751559829809791056/buzz.png'
-  const name = 'George Burdell'
-  const gtid = '903XXXXXX'
-
   return (
     <Container>
       <Thumbnail
         large
-        source={{ uri: avatar }}
+        square
+        source={require('../assets/images/klemis_logo.png')}
         style={{
           marginTop: 50,
           marginLeft: 20,
@@ -32,10 +22,17 @@ export default function CustomDrawerContent(
         }}
       />
       <Text style={{ fontSize: 30, marginLeft: 20, marginBottom: 5 }}>
-        {name}
+        Klemis Kitchen
       </Text>
-      <Text style={{ fontSize: 15, marginLeft: 20, color: 'gray' }}>
-        {gtid}
+      <Text
+        style={{
+          fontSize: 15,
+          marginLeft: 20,
+          marginBottom: 10,
+          color: 'gray',
+        }}
+      >
+        Part of Georgia Tech STAR Services
       </Text>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
