@@ -111,7 +111,7 @@ export default function LocationList({
           </Button>
         </Left>
         <Body>
-          <Title>Campus Locations</Title>
+          <Title style={{ color: 'black' }}>Campus Locations </Title>
         </Body>
       </Header>
       {isLoading ? (
@@ -130,5 +130,6 @@ export default function LocationList({
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
+    backgroundColor: 'white',
   },
 })

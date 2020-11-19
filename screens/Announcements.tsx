@@ -58,7 +58,7 @@ export const getItems = (
             title: ann.title,
             id: ann.id,
             body: ann.body,
-            timestamp: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+            timestamp: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear() % 100}`,
           })
         })
         return temp

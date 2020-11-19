@@ -8,7 +8,6 @@ export type DrawerParamList = {
   Home: undefined
   Locations: undefined
   Announcements: undefined
-  Deliveries: undefined
   NotFoundScreen: undefined
   Testing: undefined
 }
