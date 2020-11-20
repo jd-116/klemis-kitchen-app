@@ -46,10 +46,16 @@ type APIAnnouncement = {
 
 export const getItems = (
   apiEndpointURL: string,
+  token: string,
   setAnnouncementList: (value: React.SetStateAction<Announcement[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
-  fetch(apiEndpointURL)
+  fetch(apiEndpointURL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${JSON.parse(JSON.stringify(token))}`,
+    },
+  })
     .then((response) => response.json())
     .then((json) =>
       setAnnouncementList(() => {
@@ -122,7 +128,12 @@ export default function HomeScreen({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, setAnnouncementList, setLoading)
+    getItems(
+      apiEndpointURL,
+      route.params.token,
+      setAnnouncementList,
+      setLoading
+    )
   }, [])
 
   const slicedAnnouncementList = AnnouncementList.slice(

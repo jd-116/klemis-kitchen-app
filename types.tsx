@@ -1,11 +1,15 @@
 
 export type TLSParamList = {
   Login: undefined
-  ActualApp: undefined // TODO: Add in user token
+  ActualApp: {
+    token: string
+  } // TODO: Add in user token
 }
 
 export type DrawerParamList = {
-  Home: undefined
+  Home: {
+    token: string
+  }
   Locations: undefined
   Announcements: undefined
   NotFoundScreen: undefined
