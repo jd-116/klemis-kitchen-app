@@ -158,7 +158,10 @@ export default function InitialScreen({
           rounded
           block
           style={styles.LoginButton}
-          onPress={() => getData()}
+          onPress={() => AsyncStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJucGF0ZWw0MzQiLCJnaXZlbl9uYW1lIjoiTmVpbCIsImZhbWlseV9uYW1lIjoiUGF0ZWwiLCJpYXQiOiIyMDIwLTExLTIwVDE1OjQ3OjQ3LjEzMjc4Mjk5OVoiLCJrbGVtaXM6ZXhhIjpudWxsLCJrbGVtaXM6cGVybSI6eyJhZG1pbl9hY2Nlc3MiOnRydWV9fQ.T9tQ-sFVnbcpZ5da30uuIFACM2xEAq5Un36HHRhXKL8')
+            .then(() => {
+              setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJucGF0ZWw0MzQiLCJnaXZlbl9uYW1lIjoiTmVpbCIsImZhbWlseV9uYW1lIjoiUGF0ZWwiLCJpYXQiOiIyMDIwLTExLTIwVDE1OjQ3OjQ3LjEzMjc4Mjk5OVoiLCJrbGVtaXM6ZXhhIjpudWxsLCJrbGVtaXM6cGVybSI6eyJhZG1pbl9hY2Nlc3MiOnRydWV9fQ.T9tQ-sFVnbcpZ5da30uuIFACM2xEAq5Un36HHRhXKL8')
+              navigation.navigate('ActualApp')})}
         >
           <Text style={styles.LoginButtonText}>Login</Text>
         </Button>
