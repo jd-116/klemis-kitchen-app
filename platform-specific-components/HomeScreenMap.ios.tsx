@@ -1,13 +1,9 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { Container, Text } from 'native-base'
 import React, { useState, useEffect } from 'react'
-import {
-  StyleSheet,
-  Dimensions,
-  ActivityIndicator,
-  AsyncStorage,
-} from 'react-native'
+import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 import MapView, { Callout, Marker } from 'react-native-maps'
 
 import { APIFETCHLOCATION } from '../constants'
@@ -73,12 +69,14 @@ export default function HomeScreenMap({
       >
         <Callout
           onPress={() =>
-            navigation.navigate('InventoryMain', {
+            navigation.push('InventoryMain', {
               locationName: name,
               locationID: id,
             })
           }
-        />
+        >
+          <Text style={{ fontSize: 8 }}>Click to View {name} Inventory</Text>
+        </Callout>
       </Marker>
     )
   }
@@ -140,7 +138,7 @@ export default function HomeScreenMap({
 const styles = StyleSheet.create({
   MapView: {
     width: Dimensions.get('screen').width - 30,
-    height: Dimensions.get('screen').height / 3.5,
+    height: Dimensions.get('screen').height / 3,
     marginVertical: 10,
     marginHorizontal: 15,
   },

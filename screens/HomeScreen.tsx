@@ -21,7 +21,7 @@ import {
   Platform,
 } from 'react-native'
 
-import { TokenContext } from '../App'
+import { TokenContext, LogoutContext, FirstNameContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 import { DrawerParamList, MapStackParamList, Announcement } from '../types'
@@ -83,13 +83,13 @@ export default function HomeScreen({
   navigation,
   route,
 }: Props): React.ReactElement {
-  // const [name, setName] = useState('George Burdell')
-  const name = 'George Burdell'
   const [isLoading, setLoading] = useState(true)
   const [AnnouncementList, setAnnouncementList] = useState<Announcement[]>([])
 
   const apiEndpointURL = `${APIFETCHLOCATION}/announcements`
   const [token, setToken] = useContext(TokenContext)
+  const [firstName, setFirstName] = useContext(FirstNameContext)
+  const [logout, setLogout] = useContext(FirstNameContext)
 
   const renderItem: ListRenderItem<Announcement> = ({ item }) => {
     return (
@@ -99,7 +99,7 @@ export default function HomeScreen({
             style={{
               marginLeft: 10,
               fontWeight: 'bold',
-              justifyContent: 'flex-start',
+              alignSelf: 'flex-start',
               fontSize: Dimensions.get('screen').width / 30,
             }}
           >
@@ -108,7 +108,7 @@ export default function HomeScreen({
           <Text
             style={{
               marginLeft: 10,
-              justifyContent: 'flex-start',
+              alignSelf: 'flex-start',
               fontSize: Dimensions.get('screen').width / 33,
             }}
           >
@@ -119,7 +119,7 @@ export default function HomeScreen({
           <Text
             style={{
               marginRight: 10,
-              fontSize: Dimensions.get('screen').width / 30,
+              fontSize: Dimensions.get('screen').width / 33,
             }}
           >
             {item.timestamp}
@@ -138,6 +138,10 @@ export default function HomeScreen({
     AnnouncementList.length - 1
   )
 
+  function AppLogout() {
+    setLogout('true')
+  }
+
   return (
     <Container style={styles.container}>
       <Container style={styles.top}>
@@ -148,12 +152,18 @@ export default function HomeScreen({
         >
           <Icon name='menu' style={{ color: '#fff' }} />
         </Button>
+        <Button
+          transparent
+          style={styles.backButton}
+          onPress={() => AppLogout()}
+        >
+          <Icon name='log-out' style={{ color: '#fff' }} />
+        </Button>
       </Container>
       <Container style={styles.belowTop}>
-        <Text style={styles.titleName}>
-          Welcome Back, {name.split(' ')[0]}!
-        </Text>
+        <Text style={styles.titleName}>Welcome Back, {firstName}!</Text>
       </Container>
+
       <Container style={styles.topMiddle}>
         <Text style={styles.titleMap}>
           {Platform.OS === 'ios' ? 'Locations Near Me' : '   Locations Near Me'}
@@ -211,7 +221,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   top: {
-    flex: 0.25,
+    flex: 0.2,
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height / 10,
     backgroundColor: '#83ba83',
@@ -248,7 +258,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   middle: {
-    flex: 0.8,
+    flex: 1,
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height / 2,
     backgroundColor: '#fff',

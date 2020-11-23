@@ -117,16 +117,23 @@ export default function InventorySearch({
   return (
     <Container style={{ flex: 1 }}>
       <Header searchBar rounded>
+        <Button
+          style={{ marginRight: 8 }}
+          transparent
+          onPress={() => navigation.goBack()}
+        >
+          <Icon name='arrow-back' style={{ color: 'black' }} />
+        </Button>
         <Item>
           <Input
             placeholder='Search'
             onChangeText={setSearchBarValue}
             style={{ marginLeft: 5 }}
           />
-          <Button transparent onPress={() => search(searchBarValue)}>
-            <Text>Search</Text>
-          </Button>
         </Item>
+        <Button transparent onPress={() => search(searchBarValue)}>
+          <Text>Search</Text>
+        </Button>
       </Header>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory

@@ -12,13 +12,28 @@ export const TokenContext = React.createContext<TokenContextType>([
   '',
   () => {},
 ])
+
+export const FirstNameContext = React.createContext<FirstNameContextType>([
+  '',
+  () => {},
+])
+
+export const LogoutContext = React.createContext<LogoutContextType>([
+  '',
+  () => {},
+])
 export type TokenContextType = [string, (newToken: string) => void]
+export type FirstNameContextType = [string, (newFirstName: string) => void]
+export type LogoutContextType = [string, (logoutName: string) => void]
 
 const TopLevelStack = createStackNavigator<TLSParamList>()
 
 function App(): React.ReactElement {
+  console.disableYellowBox = true
   const [fontsLoaded, setFontsLoaded] = useState(false)
   const [token, setToken] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [logout, setLogout] = useState('')
   async function loadFontAsync() {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -38,14 +53,18 @@ function App(): React.ReactElement {
   }
 
   return (
-    <TokenContext.Provider value={[token, setToken]}>
-      <NavigationContainer>
-        <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
-          <TopLevelStack.Screen name='Login' component={InitialScreen} />
-          <TopLevelStack.Screen name='ActualApp' component={MainApp} />
-        </TopLevelStack.Navigator>
-      </NavigationContainer>
-    </TokenContext.Provider>
+    <LogoutContext.Provider value={[logout, setLogout]}>
+      <FirstNameContext.Provider value={[firstName, setFirstName]}>
+        <TokenContext.Provider value={[token, setToken]}>
+          <NavigationContainer>
+            <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
+              <TopLevelStack.Screen name='Login' component={InitialScreen} />
+              <TopLevelStack.Screen name='ActualApp' component={MainApp} />
+            </TopLevelStack.Navigator>
+          </NavigationContainer>
+        </TokenContext.Provider>
+      </FirstNameContext.Provider>
+    </LogoutContext.Provider>
   )
 }
 

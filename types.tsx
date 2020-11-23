@@ -20,6 +20,11 @@ export type Location = {
 export type MapStackParamList = {
   Home: undefined
   InventoryMain: Location,
+  InventoryDetails: {
+    location: Location
+    itemID: string
+  }
+  InventorySearch: Location
 }
 
 // WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!

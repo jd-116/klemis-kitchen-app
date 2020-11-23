@@ -95,17 +95,24 @@ export default function Announcements({
             style={{
               marginLeft: 10,
               fontWeight: 'bold',
-              justifyContent: 'flex-start',
+              alignSelf: 'flex-start',
             }}
           >
             {item.title}
           </Text>
-          <Text style={{ marginLeft: 10, justifyContent: 'flex-start' }}>
+          <Text style={{ marginLeft: 10, alignSelf: 'flex-start' }}>
             {item.body}
           </Text>
         </Left>
         <Right>
-          <Text style={{ marginRight: 10 }}>{item.timestamp}</Text>
+          <Text
+            style={{
+              marginRight: 10,
+              fontSize: Dimensions.get('screen').width / 33,
+            }}
+          >
+            {item.timestamp}
+          </Text>
         </Right>
       </ListItem>
     )

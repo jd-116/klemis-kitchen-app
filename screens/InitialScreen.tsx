@@ -6,7 +6,7 @@ import { Button, Icon, Thumbnail, Container, Text } from 'native-base'
 import React, { useContext } from 'react'
 import { StyleSheet, Dimensions, Linking, Alert, Platform } from 'react-native'
 
-import { TokenContext } from '../App'
+import { TokenContext, FirstNameContext, LogoutContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { TLSParamList } from '../types'
 
@@ -53,6 +53,8 @@ export default function InitialScreen({
   const [loaded, setLoaded] = React.useState<string | null>()
 
   const [token, setToken] = useContext(TokenContext)
+  const [firstName, setFirstName] = useContext(FirstNameContext)
+  const [logout, setLogout] = useContext(FirstNameContext)
 
   const [request, result, promptAsync] = AuthSession.useAuthRequest(
     {
@@ -95,6 +97,16 @@ export default function InitialScreen({
     }
   }, [respond])
 
+  React.useEffect(() => {
+    if (logout === 'true') {
+      try {
+        AsyncStorage.clear()
+        setLogout('false')
+        navigation.pop()
+      } catch (e) {}
+    }
+  }, [logout])
+
   const storeData = async (value: string) => {
     try {
       await AsyncStorage.setItem('token', value)
@@ -111,8 +123,9 @@ export default function InitialScreen({
     }
   }
 
-  function setNavigate(token: string) {
+  function setNavigate(token: string, name: string) {
     setToken(token)
+    setFirstName(name)
     navigation.navigate('ActualApp')
   }
 
@@ -126,7 +139,7 @@ export default function InitialScreen({
       })
       fetch(sessionRequest)
         .then((response) => response.json())
-        .then((json) => setNavigate(load))
+        .then((json) => setNavigate(load, json.session.first_name))
 
         .catch((error) => promptAsync({ useProxy }))
     } else {
