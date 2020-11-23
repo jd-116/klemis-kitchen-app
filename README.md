@@ -1,7 +1,7 @@
 # Klemis Kitchen App
 `Klemis Kitchen App` is a multiplatform React Native iOS and Android App allowing Georgia Tech Klemis Kitchen members to access inventory for different Klemis Kitchen pantry locations and view announcements posted by administrators.  
 Created as part of Georgia Tech’s Junior Design class in collaboration with Klemis Kitchen.  
-<img src="screenshot.png" />
+<img src="screenshot.png" height="600px" />
 
 ## 📝 Release Notes
 Version 1.0  
