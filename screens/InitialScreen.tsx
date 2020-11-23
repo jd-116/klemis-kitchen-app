@@ -3,9 +3,10 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import * as AuthSession from 'expo-auth-session'
 import { Button, Icon, Thumbnail, Container, Text } from 'native-base'
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Dimensions, Linking, Alert, Platform } from 'react-native'
 
+import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { TLSParamList } from '../types'
 
@@ -43,13 +44,15 @@ const useProxy = Platform.select({ web: false, default: true })
 
 export default function InitialScreen({
   navigation,
-  route
+  route,
 }: Props): React.ReactElement {
   const starServicesURL = 'https://studentlife.gatech.edu/content/star-services'
 
   const [respond, setRespond] = React.useState<Response>()
 
   const [loaded, setLoaded] = React.useState<string | null>()
+
+  const [token, setToken] = useContext(TokenContext)
 
   const [request, result, promptAsync] = AuthSession.useAuthRequest(
     {
@@ -75,10 +78,6 @@ export default function InitialScreen({
         const { code } = result.params
         AsyncStorage.setItem('code', code)
         const tokenEndpoint = `${APIFETCHLOCATION}/auth/token-exchange`
-        const request = new Request(tokenEndpoint, {
-          method: 'POST',
-          body: `${code}`,
-        })
         fetch(tokenEndpoint, { method: 'POST', body: `${code}` })
           .then((response) => response.json())
           .then((json) => setRespond(json))
@@ -91,7 +90,8 @@ export default function InitialScreen({
   React.useEffect(() => {
     if (respond?.token) {
       storeData(respond.token)
-      navigation.navigate('ActualApp', { token: respond.token })
+      setToken(respond.token)
+      navigation.navigate('ActualApp')
     }
   }, [respond])
 
@@ -103,12 +103,17 @@ export default function InitialScreen({
 
   function getData() {
     try {
-      AsyncStorage.getItem('token').then((token) => 
-      loginBranch(token)
-    )} catch (e) {
-      console.log('?')
+      AsyncStorage.getItem('token').then((storageToken) =>
+        loginBranch(storageToken)
+      )
+    } catch (e) {
       setLoaded(null)
     }
+  }
+
+  function setNavigate(token: string) {
+    setToken(token)
+    navigation.navigate('ActualApp')
   }
 
   function loginBranch(load: any) {
@@ -116,13 +121,12 @@ export default function InitialScreen({
       const sessionRequest = new Request(authorizationSession, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${JSON.parse(JSON.stringify(load))}`,
+          Authorization: `Bearer ${load}`,
         },
       })
-      console.log(load)
       fetch(sessionRequest)
         .then((response) => response.json())
-        .then((json) => navigation.navigate('ActualApp', { token: load }))
+        .then((json) => setNavigate(load))
 
         .catch((error) => promptAsync({ useProxy }))
     } else {

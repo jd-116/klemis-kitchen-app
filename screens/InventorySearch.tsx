@@ -15,7 +15,7 @@ import {
   Item,
   Input,
 } from 'native-base'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   StyleSheet,
   Dimensions,
@@ -24,6 +24,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
+import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { PantryItem, DrawerParamList, InventoryStackParamList } from '../types'
 import { getItems } from './InventoryMain'
@@ -50,6 +51,8 @@ export default function InventorySearch({
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
   const [searchBarValue, setSearchBarValue] = useState('')
+
+  const [token, setToken] = useContext(TokenContext)
 
   // see ../constants.tsx
   const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.locationID}/products`
@@ -97,13 +100,18 @@ export default function InventorySearch({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, setPantryItemList, setLoading)
+    getItems(apiEndpointURL, token, setPantryItemList, setLoading)
   }, [])
 
   const search = (query: string) => {
     if (query === '') return
     setLoading(true)
-    getItems(`${apiEndpointURL}?search=${query}`, setPantryItemList, setLoading)
+    getItems(
+      `${apiEndpointURL}?search=${query}`,
+      token,
+      setPantryItemList,
+      setLoading
+    )
   }
 
   return (

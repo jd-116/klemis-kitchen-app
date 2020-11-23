@@ -2,7 +2,12 @@ import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Dimensions, ActivityIndicator, AsyncStorage } from 'react-native'
+import {
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+  AsyncStorage,
+} from 'react-native'
 import MapView, { Callout, Marker } from 'react-native-maps'
 
 import { APIFETCHLOCATION } from '../constants'
@@ -16,7 +21,6 @@ type PantryMarker = {
   name: string
   id: string
   description: string
-  token: string | null
 }
 
 type APILocation = {
@@ -28,19 +32,23 @@ type APILocation = {
   id: string
 }
 
-type LocationListRouteProp = RouteProp<MapStackParamList, 'Home'>
+type HomeScreenRouteProp = RouteProp<DrawerParamList, 'Home'>
 
-type LocationListNavigationProp = CompositeNavigationProp<
+type HomeScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList, 'Home'>,
   DrawerNavigationProp<DrawerParamList>
 >
 
 type Props = {
-  route: LocationListRouteProp
-  navigation: LocationListNavigationProp
+  route: HomeScreenRouteProp
+  navigation: HomeScreenNavigationProp
+  token: string
 }
 
-export default function HomeScreen({ navigation }: Props): React.ReactElement {
+export default function HomeScreenMap({
+  navigation,
+  token,
+}: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [locationMarkerList, setLocationMarkerList] = useState<PantryMarker[]>(
     []
@@ -52,8 +60,7 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
   function renderItem(
     coordinate: { latitude: number; longitude: number },
     name: string,
-    id: string,
-    token: string | null
+    id: string
   ) {
     return (
       <Marker
@@ -67,11 +74,8 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
         <Callout
           onPress={() =>
             navigation.navigate('InventoryMain', {
-              location: {
-                locationName: name,
-                locationID: id
-              },
-              token: token
+              locationName: name,
+              locationID: id,
             })
           }
         />
@@ -79,11 +83,11 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
     )
   }
 
-  useEffect(() => {AsyncStorage.getItem('token').then((token) => 
+  useEffect(() => {
     fetch(apiEndpointURL, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${JSON.parse(JSON.stringify(token))}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -91,6 +95,7 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
         setLocationMarkerList(() => {
           const temp: PantryMarker[] = []
           json.locations.forEach((location: APILocation) => {
+            console.log(location)
             temp.push({
               coordinate: {
                 latitude: location.location.latitude,
@@ -99,7 +104,6 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
               name: location.name,
               id: location.id,
               description: 'hi',
-              token: token
             })
           })
           return temp
@@ -107,7 +111,7 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
       )
       .catch((error) => console.error(error))
       .finally(() => setLoading(false))
-  )}, [])
+  }, [])
 
   return (
     <>
@@ -125,7 +129,7 @@ export default function HomeScreen({ navigation }: Props): React.ReactElement {
           }}
         >
           {locationMarkerList.map((location) => {
-            return renderItem(location.coordinate, location.name, location.id, location.token)
+            return renderItem(location.coordinate, location.name, location.id)
           })}
         </MapView>
       )}

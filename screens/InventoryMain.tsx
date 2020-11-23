@@ -13,7 +13,7 @@ import {
   Header,
   ListItem,
 } from 'native-base'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   StyleSheet,
   Dimensions,
@@ -22,6 +22,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
+import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { PantryItem, DrawerParamList, InventoryStackParamList } from '../types'
 
@@ -56,7 +57,7 @@ export const getItems = (
   fetch(apiEndpointURL, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${JSON.parse(JSON.stringify(token))}`,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => response.json())
@@ -84,17 +85,18 @@ export default function InventoryMainScreen({
 }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
+  const [token, setToken] = useContext(TokenContext)
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.location.locationID}/products`
+  const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.locationID}/products`
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
       <ListItem
         onPress={() =>
           navigation.navigate('InventoryDetails', {
+            location: route.params,
             itemID: item.id,
-            location: route.params.location,
           })
         }
       >
@@ -119,7 +121,7 @@ export default function InventoryMainScreen({
             onPress={() =>
               navigation.navigate('InventoryDetails', {
                 itemID: item.id,
-                location: route.params.location,
+                location: route.params,
               })
             }
           >
@@ -131,7 +133,7 @@ export default function InventoryMainScreen({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, route.params.token, setPantryItemList, setLoading)
+    getItems(apiEndpointURL, token, setPantryItemList, setLoading)
   }, [])
 
   return (
@@ -148,14 +150,14 @@ export default function InventoryMainScreen({
         <Right>
           <Button
             transparent
-            onPress={() => navigation.navigate('InventorySearch', route.params.location)}
+            onPress={() => navigation.navigate('InventorySearch', route.params)}
           >
             <Icon name='search' style={{ color: 'black' }} />
           </Button>
         </Right>
       </Header>
       <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
-        {route.params.location.locationName}
+        {route.params.locationName}
       </Text>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory

@@ -11,17 +11,17 @@ import {
   Right,
   ListItem,
 } from 'native-base'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   StyleSheet,
   Dimensions,
   FlatList,
-  AsyncStorage,
   ListRenderItem,
   ActivityIndicator,
   Platform,
 } from 'react-native'
 
+import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import HomeScreenMap from '../platform-specific-components/HomeScreenMap'
 import { DrawerParamList, MapStackParamList, Announcement } from '../types'
@@ -89,6 +89,7 @@ export default function HomeScreen({
   const [AnnouncementList, setAnnouncementList] = useState<Announcement[]>([])
 
   const apiEndpointURL = `${APIFETCHLOCATION}/announcements`
+  const [token, setToken] = useContext(TokenContext)
 
   const renderItem: ListRenderItem<Announcement> = ({ item }) => {
     return (
@@ -129,12 +130,7 @@ export default function HomeScreen({
   }
 
   useEffect(() => {
-    AsyncStorage.getItem('token').then((token) => getItems(
-      apiEndpointURL,
-      token,
-      setAnnouncementList,
-      setLoading
-    ))
+    getItems(apiEndpointURL, token, setAnnouncementList, setLoading)
   }, [])
 
   const slicedAnnouncementList = AnnouncementList.slice(
@@ -164,7 +160,7 @@ export default function HomeScreen({
         </Text>
       </Container>
       <Container style={styles.middle}>
-        <HomeScreenMap navigation={navigation} route={route} />
+        <HomeScreenMap navigation={navigation} token={token} />
       </Container>
       <Container>
         <Container style={styles.announcements}>

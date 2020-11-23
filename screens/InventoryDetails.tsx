@@ -10,9 +10,10 @@ import {
   Thumbnail,
   Content,
 } from 'native-base'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 
+import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { InventoryStackParamList, DrawerParamList, PantryItem } from '../types'
 
@@ -41,6 +42,7 @@ export default function InventoryDetailsScreen({
   navigation,
 }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
+  const [token, setToken] = useContext(TokenContext)
   const [pantryItem, setPantryItem] = useState<PantryItemWithNutritionalFacts>({
     item: {
       name: 'Unknown',
@@ -55,7 +57,12 @@ export default function InventoryDetailsScreen({
   const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.location.locationID}/products/${route.params.itemID}`
 
   useEffect(() => {
-    fetch(apiEndpointURL)
+    fetch(apiEndpointURL, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((json) =>
         setPantryItem(

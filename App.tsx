@@ -8,11 +8,17 @@ import InitialScreen from './screens/InitialScreen'
 import MainApp from './screens/MainApp'
 import { TLSParamList } from './types'
 
+export const TokenContext = React.createContext<TokenContextType>([
+  '',
+  () => {},
+])
+export type TokenContextType = [string, (newToken: string) => void]
+
 const TopLevelStack = createStackNavigator<TLSParamList>()
 
 function App(): React.ReactElement {
   const [fontsLoaded, setFontsLoaded] = useState(false)
-
+  const [token, setToken] = useState('')
   async function loadFontAsync() {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -32,12 +38,14 @@ function App(): React.ReactElement {
   }
 
   return (
-    <NavigationContainer>
-      <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
-        <TopLevelStack.Screen name='Login' component={InitialScreen} />
-        <TopLevelStack.Screen name='ActualApp' component={MainApp} />
-      </TopLevelStack.Navigator>
-    </NavigationContainer>
+    <TokenContext.Provider value={[token, setToken]}>
+      <NavigationContainer>
+        <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
+          <TopLevelStack.Screen name='Login' component={InitialScreen} />
+          <TopLevelStack.Screen name='ActualApp' component={MainApp} />
+        </TopLevelStack.Navigator>
+      </NavigationContainer>
+    </TokenContext.Provider>
   )
 }
 

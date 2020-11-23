@@ -11,16 +11,16 @@ import {
   Header,
   ListItem,
 } from 'native-base'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   StyleSheet,
   Dimensions,
   FlatList,
   ListRenderItem,
   ActivityIndicator,
-  AsyncStorage,
 } from 'react-native'
 
+import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { Announcement, DrawerParamList } from '../types'
 
@@ -45,14 +45,14 @@ type APIAnnouncement = {
 
 export const getItems = (
   apiEndpointURL: string,
-  token: string | null, 
+  token: string | null,
   setAnnouncementList: (value: React.SetStateAction<Announcement[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
   fetch(apiEndpointURL, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${JSON.parse(JSON.stringify(token))}`,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => response.json())
@@ -85,6 +85,8 @@ export default function Announcements({
 
   const apiEndpointURL = `${APIFETCHLOCATION}/announcements`
 
+  const [token, setToken] = useContext(TokenContext)
+
   const renderItem: ListRenderItem<Announcement> = ({ item }) => {
     return (
       <ListItem>
@@ -109,14 +111,10 @@ export default function Announcements({
     )
   }
 
-  useEffect(() => {
-    AsyncStorage.getItem('token').then((token) => getItems(
-      apiEndpointURL,
-      token,
-      setAnnouncementList,
-      setLoading
-    ))
-  }, [])
+  useEffect(
+    () => getItems(apiEndpointURL, token, setAnnouncementList, setLoading),
+    []
+  )
 
   return (
     <Container style={{ flex: 1 }}>
