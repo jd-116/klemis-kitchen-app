@@ -49,10 +49,16 @@ type APIPantryItem = {
 
 export const getItems = (
   apiEndpointURL: string,
+  token: string | null,
   setPantryItemList: (value: React.SetStateAction<PantryItem[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
-  fetch(apiEndpointURL)
+  fetch(apiEndpointURL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${JSON.parse(JSON.stringify(token))}`,
+    },
+  })
     .then((response) => response.json())
     .then((json) =>
       setPantryItemList(() => {
@@ -80,7 +86,7 @@ export default function InventoryMainScreen({
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
 
   // see ../constants.tsx
-  const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.locationID}/products`
+  const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.location.locationID}/products`
 
   const renderItem: ListRenderItem<PantryItem> = ({ item }) => {
     return (
@@ -88,7 +94,7 @@ export default function InventoryMainScreen({
         onPress={() =>
           navigation.navigate('InventoryDetails', {
             itemID: item.id,
-            location: route.params,
+            location: route.params.location,
           })
         }
       >
@@ -113,7 +119,7 @@ export default function InventoryMainScreen({
             onPress={() =>
               navigation.navigate('InventoryDetails', {
                 itemID: item.id,
-                location: route.params,
+                location: route.params.location,
               })
             }
           >
@@ -125,7 +131,7 @@ export default function InventoryMainScreen({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, setPantryItemList, setLoading)
+    getItems(apiEndpointURL, route.params.token, setPantryItemList, setLoading)
   }, [])
 
   return (
@@ -142,14 +148,14 @@ export default function InventoryMainScreen({
         <Right>
           <Button
             transparent
-            onPress={() => navigation.navigate('InventorySearch', route.params)}
+            onPress={() => navigation.navigate('InventorySearch', route.params.location)}
           >
             <Icon name='search' style={{ color: 'black' }} />
           </Button>
         </Right>
       </Header>
       <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 20 }}>
-        {route.params.locationName}
+        {route.params.location.locationName}
       </Text>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory

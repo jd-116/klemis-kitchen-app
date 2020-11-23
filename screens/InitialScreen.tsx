@@ -43,6 +43,7 @@ const useProxy = Platform.select({ web: false, default: true })
 
 export default function InitialScreen({
   navigation,
+  route
 }: Props): React.ReactElement {
   const starServicesURL = 'https://studentlife.gatech.edu/content/star-services'
 
@@ -100,13 +101,12 @@ export default function InitialScreen({
     } catch (e) {}
   }
 
-  const getData = async () => {
+  function getData() {
     try {
-      const bool = await AsyncStorage.getItem('token')
-      console.log(bool)
-      setLoaded(bool)
-      loginBranch(bool)
-    } catch (e) {
+      AsyncStorage.getItem('token').then((token) => 
+      loginBranch(token)
+    )} catch (e) {
+      console.log('?')
       setLoaded(null)
     }
   }
@@ -116,9 +116,10 @@ export default function InitialScreen({
       const sessionRequest = new Request(authorizationSession, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${JSON.parse(JSON.stringify(loaded))}`,
+          Authorization: `Bearer ${JSON.parse(JSON.stringify(load))}`,
         },
       })
+      console.log(load)
       fetch(sessionRequest)
         .then((response) => response.json())
         .then((json) => navigation.navigate('ActualApp', { token: load }))

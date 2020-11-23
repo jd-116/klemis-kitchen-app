@@ -7,9 +7,7 @@ export type TLSParamList = {
 }
 
 export type DrawerParamList = {
-  Home: {
-    token: string
-  }
+  Home: undefined
   Locations: undefined
   Announcements: undefined
   NotFoundScreen: undefined
@@ -23,13 +21,19 @@ export type Location = {
 
 export type MapStackParamList = {
   Home: undefined
-  InventoryMain: Location
+  InventoryMain: {
+    location: Location,
+    token: string | null
+  }
 }
 
 // WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!
 export type InventoryStackParamList = {
   LocationList: undefined
-  InventoryMain: Location
+  InventoryMain: {
+    location: Location,
+    token: string | null
+  }
   InventoryDetails: {
     location: Location
     itemID: string

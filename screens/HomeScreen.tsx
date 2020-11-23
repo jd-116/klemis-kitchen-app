@@ -16,6 +16,7 @@ import {
   StyleSheet,
   Dimensions,
   FlatList,
+  AsyncStorage,
   ListRenderItem,
   ActivityIndicator,
   Platform,
@@ -46,7 +47,7 @@ type APIAnnouncement = {
 
 export const getItems = (
   apiEndpointURL: string,
-  token: string,
+  token: string | null,
   setAnnouncementList: (value: React.SetStateAction<Announcement[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
@@ -128,12 +129,12 @@ export default function HomeScreen({
   }
 
   useEffect(() => {
-    getItems(
+    AsyncStorage.getItem('token').then((token) => getItems(
       apiEndpointURL,
-      route.params.token,
+      token,
       setAnnouncementList,
       setLoading
-    )
+    ))
   }, [])
 
   const slicedAnnouncementList = AnnouncementList.slice(

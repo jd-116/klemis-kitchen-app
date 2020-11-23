@@ -18,6 +18,7 @@ import {
   FlatList,
   ListRenderItem,
   ActivityIndicator,
+  AsyncStorage,
 } from 'react-native'
 
 import { APIFETCHLOCATION } from '../constants'
@@ -44,10 +45,16 @@ type APIAnnouncement = {
 
 export const getItems = (
   apiEndpointURL: string,
+  token: string | null, 
   setAnnouncementList: (value: React.SetStateAction<Announcement[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
-  fetch(apiEndpointURL)
+  fetch(apiEndpointURL, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${JSON.parse(JSON.stringify(token))}`,
+    },
+  })
     .then((response) => response.json())
     .then((json) =>
       setAnnouncementList(() => {
@@ -103,7 +110,12 @@ export default function Announcements({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, setAnnouncementList, setLoading)
+    AsyncStorage.getItem('token').then((token) => getItems(
+      apiEndpointURL,
+      token,
+      setAnnouncementList,
+      setLoading
+    ))
   }, [])
 
   return (
