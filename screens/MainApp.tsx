@@ -46,13 +46,15 @@ function MapToInventory() {
     >
       <MapStack.Screen name='Home' component={HomeScreen} />
       <MapStack.Screen name='InventoryMain' component={InventoryMain} />
+      <Stack.Screen name='InventoryDetails' component={InventoryDetails} />
+      <Stack.Screen name='InventorySearch' component={InventorySearch} />
     </MapStack.Navigator>
   )
 }
 
 export default function MainApp(): React.ReactElement {
   return (
-    <Container style={styles.rootContainer}>
+    <Container>
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         initialRouteName='Home'
@@ -89,9 +91,6 @@ export default function MainApp(): React.ReactElement {
 }
 
 const styles = StyleSheet.create({
-  rootContainer: {
-    marginTop: Constants.statusBarHeight,
-  },
   drawerIcon: {
     color: 'black',
   },
