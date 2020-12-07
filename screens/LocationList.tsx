@@ -13,7 +13,7 @@ import {
   Header,
   ListItem,
 } from 'native-base'
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   StyleSheet,
   FlatList,
@@ -21,7 +21,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
-import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { DrawerParamList, InventoryStackParamList, Location } from '../types'
 
@@ -46,7 +45,6 @@ export default function LocationList({
   navigation,
 }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
-  const [token, setToken] = useContext(TokenContext)
   const [locationList, setLocationList] = useState<Location[]>([])
 
   // see ../constants.tsx
@@ -86,12 +84,7 @@ export default function LocationList({
   }
 
   useEffect(() => {
-    fetch(apiEndpointURL, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(apiEndpointURL)
       .then((response) => response.json())
       .then((json) =>
         setLocationList(() => {

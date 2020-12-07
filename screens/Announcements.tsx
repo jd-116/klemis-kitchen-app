@@ -11,7 +11,7 @@ import {
   Header,
   ListItem,
 } from 'native-base'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Dimensions,
@@ -20,7 +20,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
-import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { Announcement, DrawerParamList } from '../types'
 
@@ -45,16 +44,10 @@ type APIAnnouncement = {
 
 export const getItems = (
   apiEndpointURL: string,
-  token: string | null,
   setAnnouncementList: (value: React.SetStateAction<Announcement[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
-  fetch(apiEndpointURL, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  fetch(apiEndpointURL)
     .then((response) => response.json())
     .then((json) =>
       setAnnouncementList(() => {
@@ -85,8 +78,6 @@ export default function Announcements({
 
   const apiEndpointURL = `${APIFETCHLOCATION}/announcements`
 
-  const [token, setToken] = useContext(TokenContext)
-
   const renderItem: ListRenderItem<Announcement> = ({ item }) => {
     return (
       <ListItem>
@@ -95,33 +86,25 @@ export default function Announcements({
             style={{
               marginLeft: 10,
               fontWeight: 'bold',
-              alignSelf: 'flex-start',
+              justifyContent: 'flex-start',
             }}
           >
             {item.title}
           </Text>
-          <Text style={{ marginLeft: 10, alignSelf: 'flex-start' }}>
+          <Text style={{ marginLeft: 10, justifyContent: 'flex-start' }}>
             {item.body}
           </Text>
         </Left>
         <Right>
-          <Text
-            style={{
-              marginRight: 10,
-              fontSize: Dimensions.get('screen').width / 33,
-            }}
-          >
-            {item.timestamp}
-          </Text>
+          <Text style={{ marginRight: 10 }}>{item.timestamp}</Text>
         </Right>
       </ListItem>
     )
   }
 
-  useEffect(
-    () => getItems(apiEndpointURL, token, setAnnouncementList, setLoading),
-    []
-  )
+  useEffect(() => {
+    getItems(apiEndpointURL, setAnnouncementList, setLoading)
+  }, [])
 
   return (
     <Container style={{ flex: 1 }}>

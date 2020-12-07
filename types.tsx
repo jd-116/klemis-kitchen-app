@@ -1,7 +1,7 @@
 
 export type TLSParamList = {
   Login: undefined
-  ActualApp: undefined
+  ActualApp: undefined // TODO: Add in user token
 }
 
 export type DrawerParamList = {
@@ -19,18 +19,13 @@ export type Location = {
 
 export type MapStackParamList = {
   Home: undefined
-  InventoryMain: Location,
-  InventoryDetails: {
-    location: Location
-    itemID: string
-  }
-  InventorySearch: Location
+  InventoryMain: Location
 }
 
 // WHEN YOU'RE ADDING STUFF HERE DON'T ADD IT AS UNDEFINED !!!!!!
 export type InventoryStackParamList = {
   LocationList: undefined
-  InventoryMain: Location,
+  InventoryMain: Location
   InventoryDetails: {
     location: Location
     itemID: string

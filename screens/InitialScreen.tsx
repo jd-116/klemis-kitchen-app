@@ -1,13 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import * as AuthSession from 'expo-auth-session'
 import { Button, Icon, Thumbnail, Container, Text } from 'native-base'
-import React, { useContext } from 'react'
-import { StyleSheet, Dimensions, Linking, Alert, Platform } from 'react-native'
+import React from 'react'
+import { StyleSheet, Dimensions, Linking } from 'react-native'
 
-import { TokenContext, FirstNameContext, LogoutContext } from '../App'
-import { APIFETCHLOCATION } from '../constants'
 import { TLSParamList } from '../types'
 
 type InitialScreenRouteProp = RouteProp<TLSParamList, 'Login'>
@@ -19,133 +15,10 @@ type Props = {
   navigation: InitialScreenNavigationProp
 }
 
-const authorizationSession = `${APIFETCHLOCATION}/auth/session`
-
-const discovery = {
-  authorizationEndpoint: `${APIFETCHLOCATION}/auth/login`,
-  tokenEndpoint: `${APIFETCHLOCATION}/auth/token_exchange`,
-}
-
-type Response = {
-  permissions: {
-    admin_access: boolean
-  }
-  session: {
-    expires_after: number | null
-    first_name: string
-    issued_at: string
-    last_name: string
-    username: string
-  }
-  token: string
-}
-
-const useProxy = Platform.select({ web: false, default: true })
-
 export default function InitialScreen({
   navigation,
-  route,
 }: Props): React.ReactElement {
   const starServicesURL = 'https://studentlife.gatech.edu/content/star-services'
-
-  const [respond, setRespond] = React.useState<Response>()
-
-  const [loaded, setLoaded] = React.useState<string | null>()
-
-  const [token, setToken] = useContext(TokenContext)
-  const [firstName, setFirstName] = useContext(FirstNameContext)
-  const [logout, setLogout] = useContext(FirstNameContext)
-
-  const [request, result, promptAsync] = AuthSession.useAuthRequest(
-    {
-      responseType: AuthSession.ResponseType.Token,
-      clientId: 'trollin',
-      scopes: [],
-      // For usage in managed apps using the proxy
-      redirectUri: AuthSession.makeRedirectUri(),
-    },
-    discovery
-  )
-
-  React.useEffect(() => {
-    if (result) {
-      if (result.errorCode) {
-        Alert.alert(
-          'Authentication error',
-          result.params.error_description || 'something went wrong'
-        )
-        return
-      }
-      if (result.type === 'error' && result.url) {
-        const { code } = result.params
-        AsyncStorage.setItem('code', code)
-        const tokenEndpoint = `${APIFETCHLOCATION}/auth/token-exchange`
-        fetch(tokenEndpoint, { method: 'POST', body: `${code}` })
-          .then((response) => response.json())
-          .then((json) => setRespond(json))
-
-          .catch((error) => console.error(error))
-      }
-    }
-  }, [result])
-
-  React.useEffect(() => {
-    if (respond?.token) {
-      storeData(respond.token)
-      setToken(respond.token)
-      navigation.navigate('ActualApp')
-    }
-  }, [respond])
-
-  React.useEffect(() => {
-    if (logout === 'true') {
-      try {
-        AsyncStorage.clear()
-        setLogout('false')
-        navigation.pop()
-      } catch (e) {}
-    }
-  }, [logout])
-
-  const storeData = async (value: string) => {
-    try {
-      await AsyncStorage.setItem('token', value)
-    } catch (e) {}
-  }
-
-  function getData() {
-    try {
-      AsyncStorage.getItem('token').then((storageToken) =>
-        loginBranch(storageToken)
-      )
-    } catch (e) {
-      setLoaded(null)
-    }
-  }
-
-  function setNavigate(token: string, name: string) {
-    setToken(token)
-    setFirstName(name)
-    navigation.navigate('ActualApp')
-  }
-
-  function loginBranch(load: any) {
-    if (load) {
-      const sessionRequest = new Request(authorizationSession, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${load}`,
-        },
-      })
-      fetch(sessionRequest)
-        .then((response) => response.json())
-        .then((json) => setNavigate(load, json.session.first_name))
-
-        .catch((error) => promptAsync({ useProxy }))
-    } else {
-      promptAsync({ useProxy })
-    }
-  }
 
   return (
     <Container style={styles.MainContainer}>
@@ -171,7 +44,7 @@ export default function InitialScreen({
           rounded
           block
           style={styles.LoginButton}
-          onPress={() => getData()}
+          onPress={() => navigation.navigate('ActualApp')}
         >
           <Text style={styles.LoginButtonText}>Login</Text>
         </Button>

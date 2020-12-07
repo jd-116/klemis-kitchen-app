@@ -1,7 +1,6 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { Container, Text } from 'native-base'
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 import MapView, { Callout, Marker } from 'react-native-maps'
@@ -28,23 +27,19 @@ type APILocation = {
   id: string
 }
 
-type HomeScreenRouteProp = RouteProp<DrawerParamList, 'Home'>
+type LocationListRouteProp = RouteProp<MapStackParamList, 'Home'>
 
-type HomeScreenNavigationProp = CompositeNavigationProp<
+type LocationListNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList, 'Home'>,
   DrawerNavigationProp<DrawerParamList>
 >
 
 type Props = {
-  route: HomeScreenRouteProp
-  navigation: HomeScreenNavigationProp
-  token: string
+  route: LocationListRouteProp
+  navigation: LocationListNavigationProp
 }
 
-export default function HomeScreenMap({
-  navigation,
-  token,
-}: Props): React.ReactElement {
+export default function HomeScreen({ navigation }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [locationMarkerList, setLocationMarkerList] = useState<PantryMarker[]>(
     []
@@ -69,31 +64,23 @@ export default function HomeScreenMap({
       >
         <Callout
           onPress={() =>
-            navigation.push('InventoryMain', {
+            navigation.navigate('InventoryMain', {
               locationName: name,
               locationID: id,
             })
           }
-        >
-          <Text style={{ fontSize: 8 }}>Click to View {name} Inventory</Text>
-        </Callout>
+        />
       </Marker>
     )
   }
 
   useEffect(() => {
-    fetch(apiEndpointURL, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(apiEndpointURL)
       .then((response) => response.json())
       .then((json) =>
         setLocationMarkerList(() => {
           const temp: PantryMarker[] = []
           json.locations.forEach((location: APILocation) => {
-            console.log(location)
             temp.push({
               coordinate: {
                 latitude: location.location.latitude,
@@ -138,7 +125,7 @@ export default function HomeScreenMap({
 const styles = StyleSheet.create({
   MapView: {
     width: Dimensions.get('screen').width - 30,
-    height: Dimensions.get('screen').height / 3,
+    height: Dimensions.get('screen').height / 3.5,
     marginVertical: 10,
     marginHorizontal: 15,
   },

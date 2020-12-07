@@ -13,7 +13,7 @@ import {
   Header,
   ListItem,
 } from 'native-base'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Dimensions,
@@ -22,7 +22,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
-import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { PantryItem, DrawerParamList, InventoryStackParamList } from '../types'
 
@@ -50,16 +49,10 @@ type APIPantryItem = {
 
 export const getItems = (
   apiEndpointURL: string,
-  token: string | null,
   setPantryItemList: (value: React.SetStateAction<PantryItem[]>) => void,
   setLoading: (value: React.SetStateAction<boolean>) => void
 ): void => {
-  fetch(apiEndpointURL, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  fetch(apiEndpointURL)
     .then((response) => response.json())
     .then((json) =>
       setPantryItemList(() => {
@@ -85,7 +78,6 @@ export default function InventoryMainScreen({
 }: Props): React.ReactElement {
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
-  const [token, setToken] = useContext(TokenContext)
 
   // see ../constants.tsx
   const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.locationID}/products`
@@ -95,8 +87,8 @@ export default function InventoryMainScreen({
       <ListItem
         onPress={() =>
           navigation.navigate('InventoryDetails', {
-            location: route.params,
             itemID: item.id,
+            location: route.params,
           })
         }
       >
@@ -133,7 +125,7 @@ export default function InventoryMainScreen({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, token, setPantryItemList, setLoading)
+    getItems(apiEndpointURL, setPantryItemList, setLoading)
   }, [])
 
   return (

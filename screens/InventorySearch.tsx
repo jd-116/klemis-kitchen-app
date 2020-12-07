@@ -15,7 +15,7 @@ import {
   Item,
   Input,
 } from 'native-base'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Dimensions,
@@ -24,7 +24,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
-import { TokenContext } from '../App'
 import { APIFETCHLOCATION } from '../constants'
 import { PantryItem, DrawerParamList, InventoryStackParamList } from '../types'
 import { getItems } from './InventoryMain'
@@ -51,8 +50,6 @@ export default function InventorySearch({
   const [isLoading, setLoading] = useState(true)
   const [pantryItemList, setPantryItemList] = useState<PantryItem[]>([])
   const [searchBarValue, setSearchBarValue] = useState('')
-
-  const [token, setToken] = useContext(TokenContext)
 
   // see ../constants.tsx
   const apiEndpointURL = `${APIFETCHLOCATION}/locations/${route.params.locationID}/products`
@@ -100,40 +97,28 @@ export default function InventorySearch({
   }
 
   useEffect(() => {
-    getItems(apiEndpointURL, token, setPantryItemList, setLoading)
+    getItems(apiEndpointURL, setPantryItemList, setLoading)
   }, [])
 
   const search = (query: string) => {
     if (query === '') return
     setLoading(true)
-    getItems(
-      `${apiEndpointURL}?search=${query}`,
-      token,
-      setPantryItemList,
-      setLoading
-    )
+    getItems(`${apiEndpointURL}?search=${query}`, setPantryItemList, setLoading)
   }
 
   return (
     <Container style={{ flex: 1 }}>
       <Header searchBar rounded>
-        <Button
-          style={{ marginRight: 8 }}
-          transparent
-          onPress={() => navigation.goBack()}
-        >
-          <Icon name='arrow-back' style={{ color: 'black' }} />
-        </Button>
         <Item>
           <Input
             placeholder='Search'
             onChangeText={setSearchBarValue}
             style={{ marginLeft: 5 }}
           />
+          <Button transparent onPress={() => search(searchBarValue)}>
+            <Text>Search</Text>
+          </Button>
         </Item>
-        <Button transparent onPress={() => search(searchBarValue)}>
-          <Text>Search</Text>
-        </Button>
       </Header>
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 30 }}>
         Inventory
