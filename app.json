@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "KlemisKitchenApp",
+    "name": "Klemis Kitchen App",
+    "description": "The mobile app allowing Klemis Kitchen clients to view the status of Klemis Kitchen's inventory 24/7.",
     "slug": "KlemisKitchenApp",
     "version": "1.0.0",
+    "githubUrl": "https://github.com/jd-116/klemis-kitchen-app",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#679182"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
