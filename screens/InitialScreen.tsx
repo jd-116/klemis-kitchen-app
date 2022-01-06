@@ -68,6 +68,38 @@ export default function InitialScreen({
   )
 
   React.useEffect(() => {
+    if (window.location.href.includes('?code=')) {
+      const authcode = window.location.href.substring(
+        window.location.href.indexOf('?code=') + 6
+      )
+      const tokenURL = `${APIFETCHLOCATION}/auth/token-exchange`
+      const request = new Request(tokenURL, {
+        method: 'POST',
+        body: `${authcode}`,
+      })
+      fetch(request)
+        .then((response) => response.json())
+        .then((json) => {
+          const url: any = new URL(window.location.href)
+          url.searchParams.set('code', 'code')
+          window.history.pushState(
+            null,
+            '',
+            window.location.href.substring(
+              0,
+              window.location.href.indexOf('?code=')
+            )
+          )
+          // AsyncStorage.setItem('code', authcode)
+          storeData(json.token).then(() => getData())
+          // setFirstName(json['first_name'])
+          // getData()
+        })
+        .catch((error) => console.error(error))
+    }
+  }, [])
+
+  React.useEffect(() => {
     if (result) {
       if (result.errorCode) {
         Alert.alert(
@@ -130,16 +162,17 @@ export default function InitialScreen({
   }
 
   function loginBranch(load: any) {
+    const atoken = load
     if (load) {
       const sessionRequest = new Request(authorizationSession, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${load}`,
+          Authorization: `Bearer ${atoken}`,
         },
       })
       fetch(sessionRequest)
         .then((response) => response.json())
-        .then((json) => setNavigate(load, json.session.first_name))
+        .then((json) => setNavigate(atoken, 'lol'))
 
         .catch((error) => promptAsync({ useProxy }))
     } else {
