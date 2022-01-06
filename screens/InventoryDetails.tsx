@@ -65,19 +65,17 @@ export default function InventoryDetailsScreen({
     })
       .then((response) => response.json())
       .then((json) =>
-        setPantryItem(
-          (): PantryItemWithNutritionalFacts => {
-            return {
-              item: {
-                name: json.name,
-                id: json.id,
-                thumbnail: json.thumbnail,
-                quantity: json.amount,
-              },
-              nutritionalFacts: json.nutritional_facts,
-            }
+        setPantryItem((): PantryItemWithNutritionalFacts => {
+          return {
+            item: {
+              name: json.name,
+              id: json.id,
+              thumbnail: json.thumbnail,
+              quantity: json.amount,
+            },
+            nutritionalFacts: json.nutritional_facts,
           }
-        )
+        })
       )
       .catch((error) => console.error(error))
       .finally(() => setLoading(false))

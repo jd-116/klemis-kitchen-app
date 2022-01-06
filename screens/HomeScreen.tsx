@@ -161,7 +161,7 @@ export default function HomeScreen({
         </Button>
       </Container>
       <Container style={styles.belowTop}>
-        <Text style={styles.titleName}>Welcome Back, {firstName}!</Text>
+        <Text style={styles.titleName}>Welcome Back!</Text>
       </Container>
 
       <Container style={styles.topMiddle}>
