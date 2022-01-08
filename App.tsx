@@ -10,17 +10,17 @@ import { TLSParamList } from './types'
 
 export const TokenContext = React.createContext<TokenContextType>([
   '',
-  () => {},
+  () => { },
 ])
 
 export const FirstNameContext = React.createContext<FirstNameContextType>([
   '',
-  () => {},
+  () => { },
 ])
 
 export const LogoutContext = React.createContext<LogoutContextType>([
   '',
-  () => {},
+  () => { },
 ])
 export type TokenContextType = [string, (newToken: string) => void]
 export type FirstNameContextType = [string, (newFirstName: string) => void]
@@ -56,7 +56,12 @@ function App(): React.ReactElement {
     <LogoutContext.Provider value={[logout, setLogout]}>
       <FirstNameContext.Provider value={[firstName, setFirstName]}>
         <TokenContext.Provider value={[token, setToken]}>
-          <NavigationContainer>
+          <NavigationContainer
+            documentTitle={{
+              formatter: (options, route) =>
+                `Klemis Kitchen App`,
+            }}
+          >
             <TopLevelStack.Navigator screenOptions={{ headerShown: false }}>
               <TopLevelStack.Screen name='Login' component={InitialScreen} />
               <TopLevelStack.Screen name='ActualApp' component={MainApp} />
