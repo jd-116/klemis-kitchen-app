@@ -19,6 +19,7 @@ import {
   ListRenderItem,
   ActivityIndicator,
   Platform,
+  TouchableOpacity,
 } from 'react-native'
 
 import { TokenContext, LogoutContext, FirstNameContext } from '../App'
@@ -143,7 +144,7 @@ export default function HomeScreen({
   }
 
   return (
-    <Container style={styles.container}>
+    <TouchableOpacity style={styles.container}>
       <Container style={styles.top}>
         <Button
           transparent
@@ -169,9 +170,9 @@ export default function HomeScreen({
           {Platform.OS === 'ios' ? 'Locations Near Me' : '   Locations Near Me'}
         </Text>
       </Container>
-      <Container style={styles.middle}>
-        <HomeScreenMap navigation={navigation} token={token} />
-      </Container>
+      <TouchableOpacity style={styles.middle} onPress={() => navigation.navigate('Locations')}>
+        <HomeScreenMap navigation={navigation} token={token}/>
+      </TouchableOpacity>
       <Container>
         <Container style={styles.announcements}>
           <Text
@@ -207,7 +208,7 @@ export default function HomeScreen({
           </Content>
         </Container>
       </Container>
-    </Container>
+    </TouchableOpacity>
   )
 }
 
