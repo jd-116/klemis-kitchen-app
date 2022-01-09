@@ -5,6 +5,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:web": "expo build:web",
     "eject": "expo eject",
     "test": "jest --watchAll",
     "lint": "eslint --max-warnings 0 -f unix \"screens/*.{js,jsx,ts,tsx,json}\" \"App.tsx\" \"testing/*{js,jsx,ts,tsx,json}\" \"platform-specific-components/*.{js,jsx,ts,tsx,json}\"",
