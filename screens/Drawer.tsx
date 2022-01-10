@@ -4,11 +4,13 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer'
 import { Container, Thumbnail, Text } from 'native-base'
+import { Linking, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ): React.ReactElement {
+  const githubURL = 'https://github.com/jd-116'
   return (
     <Container>
       <Thumbnail
@@ -37,6 +39,24 @@ export default function CustomDrawerContent(
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
+      <TouchableOpacity
+        onPress={() => {
+          Linking.openURL(githubURL)
+        }}
+        style={{ alignItems: 'center' }}
+      >
+        <Text style={{ textAlign: 'center', paddingLeft: 10, paddingRight: 10 }}>
+          Made with ❤️ by Joseph, Bhanu, Eric, Marc, and Neil
+        </Text>
+        <Thumbnail
+          small
+          source={require('../assets/images/GitHub-Mark-120px-plus.png')}
+          style={{
+            marginTop: 7,
+            marginBottom: 10
+          }}
+        />
+      </TouchableOpacity>
     </Container>
   )
 }
