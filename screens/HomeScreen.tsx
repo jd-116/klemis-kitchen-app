@@ -167,7 +167,7 @@ export default function HomeScreen({
 
       <Container style={styles.topMiddle}>
         <Text style={styles.titleMap}>
-          {Platform.OS === 'ios' ? 'Locations Near Me' : '   Locations Near Me'}
+          {Platform.OS === 'ios' ? 'Tap for locations' : '   Tap for locations'}
         </Text>
       </Container>
       <TouchableOpacity style={styles.middle} onPress={() => navigation.navigate('Locations')}>
