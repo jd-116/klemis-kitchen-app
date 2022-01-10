@@ -162,7 +162,7 @@ export default function HomeScreen({
         </Button>
       </Container>
       <Container style={styles.belowTop}>
-        <Text style={styles.titleName}>Welcome Back!</Text>
+        <Text style={styles.titleName}>Welcome to Klemis Kitchen!</Text>
       </Container>
 
       <Container style={styles.topMiddle}>
